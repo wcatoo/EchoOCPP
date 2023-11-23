@@ -10,8 +10,6 @@ protected:
         mILogComponent = std::make_unique<Components::LogComponent>();
     }
     std::unique_ptr<Components::ILogComponent> mILogComponent;
-//    OCPP::V1_6::DataTransferReq mReq;
-//    OCPP::V1_6::DataTransferConf mConf;
 };
 
 
