@@ -184,13 +184,13 @@ public:
   APNType() = default;
 
   // Parameterized Constructor
-  APNType(const std::string& apnParam,
+  APNType(std::string  apnParam,
           const std::optional<std::string>& apnUserNameParam = std::nullopt,
           const std::optional<std::string>& apnPasswordParam = std::nullopt,
           const std::optional<int>& simPinParam = std::nullopt,
           const std::optional<std::string>& preferredNetworkParam = std::nullopt,
           const std::optional<bool>& useOnlyPreferredNetworkParam = std::nullopt)
-      : apn(apnParam),
+      : apn(std::move(apnParam)),
         apnUserName(apnUserNameParam),
         apnPassword(apnPasswordParam),
         simPin(simPinParam),
@@ -335,7 +335,7 @@ public:
   IdTokenType() = default;
 
   // Parameterized Constructor
-  IdTokenType(const std::string& idTokenParam, const IdTokenEnumType& typeParam, const std::vector<AdditionalInfoType>& additionalInfoParam = {})
+  IdTokenType(const std::string&  idTokenParam, const IdTokenEnumType& typeParam, const std::vector<AdditionalInfoType>& additionalInfoParam = {})
       : idToken(idTokenParam), type(typeParam), additionalInfo(additionalInfoParam) {}
 
   [[nodiscard]] std::string getIdToken() const {
@@ -396,8 +396,8 @@ public:
   MessageContentType() = default;
 
   // Parameterized constructor
-  MessageContentType(const MessageFormatEnumType& formatParam, const std::string& languageParam, const std::string& contentParam)
-      : format(formatParam), language(languageParam), content(contentParam)
+  MessageContentType(const MessageFormatEnumType& formatParam, std::string  languageParam, const std::string& contentParam)
+      : format(formatParam), language(std::move(languageParam)), content(contentParam)
   {
   }
 
@@ -456,7 +456,7 @@ private:
 
 public:
   IdTokenInfoType() = default;
-  IdTokenInfoType(const AuthorizationStatusEnumType& statusParam,
+  explicit IdTokenInfoType(const AuthorizationStatusEnumType& statusParam,
                   const std::optional<std::string>& cacheExpiryDateTimeParam = std::nullopt,
                   const std::optional<int>& chargingPriorityParam = std::nullopt,
                   const std::optional<std::string>& language1Param = std::nullopt,
@@ -626,8 +626,8 @@ public:
   AuthorizationData() = default;
 
   // Parameterized constructor
-  AuthorizationData(const IdTokenType& idTokenParam, const std::optional<IdTokenInfoType>& idTokenInfoParam = std::nullopt)
-      : idToken(idTokenParam), idTokenInfo(idTokenInfoParam) { }
+  explicit AuthorizationData(IdTokenType  idTokenParam, const std::optional<IdTokenInfoType>& idTokenInfoParam = std::nullopt)
+      : idToken(std::move(idTokenParam)), idTokenInfo(idTokenInfoParam) { }
   // Getter for idTokenInfo
   [[nodiscard]]std::optional<IdTokenInfoType> getIdTokenInfo() const {
     return idTokenInfo;
@@ -666,6 +666,148 @@ public:
   }
 };
 
+
+class CertificateHashDataType {
+private:
+  HashAlgorithmEnumType hashAlgorithm;
+  std::string issuerNameHash;
+  std::string issuerKeyHash;
+  std::string serialNumber;
+
+public:
+  CertificateHashDataType() = default;
+
+  explicit CertificateHashDataType(HashAlgorithmEnumType hashAlgorithmParam,
+                                   std::string issuerNameHashParam,
+                                   std::string issuerKeyHashParam,
+                                   std::string serialNumberParam)
+      : hashAlgorithm(hashAlgorithmParam),
+        issuerNameHash(std::move(issuerNameHashParam)),
+        issuerKeyHash(std::move(issuerKeyHashParam)),
+        serialNumber(std::move(serialNumberParam)) { }
+
+  [[nodiscard]] HashAlgorithmEnumType getHashAlgorithm() const {
+    return hashAlgorithm;
+  }
+
+  void setHashAlgorithm(const HashAlgorithmEnumType& newHashAlgorithm) {
+    hashAlgorithm = newHashAlgorithm;
+  }
+
+  [[nodiscard]] std::string getIssuerNameHash() const {
+    return issuerNameHash;
+  }
+
+  void setIssuerNameHash(const std::string& newIssuerNameHash) {
+    issuerNameHash = newIssuerNameHash;
+  }
+
+  [[nodiscard]] std::string getIssuerKeyHash() const {
+    return issuerKeyHash;
+  }
+
+  void setIssuerKeyHash(const std::string& newIssuerKeyHash) {
+    issuerKeyHash = newIssuerKeyHash;
+  }
+
+  [[nodiscard]] std::string getSerialNumber() const {
+    return serialNumber;
+  }
+
+  void setSerialNumber(const std::string& newSerialNumber) {
+    serialNumber = newSerialNumber;
+  }
+
+  friend void to_json(nlohmann::json &tJson, const CertificateHashDataType &hashData) {
+    tJson = nlohmann::json{{"hashAlgorithm", magic_enum::enum_name(hashData.hashAlgorithm)},
+                           {"issuerNameHash", hashData.issuerNameHash},
+                           {"issuerKeyHash", hashData.issuerKeyHash},
+                           {"serialNumber", hashData.serialNumber}};
+  }
+
+  friend void from_json(const nlohmann::json &tJson, CertificateHashDataType &hashData) {
+    if (tJson.contains("hashAlgorithm")) {
+      hashData.hashAlgorithm = magic_enum::enum_cast<HashAlgorithmEnumType>(tJson.at("hashAlgorithm").get<std::string>()).value();
+
+
+    }
+    tJson.at("issuerNameHash").get_to(hashData.issuerNameHash);
+    tJson.at("issuerKeyHash").get_to(hashData.issuerKeyHash);
+    tJson.at("serialNumber").get_to(hashData.serialNumber);
+  }
+};
+
+
+class CertificateHashDataChainType {
+private:
+  GetCertificateIdUseEnumType certificateType;
+  CertificateHashDataType certificateHashData;
+  std::optional<CertificateHashDataType> childCertificateHashData;
+
+public:
+  CertificateHashDataChainType() = default;
+
+  explicit CertificateHashDataChainType(GetCertificateIdUseEnumType certificateTypeParam,
+                                        CertificateHashDataType certificateHashDataParam,
+                                        const std::optional<CertificateHashDataType>& childCertificateHashDataParam = std::nullopt)
+      : certificateType(certificateTypeParam),
+        certificateHashData(std::move(certificateHashDataParam)),
+        childCertificateHashData(childCertificateHashDataParam) { }
+
+  [[nodiscard]] GetCertificateIdUseEnumType getCertificateType() const {
+    return certificateType;
+  }
+
+  void setCertificateType(GetCertificateIdUseEnumType newCertificateType) {
+    certificateType = newCertificateType;
+  }
+
+  [[nodiscard]] CertificateHashDataType getCertificateHashData() const {
+    return certificateHashData;
+  }
+
+  void setCertificateHashData(const CertificateHashDataType& newCertificateHashData) {
+    certificateHashData = newCertificateHashData;
+  }
+
+  [[nodiscard]] std::optional<CertificateHashDataType> getChildCertificateHashData() const {
+    return childCertificateHashData;
+  }
+
+  void setChildCertificateHashData(const CertificateHashDataType& newChildCertificateHashData) {
+    childCertificateHashData.emplace(newChildCertificateHashData);
+  }
+
+  friend void to_json(nlohmann::json &tJson, const CertificateHashDataChainType &chainData) {
+    tJson.emplace("certificateType", magic_enum::enum_name(chainData.certificateType));
+    tJson.emplace("certificateHashData", nlohmann::json(chainData.certificateHashData)) ;
+
+    if (chainData.childCertificateHashData.has_value()) {
+      tJson.emplace("childCertificateHashData", nlohmann::json(chainData.childCertificateHashData.value()));
+    }
+  }
+
+  friend void from_json(const nlohmann::json &tJson, CertificateHashDataChainType &chainData) {
+    if (tJson.contains("certificateType")) {
+//      tJson.at("certificateType").get_to(chainData.certificateType);
+
+      auto tmp  = magic_enum::enum_cast<GetCertificateIdUseEnumType>(tJson.at("certificateType").get<std::string>());
+      if (tmp.has_value()) {
+        chainData.certificateType = tmp.value();
+      }
+//      auto authTypeEnum =
+//          magic_enum::enum_cast<APNAuthenticationEnumType>(authTypeStr);
+    }
+
+    if (tJson.contains("certificateHashData")) {
+      tJson.at("certificateHashData").get_to(chainData.certificateHashData);
+    }
+
+    if (tJson.contains("childCertificateHashData")) {
+      tJson.at("childCertificateHashData").get_to(chainData.childCertificateHashData.emplace());
+    }
+  }
+};
 
 
 

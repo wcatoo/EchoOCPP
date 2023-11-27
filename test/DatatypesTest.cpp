@@ -22,10 +22,17 @@ protected:
 
 
 TEST_F(DatatypesTest, auto) {
+  CertificateHashDataType certificateHashDataType(HashAlgorithmEnumType::SHA256, "1", "2", "3");
+  CertificateHashDataChainType certificateHashDataChainType(GetCertificateIdUseEnumType::CSMSRootCertificate,
+                                                            certificateHashDataType);
+  nlohmann::json tJson = certificateHashDataChainType;
+  CertificateHashDataChainType tmp = tJson;
+
+    std::cout << tJson << std::endl;
 //  authorizationData.setIdToken(IdTokenType());
-  authorizationData = AuthorizationData(IdTokenType());
-  nlohmann::json authorizationDataJson = authorizationData;
-  std::cout << authorizationDataJson.dump() << std::endl;
+//  authorizationData = AuthorizationData(IdTokenType());
+//  nlohmann::json authorizationDataJson = authorizationData;
+//  std::cout << authorizationDataJson.dump() << std::endl;
   //  OCPP201::ACChargingParametersType acParams;
   //
   ////  acParams.to_json(tjson, acParams);
