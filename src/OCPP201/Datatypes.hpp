@@ -3901,14 +3901,12 @@ public:
     const std::optional<bool>& getPersistent() const { return persistent; }
     const std::optional<bool>& getConstant() const { return constant; }
 
-    // Setter functions
     void setType(const std::optional<AttributeEnumType>& newType) { type = newType; }
     void setValue(const std::optional<std::string>& newValue) { value = newValue; }
     void setMutability(const std::optional<MutabilityEnumType>& newMutability) { mutability = newMutability; }
     void setPersistent(const std::optional<bool>& newPersistent) { persistent = newPersistent; }
     void setConstant(const std::optional<bool>& newConstant) { constant = newConstant; }
 
-    // JSON serialization functions
     friend void to_json(nlohmann::json& j, const VariableAttributeType& data) {
         j = nlohmann::json{};
         if (data.getType().has_value()) {
