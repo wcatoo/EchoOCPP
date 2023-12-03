@@ -22,13 +22,18 @@ protected:
 
 
 TEST_F(DatatypesTest, auto) {
-  CertificateHashDataType certificateHashDataType(HashAlgorithmEnumType::SHA256, "1", "2", "3");
-  CertificateHashDataChainType certificateHashDataChainType(GetCertificateIdUseEnumType::CSMSRootCertificate,
-                                                            certificateHashDataType);
-  nlohmann::json tJson = certificateHashDataChainType;
-  CertificateHashDataChainType tmp = tJson;
 
-    std::cout << tJson << std::endl;
+
+//  CertificateHashDataType certificateHashDataType(HashAlgorithmEnumType::SHA256, "1", "2", "3");
+//  CertificateHashDataChainType certificateHashDataChainType(GetCertificateIdUseEnumType::CSMSRootCertificate,
+//                                                            certificateHashDataType);
+//  nlohmann::json tJson = certificateHashDataChainType;
+
+  nlohmann::json t = {{"certificateHashData", 1}, {"certificateType", "CSMSRootCertificate"}};
+  CertificateHashDataChainType tmp = t;
+  nlohmann::json tt = tmp;
+    std::cout << tt << std::endl;
+
 //  authorizationData.setIdToken(IdTokenType());
 //  authorizationData = AuthorizationData(IdTokenType());
 //  nlohmann::json authorizationDataJson = authorizationData;
