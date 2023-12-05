@@ -841,7 +841,6 @@ public:
         fullSoC(fullSoCParam),
         bulkSoC(bulkSoCParam) { }
 
-  // Getters and setters...
 
   friend void to_json(nlohmann::json &json, const DCChargingParametersType &data) {
     json["evMaxCurrent"] = data.evMaxCurrent;
@@ -3618,6 +3617,7 @@ public:
 };
 
 
+
 class SetMonitoringResultType {
 private:
   std::optional<int> id;
@@ -4021,6 +4021,64 @@ public:
 };
 
 
+class ReportDataType {
+private:
+  ComponentType component;
+  VariableType variable;
+  std::vector<VariableAttributeType> variableAttributes;
+  std::optional<VariableCharacteristicsType> variableCharacteristics;
+
+public:
+  ReportDataType(
+      const ComponentType& componentParam,
+      const VariableType& variableParam,
+      const std::vector<VariableAttributeType>& variableAttributesParam,
+      const std::optional<VariableCharacteristicsType>& variableCharacteristicsParam = std::nullopt)
+      : component(componentParam),
+        variable(variableParam),
+        variableAttributes(variableAttributesParam),
+        variableCharacteristics(variableCharacteristicsParam) {}
+
+  // Getter functions
+  [[nodiscard]] ComponentType getComponent() const { return component; }
+  [[nodiscard]] VariableType getVariable() const { return variable; }
+  [[nodiscard]] const std::vector<VariableAttributeType>& getVariableAttributes() const { return variableAttributes; }
+  [[nodiscard]] std::optional<VariableCharacteristicsType> getVariableCharacteristics() const {
+    return variableCharacteristics;
+  }
+
+  // Setter functions
+  void setComponent(const ComponentType& newComponent) { component = newComponent; }
+  void setVariable(const VariableType& newVariable) { variable = newVariable; }
+  void setVariableAttributes(const std::vector<VariableAttributeType>& newVariableAttributes) {
+    variableAttributes = newVariableAttributes;
+  }
+  void setVariableCharacteristics(const std::optional<VariableCharacteristicsType>& newVariableCharacteristics) {
+    variableCharacteristics = newVariableCharacteristics;
+  }
+
+  // JSON serialization functions
+  friend void to_json(nlohmann::json& j, const ReportDataType& data) {
+    j = nlohmann::json{
+        {"component", data.getComponent()},
+        {"variable", data.getVariable()},
+        {"variableAttributes", data.getVariableAttributes()}
+    };
+    if (data.getVariableCharacteristics().has_value()) {
+      j["variableCharacteristics"] = data.getVariableCharacteristics().value();
+    }
+  }
+
+  friend void from_json(const nlohmann::json& j, ReportDataType& data) {
+    data.setComponent(j.at("component").get<ComponentType>());
+    data.setVariable(j.at("variable").get<VariableType>());
+    data.setVariableAttributes(j.at("variableAttributes").get<std::vector<VariableAttributeType>>());
+
+    if (j.contains("variableCharacteristics")) {
+      data.setVariableCharacteristics(j.at("variableCharacteristics").get<VariableCharacteristicsType>());
+    }
+  }
+};
 
 
 }

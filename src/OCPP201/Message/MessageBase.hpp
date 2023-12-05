@@ -31,7 +31,7 @@ public:
   std::string getAction() {
     return this->mAction;
   }
-  std::string messageSerialize() {
+  std::string serializeMessage() {
     stream.clear();
     stream << '[' << 2 << ",\"" <<  generateMessageId() << "\",\"" << this->mAction << "\"," << this->mPayload << "]";
     return stream.str();
@@ -42,7 +42,7 @@ class MessageCallResult {
 protected:
   nlohmann::json mPayload;
 public:
-
+  virtual void parseMessage() = 0;
 };
 
 } // namespace OCPP201

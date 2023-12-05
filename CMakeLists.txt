@@ -4,7 +4,7 @@ project(EchoOCPP)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Echo main.cpp
-        src/OCPP201/Message/AuthorizeRequest.hpp)
+        src/OCPP201/Message/MessageRequest.hpp)
 
 
 add_subdirectory(src)
