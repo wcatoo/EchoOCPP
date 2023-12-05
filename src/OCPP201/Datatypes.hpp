@@ -4020,54 +4020,7 @@ public:
     }
 };
 
-#include <nlohmann/json.hpp>
 
-// Enums and other classes...
-
-class VariableMonitoringType {
-private:
-    int id;
-    bool transaction;
-    double value;
-    MonitorEnumType type;
-    int severity;
-
-public:
-    VariableMonitoringType() = default;
-
-    // Getter functions
-    int getId() const { return id; }
-    bool getTransaction() const { return transaction; }
-    double getValue() const { return value; }
-    MonitorEnumType getType() const { return type; }
-    int getSeverity() const { return severity; }
-
-    // Setter functions
-    void setId(int newId) { id = newId; }
-    void setTransaction(bool newTransaction) { transaction = newTransaction; }
-    void setValue(double newValue) { value = newValue; }
-    void setType(MonitorEnumType newType) { type = newType; }
-    void setSeverity(int newSeverity) { severity = newSeverity; }
-
-    // JSON serialization functions
-    friend void to_json(nlohmann::json& j, const VariableMonitoringType& data) {
-        j = nlohmann::json{
-            {"id", data.getId()},
-            {"transaction", data.getTransaction()},
-            {"value", data.getValue()},
-            {"type", magic_enum::enum_name(data.getType())},
-            {"severity", data.getSeverity()}
-        };
-    }
-
-    friend void from_json(const nlohmann::json& j, VariableMonitoringType& data) {
-        data.setId(j.at("id").get<int>());
-        data.setTransaction(j.at("transaction").get<bool>());
-        data.setValue(j.at("value").get<double>());
-        data.setType(magic_enum::enum_cast<MonitorEnumType>(j.at("type").get<std::string>()).value());
-        data.setSeverity(j.at("severity").get<int>());
-    }
-};
 
 
 }

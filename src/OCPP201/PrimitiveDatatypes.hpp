@@ -10,6 +10,7 @@
 #include <chrono>
 
 #include <nlohmann/json.hpp>
+
 class IdentifierString {
 private:
   std::string value;
@@ -19,14 +20,12 @@ private:
     return pattern;
   }
 public:
-  // Constructors
   IdentifierString() = default;
 
   explicit IdentifierString(const std::string& newValue) {
     setValue(newValue);
   }
 
-  // Getter and setter functions
   const std::string& getValue() const {
     return value;
   }
