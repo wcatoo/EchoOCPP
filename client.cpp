@@ -57,30 +57,20 @@ int main() {
 
 
   while (1) {
+    for (int i = 0; i < 5; ++i) {
+        std::string request_msg = "Request " + std::to_string(i);
 
-//    // Send a message to the server
-//    std::string message = "Request " + std::to_string(i);
-//    zmq::message_t msg(message.size());
-//    memcpy(msg.data(), message.data(), message.size());
-//
-    // Send the identity frame
-    dealer.send(zmq::message_t(std::string("Client1")), zmq::send_flags::sndmore);
+        zmq::message_t request(request_msg.size());
+        memcpy(request.data(), request_msg.data(), request_msg.size());
 
-    // Send the message frame
-    dealer.send(zmq::message_t(std::string("qwe")), zmq::send_flags::none);
+        dealer.send(request);
 
-    // Receive the reply from the server
-    zmq::message_t replyIdentity;
-    zmq::message_t replyMessage;
+        zmq::message_t reply;
+        dealer.recv(&reply);
 
-    // Receive identity frame
-    dealer.recv(&replyIdentity);
-
-    // Receive message frame
-    dealer.recv(&replyMessage);
-    std::string replyMsg(static_cast<char*>(replyMessage.data()), replyMessage.size());
-
-    std::cout << "Received reply from server: " << replyMsg << std::endl;
+        std::string reply_str(static_cast<char*>(reply.data()), reply.size());
+        std::cout << "Received reply: " << reply_str << std::endl;
+    }
   }
 
   return 0;

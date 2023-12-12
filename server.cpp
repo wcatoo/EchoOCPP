@@ -33,22 +33,35 @@ int main() {
   router.bind("tcp://*:5555");
 
   while (true) {
-    zmq::message_t identity;
-    zmq::message_t message;
-//
-    // Receive identity frame
-    router.recv(&identity);
+//     zmq::message_t identity;
+//     zmq::message_t message;
+// //
+//     // Receive identity frame
+//     router.recv(&identity);
 
-    router.recv(&message);
-    // Receive message frame
-    router.recv(&message);
-    std::string receivedMsg(static_cast<char*>(message.data()), message.size());
+//     router.recv(&message);
+//     // Receive message frame
+//     router.recv(&message);
+//     std::string receivedMsg(static_cast<char*>(message.data()), message.size());
 
-    std::cout << "Received message from client " << static_cast<char *>(identity.data())<< receivedMsg << std::endl;
+//     std::cout << "Received message from client " << static_cast<char *>(identity.data())<< " message:" << receivedMsg << std::endl;
+
+        zmq::message_t identity;
+        zmq::message_t request;
+
+        // Receive identity and message
+        router.recv(&identity);
+        router.recv(&request);
+
+        // Process the request
+        std::string identity_str(static_cast<char*>(identity.data()), identity.size());
+        std::string request_str(static_cast<char*>(request.data()), request.size());
+
+        std::cout << "Received request from " << identity_str << ": " << request_str << std::endl;
 
 
     // Send the identity frame
-    router.send(zmq::message_t(std::string("Client1")), ZMQ_SNDMORE);
+    router.send(zmq::message_t(std::string("Client1")), zmq::send_flags::sndmore);
 
     // Send the reply frame
     router.send(zmq::message_t(std::string("123")));
@@ -57,3 +70,26 @@ int main() {
 
   return 0;
 }
+
+    // while (true) {
+    //     zmq::message_t identity;
+    //     zmq::message_t request;
+
+    //     // Receive identity and message
+    //     router.recv(&identity);
+    //     router.recv(&request);
+
+    //     // Process the request
+    //     std::string identity_str(static_cast<char*>(identity.data()), identity.size());
+    //     std::string request_str(static_cast<char*>(request.data()), request.size());
+
+    //     std::cout << "Received request from " << identity_str << ": " << request_str << std::endl;
+
+    //     // Send a reply
+    //     std::string reply_msg = "Hello, " + identity_str + "! I got your message: " + request_str;
+    //     zmq::message_t reply(reply_msg.size());
+    //     memcpy(reply.data(), reply_msg.data(), reply_msg.size());
+
+    //     router.send(identity, ZMQ_SNDMORE);
+    //     router.send(reply);
+    // }
