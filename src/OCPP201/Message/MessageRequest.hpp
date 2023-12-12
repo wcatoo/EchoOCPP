@@ -4,7 +4,7 @@
 
 #ifndef ECHOOCPP_MESSAGEREQUEST_HPP
 #define ECHOOCPP_MESSAGEREQUEST_HPP
-#include "../Datatypes.hpp"
+#include "../DataType/Datatypes.hpp"
 #include "MessageBase.hpp"
 
 namespace OCPP201 {

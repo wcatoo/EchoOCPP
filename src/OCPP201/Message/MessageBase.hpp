@@ -42,7 +42,8 @@ class MessageCallResult {
 protected:
   nlohmann::json mPayload;
 public:
-  virtual void parseMessage() = 0;
+  virtual void messageParse() = 0;
+
 };
 
 } // namespace OCPP201

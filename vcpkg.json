@@ -20,5 +20,11 @@
   }, {
     "name" : "magic-enum",
     "version>=" : "0.9.3"
+  }, {
+    "name" : "zeromq",
+    "version>=" : "2023-06-20#1"
+  }, {
+    "name" : "cppzmq",
+    "version>=" : "4.10.0"
   } ]
 }

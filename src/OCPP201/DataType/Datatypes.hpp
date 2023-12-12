@@ -13,7 +13,6 @@
 #include "Enumerations.hpp"
 #include "PrimitiveDatatypes.hpp"
 
-
 namespace OCPP201 {
 
 

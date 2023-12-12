@@ -3,8 +3,7 @@
 //
 
 
-#include "OCPP201/Datatypes.hpp"
-
+#include "OCPP201/DataType/Datatypes.hpp"
 
 #include <gtest/gtest.h>
 #include <memory>
