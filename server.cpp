@@ -1,95 +1,37 @@
-//#include "src/MessageQueue/MQRouter.hpp"
-//#include <iostream>
-//#include <unistd.h>
-//
-//int main(void) {
-//  std::string tmp = "tcp://*:5555";
-//  MQRouter mqRouter(2, tmp);
-//  mqRouter.mMain = [&](){
-//    while (true) {
-//      zmq::message_t identity;
-//      zmq::message_t message;
-//
-////      // Send the identity frame
-////      mqRouter.mClientSocket.send(zmq::message_t(std::string("Client1")), zmq::send_flags::sndmore);
-//      mqRouter.mClientSocket.send(zmq::message_t(std::string("message1")), zmq::send_flags::none);
-//
-//      // Send the reply frame
-//    }
-//
-//  };
-//
-//
-//  mqRouter.mMain();
-//}
-
-#include <zmq.hpp>
+#include "src/MessageQueue/MQRouter.hpp"
 #include <iostream>
-#include <string>
+#include <unistd.h>
 
-int main() {
-  zmq::context_t context(1);
-  zmq::socket_t router(context, ZMQ_ROUTER);
-  router.bind("tcp://*:5555");
-
-  while (true) {
-//     zmq::message_t identity;
-//     zmq::message_t message;
-// //
-//     // Receive identity frame
-//     router.recv(&identity);
-
-//     router.recv(&message);
-//     // Receive message frame
-//     router.recv(&message);
-//     std::string receivedMsg(static_cast<char*>(message.data()), message.size());
-
-//     std::cout << "Received message from client " << static_cast<char *>(identity.data())<< " message:" << receivedMsg << std::endl;
-
-        zmq::message_t identity;
-        zmq::message_t request;
-
-        // Receive identity and message
-        router.recv(&identity);
-        router.recv(&request);
-
-        // Process the request
-        std::string identity_str(static_cast<char*>(identity.data()), identity.size());
-        std::string request_str(static_cast<char*>(request.data()), request.size());
-
-        std::cout << "Received request from " << identity_str << ": " << request_str << std::endl;
-
-
-    // Send the identity frame
-    router.send(zmq::message_t(std::string("Client1")), zmq::send_flags::sndmore);
-
-    // Send the reply frame
-    router.send(zmq::message_t(std::string("123")));
-    zmq_sleep(1);
-  }
-
-  return 0;
+int main(void) {
+ std::string tmp = "tcp://*:5556";
+ auto contex = std::make_shared<zmq::context_t>(2);
+ MQRouter mqRouter(contex, tmp, "router");
+ mqRouter.init();
 }
 
-    // while (true) {
-    //     zmq::message_t identity;
-    //     zmq::message_t request;
 
-    //     // Receive identity and message
-    //     router.recv(&identity);
-    //     router.recv(&request);
+// #include <iostream>
+// #include <regex>
+// #include <string>
 
-    //     // Process the request
-    //     std::string identity_str(static_cast<char*>(identity.data()), identity.size());
-    //     std::string request_str(static_cast<char*>(request.data()), request.size());
+// int main() {
+//     std::string jsonString1 = "[2,\"04d90767-8292-4be6-8c16-cc69d370635a\",\"Authorize\",{\"idTag\":\"6ACA6EDC\"}]";
+//     std::string jsonString2 = "[2,\"4fbcd1287eeb4fa79588666465dc2cea\",\"GetConfiguration\",{\"key\":[]}]";
 
-    //     std::cout << "Received request from " << identity_str << ": " << request_str << std::endl;
+//     std::regex pattern("\\[(\\d),\"([\\w-]+)\",\"(.+)\",(.+)\\]");
 
-    //     // Send a reply
-    //     std::string reply_msg = "Hello, " + identity_str + "! I got your message: " + request_str;
-    //     zmq::message_t reply(reply_msg.size());
-    //     memcpy(reply.data(), reply_msg.data(), reply_msg.size());
 
-    //     router.send(identity, ZMQ_SNDMORE);
-    //     router.send(reply);
-    // }
+
+
+//     std::smatch match;
+//     if (std::regex_match(jsonString1, match, pattern)) {
+//         std::cout << "Message Type: " << match[1].str() << std::endl;
+//         std::cout << "UUID: " << match[2].str() << std::endl;
+//         std::cout << "Command: " << match[3].str() << std::endl;
+//         std::cout << "idTag: " << match[4].str() << std::endl;
+//     } else {
+//         std::cout << "No match found." << std::endl;
+//     }
+
+//     return 0;
+// }
