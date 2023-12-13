@@ -19,14 +19,29 @@ int main(int argc, char **argv) {
 int i = 0;
   while (1) {
       dealer.send(zmq::message_t(identity), zmq::send_flags::sndmore);
-        dealer.send(zmq::message_t(std::string("request" + std::to_string(i))));
+        dealer.send(zmq::message_t("worker%101%" + std::string(R"([2,"04d90767-8292-4be6-8c16-cc69d370635a","Authorize",{"idTag":"6ACA6EDC"}])")), zmq::send_flags::none);
         i++;
 
         zmq::message_t reply;
         dealer.recv(&reply);
 
-        std::string reply_str(static_cast<char*>(reply.data()), reply.size());
-        std::cout << "Received reply: " << reply_str << std::endl;
+    auto currentTimePoint = std::chrono::system_clock::now();
+
+    // 将时间点转换为 time_t 类型
+    std::time_t time = std::chrono::system_clock::to_time_t(currentTimePoint);
+
+    // 获取 tm 结构体，用于格式化
+    std::tm timeStruct = *std::localtime(&time);
+
+    // 使用 std::put_time 格式化时间
+    std::cout << std::put_time(&timeStruct, "%Y-%m-%d %H:%M:%S") << ".";
+
+    // 获取毫秒数
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(currentTimePoint.time_since_epoch()) % 1000;
+
+
+    std::string reply_str(static_cast<char*>(reply.data()), reply.size());
+    std::cout << std::setw(3) << std::setfill('0') << milliseconds.count() << " " <<reply_str <<std::endl;
         zmq_sleep(1);
   }
 

@@ -16,8 +16,10 @@ public:
   zmq::socket_t mWorkerSocket;
 
   void send(std::string identity, const std::string &tPalyload);
+  void addWorker(const std::string& tIdentity);
 private:
   std::shared_ptr<zmq::context_t> mContext;
+  std::unordered_map<std::string,zmq::socket_t> mWorks;
 
 };
 
