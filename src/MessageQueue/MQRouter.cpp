@@ -33,7 +33,7 @@ void MQRouter::init() {
     this->mClientSocket.send(request, zmq::send_flags::none);
     
 
-    // std::cout << "send" << std::endl;
+    std::cout << "send" << std::endl;
     // this->send("Client1", "request");
      zmq_sleep(1);
   }
