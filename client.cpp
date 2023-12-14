@@ -19,7 +19,8 @@ int main(int argc, char **argv) {
 int i = 0;
   while (1) {
       dealer.send(zmq::message_t(identity), zmq::send_flags::sndmore);
-        dealer.send(zmq::message_t("worker%101%" + std::string(R"([2,"04d90767-8292-4be6-8c16-cc69d370635a","Authorize",{"idTag":"6ACA6EDC"}])")), zmq::send_flags::none);
+//        dealer.send(zmq::message_t("wo%101%" + std::string(R"([2,"04d90767-8292-4be6-8c16-cc69d370635a","Authorize",{"idTag":"6ACA6EDC"}])")), zmq::send_flags::none);
+      dealer.send(zmq::message_t("wo%101%" + std::string("from "+identity)), zmq::send_flags::none);
         i++;
 
         zmq::message_t reply;
@@ -43,6 +44,7 @@ int i = 0;
     std::string reply_str(static_cast<char*>(reply.data()), reply.size());
     std::cout << std::setw(3) << std::setfill('0') << milliseconds.count() << " " <<reply_str <<std::endl;
         zmq_sleep(1);
+        std::cout << "client end" << std::endl;
   }
 
   return 0;
