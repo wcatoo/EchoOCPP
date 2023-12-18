@@ -1,5 +1,7 @@
-add_library(MessageQueue MQRouter.cpp)
+add_library(MessageQueue MQRouter.cpp protobufMessage.pb.cc)
 
 find_package(cppzmq CONFIG REQUIRED)
 
-target_link_libraries(MessageQueue cppzmq-static)
+find_package(Protobuf CONFIG REQUIRED)
+
+target_link_libraries(MessageQueue cppzmq-static protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)

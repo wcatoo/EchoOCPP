@@ -8,7 +8,7 @@
 #include <string_view>
 #include <thread>
 
-#include "LogComponent/ILogComponent.hpp"
+//#include "../LogComponent/ILogComponent.hpp"
 
 namespace Components {
     /**
@@ -16,13 +16,13 @@ namespace Components {
      */
     class IWebsocketServer {
     public:
-      virtual void init() = 0;
-      virtual void logInfo(std::string_view tMessage) = 0;
-      virtual void logError(std::string_view tMessage) = 0;
+      virtual void init(int tPort) = 0;
+//      virtual void logInfo(std::string_view tMessage) = 0;
+//      virtual void logError(std::string_view tMessage) = 0;
     private:
         // Log component interface ptr
         // You can use your customize log class tu inherit this interface
-        std::unique_ptr<ILogComponent> mLogComponent;
+//        std::unique_ptr<ILogComponent> mLogComponent;
 
     };
 }

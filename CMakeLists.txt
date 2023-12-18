@@ -16,18 +16,10 @@ find_package(cppzmq CONFIG REQUIRED)
 
 
 
-#link_directories(${CMAKE_SOURCE_DIR}/lib)
-#target_link_libraries(Echo PUBLIC ${CMAKE_SOURCE_DIR}/lib/libuSockets)
-#find_package(protobuf CONFIG REQUIRED)
-#target_link_libraries(Echo PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
-#target_link_libraries(Echo PRIVATE LogComponent)
-
-#target_include_directories(Echo PRIVATE ${nlohmann_json_INCLUDE_DIRS})
-target_link_libraries(server PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
-target_link_libraries(server PRIVATE MessageQueue)
-
+target_link_libraries(server PRIVATE nlohmann_json nlohmann_json::nlohmann_json )
+target_link_libraries(server PRIVATE MessageQueue WebsocketServer)
 target_link_libraries(client PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
-target_link_libraries(client PRIVATE cppzmq cppzmq-static)
+target_link_libraries(client PRIVATE cppzmq cppzmq-static MessageQueue)
 
 
 

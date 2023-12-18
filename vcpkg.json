@@ -3,28 +3,22 @@
   "version-string" : "1.0.0",
   "builtin-baseline" : "ced4b6dbc1fcae4a30b39d004ba67242a79434a5",
   "dependencies" : [ {
-    "name" : "uwebsockets",
-    "version>=" : "20.45.0"
-  }, {
-    "name" : "usockets",
-    "version>=" : "0.8.6#1"
-  }, {
     "name" : "gtest",
     "version>=" : "1.14.0"
   }, {
-    "name" : "protobuf",
-    "version>=" : "3.21.12"
-  }, {
     "name" : "nlohmann-json",
-    "version>=" : "3.11.2"
+    "version>=" : "3.11.3"
   }, {
     "name" : "magic-enum",
-    "version>=" : "0.9.3"
-  }, {
-    "name" : "zeromq",
-    "version>=" : "2023-06-20#1"
+    "version>=" : "0.9.5"
   }, {
     "name" : "cppzmq",
     "version>=" : "4.10.0"
+  }, {
+    "name" : "websocketpp",
+    "version>=" : "0.8.2#2"
+  }, {
+    "name" : "protobuf",
+    "version>=" : "3.21.12"
   } ]
 }

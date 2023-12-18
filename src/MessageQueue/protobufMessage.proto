@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+enum RouterMethods {
+    ROUTER_METHODS_OCPP = 0;
+    ROUTER_METHODS_SAVE_DATA = 1;
+    ROUTER_METHODS_DELETE_SOCKET = 2;
+
+}
+message RouterProtobufMessage {
+    RouterMethods method = 1;
+    string resource = 2;
+    string dest = 3;
+    string data = 4;
+}

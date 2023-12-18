@@ -2,6 +2,7 @@
 #define ECHOOCPP_MQROUTER_HPP
 #include <zmq.hpp>
 #include <thread>
+#include "./protobufMessage.pb.h"
 
 class MQRouter {
 
@@ -21,8 +22,8 @@ public:
 private:
   std::shared_ptr<zmq::context_t> mContext;
   std::unordered_map<std::string,zmq::socket_t> mWorks;
-//  const std::string mWorkerRouterAddress = "inproc://router_worker";
-  const std::string mWorkerRouterAddress = "tcp://localhost:5555";
+  const std::string mWorkerRouterAddress = "inproc://router_worker";
+//  const std::string mWorkerRouterAddress = "tcp://localhost:5555";
 
 };
 
