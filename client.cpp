@@ -23,7 +23,7 @@ int i = 0;
       network2RouterMessage.set_resource("Client1");
       network2RouterMessage.set_dest("wo");
       network2RouterMessage.set_data("i'm data");
-      network2RouterMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP);
+      network2RouterMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
       dealer.send(zmq::message_t(identity), zmq::send_flags::sndmore);
 //        dealer.send(zmq::message_t("wo%101%" + std::string(R"([2,"04d90767-8292-4be6-8c16-cc69d370635a","Authorize",{"idTag":"6ACA6EDC"}])")), zmq::send_flags::none);
       dealer.send(zmq::message_t(network2RouterMessage.SerializeAsString()), zmq::send_flags::none);

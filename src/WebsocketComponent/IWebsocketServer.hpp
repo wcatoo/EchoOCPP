@@ -8,7 +8,6 @@
 #include <string_view>
 #include <thread>
 
-//#include "../LogComponent/ILogComponent.hpp"
 
 namespace Components {
     /**

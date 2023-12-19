@@ -53,14 +53,14 @@ template<> ::RouterProtobufMessage* Arena::CreateMaybeMessage<::RouterProtobufMe
 PROTOBUF_NAMESPACE_CLOSE
 
 enum RouterMethods : int {
-  ROUTER_METHODS_OCPP = 0,
+  ROUTER_METHODS_OCPP201 = 0,
   ROUTER_METHODS_SAVE_DATA = 1,
   ROUTER_METHODS_DELETE_SOCKET = 2,
   RouterMethods_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   RouterMethods_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool RouterMethods_IsValid(int value);
-constexpr RouterMethods RouterMethods_MIN = ROUTER_METHODS_OCPP;
+constexpr RouterMethods RouterMethods_MIN = ROUTER_METHODS_OCPP201;
 constexpr RouterMethods RouterMethods_MAX = ROUTER_METHODS_DELETE_SOCKET;
 constexpr int RouterMethods_ARRAYSIZE = RouterMethods_MAX + 1;
 
