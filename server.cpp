@@ -1,15 +1,15 @@
-//#include "src/WebsocketComponent/WebsocketServerComponent.hpp"
+#include "src/WebsocketComponent/WebsocketServerComponent.hpp"
 #include "src/MessageQueue/MQRouter.hpp"
 
 int main(void) {
- std::string tmp = "tcp://*:5556";
- auto contex = std::make_shared<zmq::context_t>(2);
- MQRouter mqRouter(contex, tmp, "router");
-  mqRouter.addWorker("wo");
- mqRouter.init();
+// std::string tmp = "tcp://*:5556";
+// auto contex = std::make_shared<zmq::context_t>(2);
+// MQRouter mqRouter(contex, tmp, "router");
+//  mqRouter.addWorker("wo");
+// mqRouter.init();
 
-//  Components::WebsocketServer server;
-//  server.init(8080);
+  Components::WebsocketServer server;
+  server.init(8080);
 
 
 

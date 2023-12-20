@@ -1,4 +1,5 @@
 add_library(WebsocketServer WebsocketServerComponent.cpp)
+#add_library(WebsocketClient W)
 
 #find_package(nlohmann_json CONFIG REQUIRED)
 

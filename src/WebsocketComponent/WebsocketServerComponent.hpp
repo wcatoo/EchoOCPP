@@ -20,7 +20,6 @@ typedef websocketpp::server<websocketpp::config::asio> server_t;
             server_t::connection_ptr con = this->mWSEndpoint.get_con_from_hdl(hdl);
             auto str = con->get_uri();
 
-            // 获取连接的唯一标识符
             auto client_id = con->get_handle();
 
             std::cout << "Received message from client " << str.get()->get_resource() << ": " << msg->get_payload() << std::endl;
