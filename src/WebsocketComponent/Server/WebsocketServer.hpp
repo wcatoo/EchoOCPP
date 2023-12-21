@@ -35,7 +35,7 @@ typedef websocketpp::server<websocketpp::config::asio> server_t;
         }
       private:
         websocketpp::server<websocketpp::config::asio> mWSEndpoint;
-//        std::unique_ptr<MQRouter> mMQRouter;
+        std::function<void(websocketpp::connection_hdl,websocketpp::server<websocketpp::config::asio>)> mOnMessage;
     };
 
 }

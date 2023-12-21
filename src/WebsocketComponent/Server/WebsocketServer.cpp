@@ -1,7 +1,7 @@
 
 #ifndef ECHOOCPP_IWEBSOCKETSERVER_CPP
 #define ECHOOCPP_IWEBSOCKETSERVER_CPP
-#include "WebsocketServerComponent.hpp"
+#include "WebsocketServer.hpp"
 #include <functional>
 
 namespace Components {

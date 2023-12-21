@@ -1,5 +1,5 @@
-#include "src/WebsocketComponent/WebsocketServerComponent.hpp"
 #include "src/MessageQueue/MQRouter.hpp"
+#include "src/WebsocketComponent/Server/WebsocketServer.hpp"
 
 int main(void) {
 // std::string tmp = "tcp://*:5556";
