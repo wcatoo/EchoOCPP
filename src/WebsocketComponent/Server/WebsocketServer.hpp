@@ -29,13 +29,21 @@ typedef websocketpp::server<websocketpp::config::asio> server_t;
 
             // Send a response back to the client
             this->mWSEndpoint.send(hdl, "Server received your message", websocketpp::frame::opcode::text);
+//            this->sendPayload(msg->get_payload());
+            if (this->mOnMessage) {
+              this->mOnMessage(msg->get_payload());
+            }
           } catch (const std::exception& e) {
             std::cerr << "Error processing message: " << e.what() << std::endl;
           }
         }
+
+        void sendPayload(const std::string &tPayload);
+        void onOpen(websocketpp::connection_hdl);
+        void onClose(websocketpp::connection_hdl);
       private:
         websocketpp::server<websocketpp::config::asio> mWSEndpoint;
-        std::function<void(websocketpp::connection_hdl,websocketpp::server<websocketpp::config::asio>)> mOnMessage;
+        std::function<void(const std::string &)> mOnMessage;
     };
 
 }

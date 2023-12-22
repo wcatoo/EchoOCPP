@@ -5,7 +5,7 @@ int main(int argc, char **argv) {
 
   websocketClient.init("ws://127.0.0.1:8080");
 //  websocketClient.connect("ws://124.222.224.186:8800");
-    websocketClient.connect("ws://127.0.0.1:8080/ocpp");
+  websocketClient.connect("ws://127.0.0.1:8080/ocpp");
 
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
