@@ -3,6 +3,7 @@
 #define ECHOOCPP_IWEBSOCKETSERVER_CPP
 #include "WebsocketServer.hpp"
 #include <functional>
+#include <algorithm>
 
 namespace Components {
 
@@ -17,16 +18,29 @@ void WebsocketServer::init(int tPort) {
   this->mWSEndpoint.start_accept();
   this->mWSEndpoint.run();
 }
-void WebsocketServer::sendPayload(const std::string &tPayload) {
-//      this->mWSEndpoint.send(this->mWSEndpoint.get_connection(), tPayload, websocketpp::frame::opcode::text);
+void WebsocketServer::sendPayload(const std::string & tResource, const std::string &tPayload) {
+      this->mWSEndpoint.send(this->mConnectionHandlers[tResource], tPayload, websocketpp::frame::opcode::text);
 }
 void WebsocketServer::onOpen(websocketpp::connection_hdl tHandler) {
   auto tmp = this->mWSEndpoint.get_con_from_hdl(tHandler);
+  this->mConnectionHandlers[tmp->get_resource()] = tHandler;
+  std::for_each(this->mConnectionHandlers.begin(), this->mConnectionHandlers.end(), [](auto& keyValue){
+    std::cout << keyValue.first << std::endl;
+
+  });
+//  for (auto i : this->mConnectionHandlers) {
+//    std::cout << "add: " <<  i.first << std::endl;
+//  }
 }
 
-void WebsocketServer::onClose(websocketpp::connection_hdl tHandler) {
+auto WebsocketServer::onClose(websocketpp::connection_hdl tHandler) -> void {
   auto tmp = this->mWSEndpoint.get_con_from_hdl(tHandler);
+  this->mConnectionHandlers.erase(tmp->get_resource());
+  for (auto i : this->mConnectionHandlers) {
+    std::cout << "remove: " << i.first << std::endl;
+  }
 }
+
 
 
 }

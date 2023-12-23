@@ -29,7 +29,6 @@ typedef websocketpp::server<websocketpp::config::asio> server_t;
 
             // Send a response back to the client
             this->mWSEndpoint.send(hdl, "Server received your message", websocketpp::frame::opcode::text);
-//            this->sendPayload(msg->get_payload());
             if (this->mOnMessage) {
               this->mOnMessage(msg->get_payload());
             }
@@ -38,12 +37,13 @@ typedef websocketpp::server<websocketpp::config::asio> server_t;
           }
         }
 
-        void sendPayload(const std::string &tPayload);
+        void sendPayload(const std::string &, const std::string &);
         void onOpen(websocketpp::connection_hdl);
-        void onClose(websocketpp::connection_hdl);
+        auto onClose(websocketpp::connection_hdl) -> void;
       private:
         websocketpp::server<websocketpp::config::asio> mWSEndpoint;
         std::function<void(const std::string &)> mOnMessage;
+        std::unordered_map<std::string, websocketpp::connection_hdl> mConnectionHandlers;
     };
 
 }
