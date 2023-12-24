@@ -1,4 +1,4 @@
-#include "src/MessageQueue/MQRouter.hpp"
+//#include "src/MessageQueue/MQRouter.hpp"
 #include "src/WebsocketComponent/Server/WebsocketServer.hpp"
 
 int main(void) {
@@ -8,8 +8,10 @@ int main(void) {
 //  mqRouter.addWorker("wo");
 // mqRouter.init();
 
-  Components::WebsocketServer server;
-  server.init(8080);
+  Components::WebsocketServer server(8081);
+  server.run();
+
+//std::cout << "hello module" << std::endl;
 
 
 

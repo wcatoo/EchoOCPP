@@ -1,7 +1,7 @@
 
 #ifndef ECHOOCPP_WEBSOCKETSERVER_HPP
 #define ECHOOCPP_WEBSOCKETSERVER_HPP
-#include "IWebsocketServer.hpp"
+#include "../IWebsocketBase.hpp"
 
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
@@ -10,41 +10,29 @@ namespace Components {
 
 typedef websocketpp::server<websocketpp::config::asio> server_t;
 
-    class WebsocketServer : public IWebsocketServer{
-    public:
-        void init(int tPort) override;
-//        void logInfo(std::string_view tMessage) override;
-//        void logError(std::string_view tMessage) override;
-        void on_message(websocketpp::connection_hdl hdl, server_t::message_ptr msg) {
-          try {
-            server_t::connection_ptr con = this->mWSEndpoint.get_con_from_hdl(hdl);
-            auto str = con->get_uri();
+class WebsocketServer : public IWebsocketBase{
+public:
+  WebsocketServer() = delete;
+  WebsocketServer(int tPort);
+  ~WebsocketServer();
 
-            auto client_id = con->get_handle();
+  void run() override;
 
-            std::cout << "Received message from client " << str.get()->get_resource() << ": " << msg->get_payload() << std::endl;
 
-            // Print the received message
-            std::cout << "Received message: " << msg->get_payload() << std::endl;
+  void sendPayload(const std::string &, const std::string &) override;
+  bool setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) override;
+  bool setOnOpen(const std::function<void()>&& tOnOpen) override;
+  bool setOnClose(const std::function<void()>&& tOnClose) override;
+  bool setOnFail(const std::function<void(const std::string&)>&& tOnFail) override;
+private:
+  void onOpen(websocketpp::connection_hdl);
+  void onClose(websocketpp::connection_hdl);
+  void onFail(websocketpp::connection_hdl);
+  void onMessage(websocketpp::connection_hdl hdl, server_t::message_ptr msg);
 
-            // Send a response back to the client
-            this->mWSEndpoint.send(hdl, "Server received your message", websocketpp::frame::opcode::text);
-            if (this->mOnMessage) {
-              this->mOnMessage(msg->get_payload());
-            }
-          } catch (const std::exception& e) {
-            std::cerr << "Error processing message: " << e.what() << std::endl;
-          }
-        }
-
-        void sendPayload(const std::string &, const std::string &);
-        void onOpen(websocketpp::connection_hdl);
-        auto onClose(websocketpp::connection_hdl) -> void;
-      private:
-        websocketpp::server<websocketpp::config::asio> mWSEndpoint;
-        std::function<void(const std::string &)> mOnMessage;
-        std::unordered_map<std::string, websocketpp::connection_hdl> mConnectionHandlers;
-    };
+  websocketpp::server<websocketpp::config::asio> mWSEndpoint{};
+  std::unordered_map<std::string, websocketpp::connection_hdl> mConnectionHandlers;
+};
 
 }
 

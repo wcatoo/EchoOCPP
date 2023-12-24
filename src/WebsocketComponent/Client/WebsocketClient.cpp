@@ -4,45 +4,56 @@
 #include "WebsocketClient.hpp"
 
 #include <utility>
+namespace Components {
 
-void Components::WebsocketClient::init(const std::string &tAddress) {
-  this->mWSEndpoint.init_asio();
-  this->mWSEndpoint.start_perpetual();
-
-//  this->mWSEndpoint.connect()
-
+bool WebsocketClient::setOnFail(const std::function<void(const std::string &)> &&tOnFail){
+  if (mStatus == WebsocketStatus::OPEN) {
+    return false;
+  }
+  this->mOnFail = tOnFail;
+  return true;
 }
-bool Components::WebsocketClient::setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) {
+
+bool WebsocketClient::setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) { if (mStatus == WebsocketStatus::OPEN) { return false;
+  }
+  this->mOnMessage = tOnMessage;
+  return true;
+}
+
+bool WebsocketClient::setOnOpen(const std::function<void()>&& tOnOpen) {
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
 
-  this->mOnMessage = std::move(tOnMessage);
+  this->mOnOpen = tOnOpen;
+  return true;
+
+}
+bool WebsocketClient::setOnClose(const std::function<void()>&& tOnClose) {
+  if (mStatus == WebsocketStatus::OPEN) {
+    return false;
+  }
+
+  this->mOnClose = tOnClose;
   return true;
 }
-void Components::WebsocketClient::connect(const std::string &tURL) {
+
+
+//bool Components::WebsocketClient::
+void WebsocketClient::connect(const std::string &tURL) {
+  this->mUrl = tURL;
   websocketpp::lib::error_code errorCode;
-  this->mWSEndpoint.set_message_handler(std::bind(&WebsocketClient::onMessage, this, std::placeholders::_1, std::placeholders::_2));
   this->mHandler = this->mWSEndpoint.get_connection(tURL, errorCode);
   if (errorCode) {
     std::cout << "> Connect initialization error: " << errorCode.message() << std::endl;
     return;
   }
   this->mWSEndpoint.connect(this->mHandler);
-//  this->mWSEndpoint.set_message_handler([this](auto && PH1, auto && PH2) { onMessage(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); });
-  std::thread th1([this]() {
-    this->mWSEndpoint.run();
-  });
-
-  th1.detach();
   std::this_thread::sleep_for(std::chrono::seconds(1));
-
 }
 
-void Components::WebsocketClient::onMessage(websocketpp::connection_hdl tHandler,websocketpp::client<websocketpp::config::asio_client>::message_ptr tMessagePtr) {
+void WebsocketClient::onMessage(websocketpp::connection_hdl tHandler,websocketpp::client<websocketpp::config::asio_client>::message_ptr tMessagePtr) {
   std::cout << "Received Message: " << tMessagePtr->get_payload() << std::endl;
-
-  this->mWSEndpoint.send(tHandler, "client send  message",  tMessagePtr->get_opcode());
   std::this_thread::sleep_for(std::chrono::seconds(1));
   if (this->mOnMessage) {
     this->mOnMessage(tMessagePtr->get_payload());
@@ -50,4 +61,70 @@ void Components::WebsocketClient::onMessage(websocketpp::connection_hdl tHandler
 
 }
 
+void WebsocketClient::onOpen(websocketpp::connection_hdl tHandler) {
+  std::cout << "client open" << std::endl;
+  this->mStatus = WebsocketStatus::OPEN;
+  if (this->mOnOpen) {
+    this->mOnOpen();
+  }
+}
+
+void WebsocketClient::onClose(websocketpp::connection_hdl tHandler){
+  std::cout << "client close" << std::endl;
+//  this->mWSEndpoint.stop();
+//  if (this->mWSEndpoint.stopped()) {
+    this->mStatus = WebsocketStatus::CLOSE;
+    if (this->mOnClose) {
+      this->mOnClose();
+    }
+//  }
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+}
+void WebsocketClient::sendPayload(const std::string & tPayload, const std::string & tResource) {
+  if (this->mStatus == WebsocketStatus::OPEN) {
+    std::error_code errorCode = this->mHandler->send(tPayload, websocketpp::frame::opcode::text);
+    if (errorCode) {
+      std::cout << errorCode.message() << std::endl;
+    }
+  }
+}
+
+void WebsocketClient::sendPayload(const std::string & tPayload) {
+  this->sendPayload(tPayload, "");
+}
+
+void WebsocketClient::onFail(websocketpp::connection_hdl tHandler) {
+  std::cout << "websocket fail " << std::endl;
+  auto tmp =  this->mWSEndpoint.get_con_from_hdl(tHandler);
+  std::cout << tmp->get_ec().message() << std::endl;
+  this->reconnect();
+}
+
+void WebsocketClient::reconnect() {
+  this->connect(this->mUrl);
+}
+
+WebsocketClient::WebsocketClient(const std::string &tAddress) {
+  this->mWSEndpoint.init_asio();
+  this->mWSEndpoint.start_perpetual();
+  this->mWSEndpoint.set_access_channels(websocketpp::log::alevel::all);
+  this->mWSEndpoint.set_error_channels(websocketpp::log::elevel::all);
+  this->mWSEndpoint.set_open_handler([this](auto && PH1) { onOpen(std::forward<decltype(PH1)>(PH1)); });
+  this->mWSEndpoint.set_close_handler([this](auto && PH1) {onClose(std::forward<decltype(PH1)>(PH1));});
+  this->mWSEndpoint.set_message_handler([this](auto && PH1, auto && PH2) { onMessage(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); });
+  this->mWSEndpoint.set_fail_handler([this](auto && PH1) { onFail(std::forward<decltype(PH1)>(PH1)); });
+  this->mWSEndpoint.set_reuse_addr(true);
+  this->mUrl = tAddress;
+}
+
+
+void WebsocketClient::run() {
+  this->connect(this->mUrl);
+  this->mWSEndpoint.run();
+}
+WebsocketClient::~WebsocketClient() {
+  this->mWSEndpoint.stop();
+}
+
+}
 #endif

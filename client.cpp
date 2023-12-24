@@ -1,17 +1,15 @@
 
 #include "src/WebsocketComponent/Client/WebsocketClient.hpp"
 int main(int argc, char **argv) {
-  Components::WebsocketClient websocketClient;
+  Components::WebsocketClient websocketClient("ws://127.0.0.1:8081/ocpp");
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+  websocketClient.setOnOpen([&]() {
+    websocketClient.sendPayload("aads");
+  });
+  websocketClient.run();
 
-  websocketClient.init("ws://127.0.0.1:8080");
-//  websocketClient.connect("ws://124.222.224.186:8800");
-  websocketClient.connect("ws://127.0.0.1:8080/ocpp");
-
-
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-
-    websocketClient.mWSEndpoint.send(websocketClient.mHandler, "client send  message",  websocketpp::frame::opcode::text);
-    while (true);
+//    websocketClient.sendPayload("client send  message");
+//    websocketClient.mWSEndpoint.send(websocketClient.mHandler, "client send  message",  websocketpp::frame::opcode::text);
 
 //  websocketClient.setOnMessage([]() {
 //    std::cout << "onMessage" << std::endl;
