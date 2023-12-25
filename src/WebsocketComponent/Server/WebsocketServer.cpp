@@ -16,6 +16,9 @@ void WebsocketServer::onOpen(websocketpp::connection_hdl tHandler) {
   std::for_each(this->mConnectionHandlers.begin(), this->mConnectionHandlers.end(), [](auto& keyValue){
     std::cout << keyValue.first << std::endl;
   });
+  if (this->mOnOpen) {
+    this->mOnOpen();
+  }
 
 }
 
@@ -105,6 +108,17 @@ WebsocketServer::WebsocketServer(int tPort) {
 
 WebsocketServer::~WebsocketServer() {
   this->mWSEndpoint.stop();
+}
+void WebsocketServer::init() {
+  this->mWSEndpoint.init_asio();
+  this->mWSEndpoint.listen(this->mPort);
+  this->mWSEndpoint.set_message_handler([this](auto && PH1, auto && PH2) { onMessage(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); });
+  this->mWSEndpoint.set_open_handler([this](auto && PH1) { onOpen(std::forward<decltype(PH1)>(PH1)); });
+  this->mWSEndpoint.set_close_handler([this](auto && PH1) {onClose(std::forward<decltype(PH1)>(PH1));});
+  this->mWSEndpoint.set_reuse_addr(true);
+  this->mWSEndpoint.set_fail_handler([this](auto && PH1) { onFail(std::forward<decltype(PH1)>(PH1)); });
+  this->mWSEndpoint.start_accept();
+
 }
 
 }

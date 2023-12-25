@@ -13,12 +13,7 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 
-#find_package(nlohmann_json CONFIG REQUIRED)
-
-
-#target_link_libraries(server PRIVATE nlohmann_json nlohmann_json::nlohmann_json )
-target_link_libraries(server PRIVATE MessageQueue WebsocketServer CenterSystem)
-#target_link_libraries(client PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
+target_link_libraries(server PRIVATE MessageQueue CenterSystem)
 target_link_libraries(client PRIVATE MessageQueue WebsocketClient)
 
 

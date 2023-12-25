@@ -118,6 +118,8 @@ WebsocketClient::WebsocketClient(const std::string &tAddress) {
 }
 
 
+
+
 void WebsocketClient::run() {
   this->connect(this->mUrl);
   this->mWSEndpoint.run();
@@ -128,6 +130,17 @@ void WebsocketClient::stop() {
 }
 WebsocketClient::~WebsocketClient() {
   this->mWSEndpoint.stop();
+}
+void WebsocketClient::init() {
+  this->mWSEndpoint.init_asio();
+  this->mWSEndpoint.start_perpetual();
+  this->mWSEndpoint.set_access_channels(websocketpp::log::alevel::all);
+  this->mWSEndpoint.set_error_channels(websocketpp::log::elevel::all);
+  this->mWSEndpoint.set_open_handler([this](auto && PH1) { onOpen(std::forward<decltype(PH1)>(PH1)); });
+  this->mWSEndpoint.set_close_handler([this](auto && PH1) {onClose(std::forward<decltype(PH1)>(PH1));});
+  this->mWSEndpoint.set_message_handler([this](auto && PH1, auto && PH2) { onMessage(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); });
+  this->mWSEndpoint.set_fail_handler([this](auto && PH1) { onFail(std::forward<decltype(PH1)>(PH1)); });
+  this->mWSEndpoint.set_reuse_addr(true);
 }
 
 }

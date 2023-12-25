@@ -12,12 +12,14 @@ typedef websocketpp::server<websocketpp::config::asio> server_t;
 
 class WebsocketServer : public IWebsocketBase{
 public:
-  WebsocketServer() = delete;
+  WebsocketServer() = default;
   WebsocketServer(int tPort);
   ~WebsocketServer();
 
+  void init() override;
   void run() override;
   void stop() override;
+  void setPort(std::uint16_t tPort){this->mPort = tPort;}
 
 
 
@@ -34,6 +36,7 @@ private:
 
   websocketpp::server<websocketpp::config::asio> mWSEndpoint{};
   std::unordered_map<std::string, websocketpp::connection_hdl> mConnectionHandlers;
+  std::uint16_t mPort{8888};
 };
 
 }

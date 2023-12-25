@@ -4,10 +4,18 @@
 #include <thread>
 #include "./protobufMessage.pb.h"
 
+/**
+ * Message queue for router
+ */
 class MQRouter {
 
 public:
-  MQRouter() = delete;
+  /**
+   *
+   * @param tContext zmq context
+   * @param tAddress bind address to zmq
+   * @param tIdentity ID for this router
+   */
   MQRouter(std::shared_ptr<zmq::context_t> tContext, const std::string& tAddress, const std::string &tIdentity);
   ~MQRouter() {
     this->mClientSocket.close();

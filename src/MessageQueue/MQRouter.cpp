@@ -3,12 +3,16 @@
 #include <utility>
 MQRouter::MQRouter(std::shared_ptr<zmq::context_t> tContext, const std::string &tAddress, const std::string &tIdentity)
 {
-  this->mContext = std::move(tContext);
-  this->mClientSocket = zmq::socket_t(*(this->mContext), zmq::socket_type::router);
-  this->mClientSocket.set(zmq::sockopt::routing_id, tIdentity);
-  this->mClientSocket.bind(tAddress);
-  this->mWorkerSocket = zmq::socket_t(*(this->mContext), zmq::socket_type::router);
-  this->mWorkerSocket.bind(this->mWorkerRouterAddress);
+  try {
+    this->mContext = std::move(tContext);
+    this->mClientSocket = zmq::socket_t(*(this->mContext), zmq::socket_type::router);
+    this->mClientSocket.set(zmq::sockopt::routing_id, tIdentity);
+    this->mClientSocket.bind(tAddress);
+    this->mWorkerSocket = zmq::socket_t(*(this->mContext), zmq::socket_type::router);
+    this->mWorkerSocket.bind(this->mWorkerRouterAddress);
+  } catch (std::exception &e) {
+    throw e.what();
+  }
 }
 
 void MQRouter::send(const std::string& identity, const std::string &tPalyload)

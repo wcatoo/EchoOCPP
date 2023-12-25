@@ -1,6 +1,5 @@
-add_library(CenterSystem App/CenterSystem/CenterSystem.cpp)
-message(${CMAKE_SOURCE_DIR}/src/WebsocketComponent)
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/WebsocketComponent)
+add_library(CenterSystem ${CMAKE_SOURCE_DIR}/src/App/CenterSystem/CoreSystem.cpp)
+target_include_directories(CenterSystem PRIVATE ${CMAKE_SOURCE_DIR}/src)
+find_package(websocketpp CONFIG REQUIRED)
 
-
-target_link_libraries(CenterSystem PRIVATE WebsocketServer)
+target_link_libraries(CenterSystem PRIVATE websocketpp::websocketpp WebsocketServer)

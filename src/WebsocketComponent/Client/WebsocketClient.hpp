@@ -12,6 +12,7 @@ public:
   WebsocketClient(const std::string &tAddress);
   ~WebsocketClient();
 
+  void init() override;
   void run() override;
   void stop() override;
   void connect(const std::string &tURL);

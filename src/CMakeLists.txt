@@ -1,3 +1,4 @@
 add_subdirectory(WebsocketComponent)
 add_subdirectory(LogComponent)
 add_subdirectory(MessageQueue)
+add_subdirectory(App)
