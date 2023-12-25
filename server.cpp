@@ -1,5 +1,6 @@
 //#include "src/MessageQueue/MQRouter.hpp"
-#include "src/WebsocketComponent/Server/WebsocketServer.hpp"
+// #include "src/WebsocketComponent/Server/WebsocketServer.hpp"
+#include "src/App/CenterSystem/CoreSystem.hpp"
 
 int main(void) {
 // std::string tmp = "tcp://*:5556";
@@ -8,10 +9,12 @@ int main(void) {
 //  mqRouter.addWorker("wo");
 // mqRouter.init();
 
-  Components::WebsocketServer server(8081);
-  server.run();
+  // Components::WebsocketServer server(8081);
+  // server.run();
 
 //std::cout << "hello module" << std::endl;
+
+  App::CoreSystem coreSystem;
 
 
 

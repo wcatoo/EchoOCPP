@@ -122,6 +122,10 @@ void WebsocketClient::run() {
   this->connect(this->mUrl);
   this->mWSEndpoint.run();
 }
+
+void WebsocketClient::stop() {
+  this->mWSEndpoint.stop();
+}
 WebsocketClient::~WebsocketClient() {
   this->mWSEndpoint.stop();
 }

@@ -17,6 +17,8 @@ public:
   ~WebsocketServer();
 
   void run() override;
+  void stop() override;
+
 
 
   void sendPayload(const std::string &, const std::string &) override;

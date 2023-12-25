@@ -88,6 +88,10 @@ void WebsocketServer::onMessage(websocketpp::connection_hdl hdl, server_t::messa
 void WebsocketServer::run() {
   this->mWSEndpoint.run();
 }
+void WebsocketServer::stop() {
+  this->mWSEndpoint.stop();
+}
+
 WebsocketServer::WebsocketServer(int tPort) {
   this->mWSEndpoint.init_asio();
   this->mWSEndpoint.listen(tPort);

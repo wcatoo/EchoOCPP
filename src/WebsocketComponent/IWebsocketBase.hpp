@@ -8,6 +8,7 @@
 #include "WebsocketStatus.hpp"
 #include <string_view>
 #include <thread>
+#include <functional>
 
 namespace Components {
     /**
@@ -16,6 +17,7 @@ namespace Components {
     class IWebsocketBase {
     public:
       virtual void run() = 0;
+      virtual void stop() = 0;
       virtual void sendPayload(const std::string &, const std::string &) = 0;
       virtual bool setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) = 0;
       virtual bool setOnOpen(const std::function<void()>&& tOnOpen) = 0;
