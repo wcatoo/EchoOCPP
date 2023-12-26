@@ -1,8 +1,8 @@
 #ifndef ECHOOCPP_CORESYSTEM_HPP
 #define ECHOOCPP_CORESYSTEM_HPP
 
-#include "../../WebsocketComponent/Server/WebsocketServer.hpp"
-#include "../../MessageQueue/MQRouter.hpp"
+#include "../../src/MessageQueue/MQRouter.hpp"
+#include "../../src/WebsocketComponent/Server/WebsocketServer.hpp"
 
 namespace App
 {

@@ -1,0 +1,2 @@
+add_library(AppServer STATIC CoreSystem.cpp)
+target_link_libraries(AppServer WebsocketServer MessageQueue)

@@ -1,5 +1,5 @@
 //#include "src/MessageQueue/MQRouter.hpp"
-#include "src/App/CenterSystem/CoreSystem.hpp"
+#include "app/CenterSystem/CoreSystem.hpp"
 
 int main(void) {
 // std::string tmp = "tcp://*:5556";
@@ -12,7 +12,7 @@ int main(void) {
 //std::cout << "hello module" << std::endl;
 
   App::CoreSystem coreSystem;
-
+//
   while (true);
 
 

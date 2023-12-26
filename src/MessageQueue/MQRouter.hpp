@@ -1,8 +1,8 @@
 #ifndef ECHOOCPP_MQROUTER_HPP
 #define ECHOOCPP_MQROUTER_HPP
-#include <zmq.hpp>
 #include <thread>
 #include "./protobufMessage.pb.h"
+#include <zmq.hpp>
 
 /**
  * Message queue for router
