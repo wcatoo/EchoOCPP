@@ -81,26 +81,33 @@ void MQRouter::init()
         }
       }
     } });
-  th1.join();
+  th1.detach();
 }
 
-
-void MQRouter::addWorker(const std::string &tIdentity) {
-  this->mWorks[tIdentity] = zmq::socket_t (*(this->mContext), zmq::socket_type::dealer);
-  this->mWorks[tIdentity].set(zmq::sockopt::routing_id, tIdentity);
-  this->mWorks[tIdentity].connect(this->mWorkerRouterAddress);
+/**
+ *
+ * @param tIdentity
+ */
+void MQRouter::addWorker(const std::string &tIdentity, std::function<void(RouterProtobufMessage&)> tCallback) {
+  this->mWorkers[tIdentity] = zmq::socket_t (*(this->mContext), zmq::socket_type::dealer);
+  this->mWorkers[tIdentity].set(zmq::sockopt::routing_id, tIdentity);
+  this->mWorkers[tIdentity].connect(this->mWorkerRouterAddress);
+  // TODO worker function
   std::thread th([&](){
-    int n = 0;
     while (true) {
       zmq::message_t requestData;
-      auto dataFrame = this->mWorks[tIdentity].recv(requestData, zmq::recv_flags::none);
+      auto dataFrame = this->mWorkers[tIdentity].recv(requestData, zmq::recv_flags::none);
+      RouterProtobufMessage rcvMessage;
+      if (rcvMessage.ParseFromArray(requestData.data(), static_cast<int>(requestData.size())) && tCallback) {
+        tCallback(rcvMessage);
+      }
       if (dataFrame.has_value()) {
         RouterProtobufMessage routerProtobufMessage;
         routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
         routerProtobufMessage.set_dest("Client1");
         routerProtobufMessage.set_resource("Client1");
         routerProtobufMessage.set_data("worker had received data");
-        this->mWorks[tIdentity].send((zmq::message_t(routerProtobufMessage.SerializeAsString())), zmq::send_flags::none);
+        this->mWorkers[tIdentity].send((zmq::message_t(routerProtobufMessage.SerializeAsString())), zmq::send_flags::none);
 
       }
     }

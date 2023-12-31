@@ -11,9 +11,13 @@ int main(void) {
 
 //std::cout << "hello module" << std::endl;
 
-  App::CoreSystem coreSystem;
+//  CenterSystem::CoreSystem coreSystem;
+//  coreSystem.init();
+//  coreSystem.run();
 //
-  while (true);
+//  while (true);
+
+
 
 
 

@@ -1,0 +1,5 @@
+{
+  "system" : {
+    "CoreRouterAddress" : "tcp://*:5556"
+  }
+}

@@ -1,7 +1,11 @@
 //#include "src/MessageQueue/ReqMQ.hpp"
 //#include "src/MessageQueue/protobufMessage.pb.h"
 //#include "src/WebsocketComponent/Client/WebsocketClient.hpp"
+
+#include "app/EndPointer/CoreSystem.hpp"
 int main(int argc, char **argv) {
+
+
 //  Components::WebsocketClient websocketClient("ws://127.0.0.1:9090/ocpp");
 //  std::this_thread::sleep_for(std::chrono::seconds(1));
 //  websocketClient.setOnOpen([&]() {

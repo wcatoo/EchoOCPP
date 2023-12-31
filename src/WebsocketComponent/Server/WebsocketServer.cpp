@@ -112,6 +112,7 @@ WebsocketServer::~WebsocketServer() {
 void WebsocketServer::init() {
   this->mWSEndpoint.init_asio();
   this->mWSEndpoint.listen(this->mPort);
+  std::cout << "port: " << this->mPort << std::endl;
   this->mWSEndpoint.set_message_handler([this](auto && PH1, auto && PH2) { onMessage(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); });
   this->mWSEndpoint.set_open_handler([this](auto && PH1) { onOpen(std::forward<decltype(PH1)>(PH1)); });
   this->mWSEndpoint.set_close_handler([this](auto && PH1) {onClose(std::forward<decltype(PH1)>(PH1));});
