@@ -106,16 +106,6 @@ void WebsocketClient::reconnect() {
   this->connect(this->mUrl);
 }
 
-//WebsocketClient::WebsocketClient(const std::string &tAddress) {
-//  this->mWSEndpoint.init_asio();
-//  this->mWSEndpoint.start_perpetual();
-//  this->mWSEndpoint.set_access_channels(websocketpp::log::alevel::all);
-//  this->mWSEndpoint.set_error_channels(websocketpp::log::elevel::all);
-//  this->mUrl = tAddress;
-//}
-//
-
-
 
 void WebsocketClient::run() {
   this->connect(this->mUrl);
