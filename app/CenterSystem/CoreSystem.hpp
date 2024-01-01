@@ -13,11 +13,11 @@ public:
   CoreSystem();
   void init();
   void run();
+  void stop();
 private:
   std::unique_ptr<Components::WebsocketServer> mWebsocketServer;
   std::unique_ptr<MQRouter> mCoreRouterPtr;
-  std::unique_ptr<MQDealer> mWebsocketDealer;
-  MQDealer dealer;
+  std::unique_ptr<MQDealer> mWebsocketDealerPtr;
 };
 
 

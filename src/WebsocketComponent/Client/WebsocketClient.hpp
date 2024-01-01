@@ -1,15 +1,15 @@
 #ifndef ECHOOCPP_WEBSOCKETCLIENT_HPP
 #define ECHOOCPP_WEBSOCKETCLIENT_HPP
 #include "../IWebsocketBase.hpp"
-#include <websocketpp/config/asio_no_tls_client.hpp>
+#include "../WebsocketDefines.hpp"
 #include <websocketpp/client.hpp>
-#include "../WebsocketStatus.hpp"
+#include <websocketpp/config/asio_no_tls_client.hpp>
 
 namespace Components {
 class WebsocketClient : public IWebsocketBase{
 public:
-  WebsocketClient() = delete;
-  WebsocketClient(const std::string &tAddress);
+  WebsocketClient() = default;
+//  WebsocketClient(const std::string &tAddress);
   ~WebsocketClient();
 
   void init() override;
@@ -18,7 +18,7 @@ public:
   void connect(const std::string &tURL);
   void sendPayload(const std::string &, const std::string &) override;
   void sendPayload(const std::string &);
-  bool setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) override;
+  bool setOnMessage(const std::function<void(const WebsocketOnMessageInfo &)>&& tOnMessage) override;
   bool setOnOpen(const std::function<void()>&& tOnOpen) override;
   bool setOnClose(const std::function<void()>&& tOnClose) override;
   bool setOnFail(const std::function<void(const std::string&)>&& tOnFail) override;

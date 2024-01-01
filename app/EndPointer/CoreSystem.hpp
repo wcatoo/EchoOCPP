@@ -2,7 +2,7 @@
 
 #ifndef ECHOOCPP_CORESYSTEM_HPP
 #define ECHOOCPP_CORESYSTEM_HPP
-#include "../../src/MessageQueue/MQDealer.hpp"
+//#include "../../src/MessageQueue/MQDealer.hpp"
 #include "../../src/WebsocketComponent/Client/WebsocketClient.hpp"
 #include <memory>
 
@@ -12,9 +12,10 @@ public:
   CoreSystem() = default;
   void init();
   void run();
+  void stop();
 private:
   std::unique_ptr<Components::WebsocketClient> mWebsocketClient;
-  std::unique_ptr<MQDealer> mMessageQueueDealer;
+//  std::unique_ptr<MQDealer> mMessageQueueDealer;
 };
 
 

@@ -43,7 +43,9 @@ bool WebsocketServer::setOnFail(const std::function<void(const std::string &)> &
   return true;
 }
 
-bool WebsocketServer::setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) { if (mStatus == WebsocketStatus::OPEN) { return false;
+bool WebsocketServer::setOnMessage(const std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) {
+  if (mStatus == WebsocketStatus::OPEN) {
+    return false;
   }
   this->mOnMessage = tOnMessage;
   return true;
@@ -74,21 +76,25 @@ void WebsocketServer::onMessage(websocketpp::connection_hdl hdl, server_t::messa
 
     auto client_id = con->get_handle();
 
+
+    std::cout << "origin: " << con->get_origin() << std::endl;
     std::cout << "Received message from client " << str.get()->get_resource() << ": " << msg->get_payload() << std::endl;
 
     // Print the received message
     std::cout << "Received message: " << msg->get_payload() << std::endl;
+    WebsocketOnMessageInfo websocketOnMessageInfo;
+    websocketOnMessageInfo.setMessage(msg->get_payload());
+    websocketOnMessageInfo.setResource(con->get_uri()->get_resource());
 
-    // Send a response back to the client
-    this->mWSEndpoint.send(hdl, "Server received your message", websocketpp::frame::opcode::text);
     if (this->mOnMessage) {
-      this->mOnMessage(msg->get_payload());
+      this->mOnMessage(websocketOnMessageInfo);
     }
   } catch (const std::exception& e) {
     std::cerr << "Error processing message: " << e.what() << std::endl;
   }
 }
 void WebsocketServer::run() {
+  std::cout << "server run: port -> " << this->mPort << std::endl;
   this->mWSEndpoint.run();
 }
 void WebsocketServer::stop() {

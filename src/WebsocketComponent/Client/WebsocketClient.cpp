@@ -14,7 +14,9 @@ bool WebsocketClient::setOnFail(const std::function<void(const std::string &)> &
   return true;
 }
 
-bool WebsocketClient::setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) { if (mStatus == WebsocketStatus::OPEN) { return false;
+bool WebsocketClient::setOnMessage(const std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) {
+  if (mStatus == WebsocketStatus::OPEN) {
+    return false;
   }
   this->mOnMessage = tOnMessage;
   return true;
@@ -53,16 +55,17 @@ void WebsocketClient::connect(const std::string &tURL) {
 }
 
 void WebsocketClient::onMessage(websocketpp::connection_hdl tHandler,websocketpp::client<websocketpp::config::asio_client>::message_ptr tMessagePtr) {
-  std::cout << "Received Message: " << tMessagePtr->get_payload() << std::endl;
   std::this_thread::sleep_for(std::chrono::seconds(1));
+  WebsocketOnMessageInfo messageInfo;
+  messageInfo.setMessage(tMessagePtr->get_payload());
+  messageInfo.setResource(this->mWSEndpoint.get_con_from_hdl(tHandler)->get_resource());
   if (this->mOnMessage) {
-    this->mOnMessage(tMessagePtr->get_payload());
+    this->mOnMessage(messageInfo);
   }
 
 }
 
 void WebsocketClient::onOpen(websocketpp::connection_hdl tHandler) {
-  std::cout << "client open" << std::endl;
   this->mStatus = WebsocketStatus::OPEN;
   if (this->mOnOpen) {
     this->mOnOpen();
@@ -70,7 +73,6 @@ void WebsocketClient::onOpen(websocketpp::connection_hdl tHandler) {
 }
 
 void WebsocketClient::onClose(websocketpp::connection_hdl tHandler){
-  std::cout << "client close" << std::endl;
 //  this->mWSEndpoint.stop();
 //  if (this->mWSEndpoint.stopped()) {
     this->mStatus = WebsocketStatus::CLOSE;
@@ -104,14 +106,14 @@ void WebsocketClient::reconnect() {
   this->connect(this->mUrl);
 }
 
-WebsocketClient::WebsocketClient(const std::string &tAddress) {
-  this->mWSEndpoint.init_asio();
-  this->mWSEndpoint.start_perpetual();
-  this->mWSEndpoint.set_access_channels(websocketpp::log::alevel::all);
-  this->mWSEndpoint.set_error_channels(websocketpp::log::elevel::all);
-  this->mUrl = tAddress;
-}
-
+//WebsocketClient::WebsocketClient(const std::string &tAddress) {
+//  this->mWSEndpoint.init_asio();
+//  this->mWSEndpoint.start_perpetual();
+//  this->mWSEndpoint.set_access_channels(websocketpp::log::alevel::all);
+//  this->mWSEndpoint.set_error_channels(websocketpp::log::elevel::all);
+//  this->mUrl = tAddress;
+//}
+//
 
 
 
@@ -127,6 +129,7 @@ WebsocketClient::~WebsocketClient() {
   this->mWSEndpoint.stop();
 }
 void WebsocketClient::init() {
+  this->mUrl = "ws://127.0.0.1:8888";
   this->mWSEndpoint.init_asio();
   this->mWSEndpoint.start_perpetual();
   this->mWSEndpoint.set_access_channels(websocketpp::log::alevel::all);

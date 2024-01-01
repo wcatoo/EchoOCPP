@@ -64,13 +64,14 @@ const char descriptor_table_protodef_protobufMessage_2eproto[] PROTOBUF_SECTION_
   "\n\025protobufMessage.proto\"e\n\025RouterProtobu"
   "fMessage\022\036\n\006method\030\001 \001(\0162\016.RouterMethods"
   "\022\020\n\010resource\030\002 \001(\t\022\014\n\004dest\030\003 \001(\t\022\014\n\004data"
-  "\030\004 \001(\t*h\n\rRouterMethods\022\027\n\023ROUTER_METHOD"
-  "S_OCPP\020\000\022\034\n\030ROUTER_METHODS_SAVE_DATA\020\001\022 "
-  "\n\034ROUTER_METHODS_DELETE_SOCKET\020\002b\006proto3"
+  "\030\004 \001(\t*k\n\rRouterMethods\022\032\n\026ROUTER_METHOD"
+  "S_OCPP201\020\000\022\034\n\030ROUTER_METHODS_SAVE_DATA\020"
+  "\001\022 \n\034ROUTER_METHODS_DELETE_SOCKET\020\002b\006pro"
+  "to3"
   ;
 static ::_pbi::once_flag descriptor_table_protobufMessage_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_protobufMessage_2eproto = {
-    false, false, 240, descriptor_table_protodef_protobufMessage_2eproto,
+    false, false, 243, descriptor_table_protodef_protobufMessage_2eproto,
     "protobufMessage.proto",
     &descriptor_table_protobufMessage_2eproto_once, nullptr, 0, 1,
     schemas, file_default_instances, TableStruct_protobufMessage_2eproto::offsets,

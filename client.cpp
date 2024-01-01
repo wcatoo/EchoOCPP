@@ -4,6 +4,9 @@
 
 #include "app/EndPointer/CoreSystem.hpp"
 int main(int argc, char **argv) {
+  EndPointer::CoreSystem coreSystem;
+  coreSystem.init();
+  coreSystem.run();
 
 
 //  Components::WebsocketClient websocketClient("ws://127.0.0.1:9090/ocpp");

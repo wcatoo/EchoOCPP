@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 enum RouterMethods {
-    ROUTER_METHODS_OCPP = 0;
+    ROUTER_METHODS_OCPP201 = 0;
     ROUTER_METHODS_SAVE_DATA = 1;
     ROUTER_METHODS_DELETE_SOCKET = 2;
 

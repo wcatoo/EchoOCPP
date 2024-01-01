@@ -24,7 +24,7 @@ public:
 
 
   void sendPayload(const std::string &, const std::string &) override;
-  bool setOnMessage(const std::function<void(const std::string&)>&& tOnMessage) override;
+  bool setOnMessage(const std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) override;
   bool setOnOpen(const std::function<void()>&& tOnOpen) override;
   bool setOnClose(const std::function<void()>&& tOnClose) override;
   bool setOnFail(const std::function<void(const std::string&)>&& tOnFail) override;
@@ -37,6 +37,7 @@ private:
   websocketpp::server<websocketpp::config::asio> mWSEndpoint{};
   std::unordered_map<std::string, websocketpp::connection_hdl> mConnectionHandlers;
   std::uint16_t mPort{8888};
+  WebsocketOnMessageInfo mMessageInfo;
 };
 
 }
