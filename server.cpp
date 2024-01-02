@@ -1,40 +1,23 @@
 //#include "src/MessageQueue/MQRouter.hpp"
 #include "app/CenterSystem/CoreSystem.hpp"
 #include <string_view>
+#include <algorithm>
 
-void print() {
-
-}
 
 int main(void) {
-// std::string tmp = "tcp://*:5556";
-// auto contex = std::make_shared<zmq::context_t>(2);
-// MQRouter mqRouter(contex, tmp, "router");
-//  mqRouter.addWorker("wo");
-// mqRouter.init();
-
-
-//std::cout << "hello module" << std::endl;
 
   CenterSystem::CoreSystem coreSystem;
   coreSystem.init();
   coreSystem.run();
-
-
   while (true);
-
-
-
-
-
-
-
 }
 
 
-// #include <iostream>
-// #include <regex>
-// #include <string>
+
+
+
+
+
 
 // int main() {
 //     std::string jsonString1 = "[2,\"04d90767-8292-4be6-8c16-cc69d370635a\",\"Authorize\",{\"idTag\":\"6ACA6EDC\"}]";

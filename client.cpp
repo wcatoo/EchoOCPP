@@ -2,11 +2,16 @@
 //#include "src/MessageQueue/protobufMessage.pb.h"
 //#include "src/WebsocketComponent/Client/WebsocketClient.hpp"
 
-#include "app/EndPointer/CoreSystem.hpp"
+#include "app/EndPointer/OCPP201/OCPPManager.hpp"
+
 int main(int argc, char **argv) {
-  EndPointer::CoreSystem coreSystem;
-  coreSystem.init();
-  coreSystem.run();
+//  EndPointer::CoreSystem coreSystem;
+//  coreSystem.init();
+//  coreSystem.run();
+//OCPP201::OCPPManager ocppManager;
+OCPP201::OCPPManager ocppManager;
+
+
 
 
 //  Components::WebsocketClient websocketClient("ws://127.0.0.1:9090/ocpp");
