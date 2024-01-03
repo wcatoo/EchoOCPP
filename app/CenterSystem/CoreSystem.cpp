@@ -34,8 +34,7 @@ void CenterSystem::CoreSystem::run() {
     this->mWebsocketServer->run();
   });
   threadWebsocket.detach();
-  std::thread websocketDealerThread([this]() {
-    this->mWebsocketDealerPtr->run();
+  std::thread websocketDealerThread([this]() { this->mWebsocketDealerPtr->start();
   });
   websocketDealerThread.join();
 }

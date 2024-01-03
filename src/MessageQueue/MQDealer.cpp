@@ -2,9 +2,10 @@
 #include <thread>
 #include <utility>
 MQDealer::MQDealer(std::shared_ptr<zmq::context_t> tContext, const std::string &tAddress, const std::string &tIdentity) {
+  if (tContext != nullptr) {
+    this->mDealer = std::make_unique<zmq::socket_t>(*tContext, zmq::socket_type::dealer);
+  }
   this->mIdentity = tIdentity;
-  this->mDealer = std::make_unique<zmq::socket_t>(*tContext, zmq::socket_type::dealer);
-  this->mDealer->set(zmq::sockopt::routing_id, this->mIdentity);
   this->mAddress = tAddress;
 }
 
@@ -14,6 +15,10 @@ void MQDealer::send(const std::string &tPayload) {
 }
 
 void MQDealer::init() {
+  this->mDealer->set(zmq::sockopt::routing_id, this->mIdentity);
+}
+
+void MQDealer::start() {
   this->mDealer->connect(this->mAddress);
   this->mReceiveThread = std::make_unique<std::thread>([this](){
     this->mStatus = MessageQueueStatus::RUNNING;
@@ -29,16 +34,11 @@ void MQDealer::init() {
           if (this->mReceiveCallback) {
             this->mReceiveCallback(message.SerializeAsString());
           }
-
         }
       }
     }
-    std::cout << "MQ dealer -> close" << std::endl;
   });
-}
-
-void MQDealer::run() {
-  this->mReceiveThread->join();
+  this->mReceiveThread->detach();
 }
 
 void MQDealer::stop() {

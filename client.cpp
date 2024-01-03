@@ -2,7 +2,9 @@
 //#include "src/MessageQueue/protobufMessage.pb.h"
 //#include "src/WebsocketComponent/Client/WebsocketClient.hpp"
 
-#include "app/EndPointer/OCPP201/OCPPManager.hpp"
+//#include "app/EndPointer/OCPP201/OCPPManager.hpp"
+
+#include "src/OCPP201/ChargePoint/OCPPManager.hpp"
 
 int main(int argc, char **argv) {
 //  EndPointer::CoreSystem coreSystem;
@@ -10,6 +12,7 @@ int main(int argc, char **argv) {
 //  coreSystem.run();
 //OCPP201::OCPPManager ocppManager;
 OCPP201::OCPPManager ocppManager;
+ocppManager.init();
 
 
 

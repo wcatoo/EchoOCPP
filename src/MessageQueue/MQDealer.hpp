@@ -1,5 +1,6 @@
 #ifndef ECHOOCPP_MQDEALER_HPP
 #define ECHOOCPP_MQDEALER_HPP
+#include <regex>
 #include <zmq.hpp>
 #include "./protobufMessage.pb.h"
 #include "MQStatus.hpp"
@@ -10,7 +11,7 @@ public:
   ~MQDealer();
   MQDealer(std::shared_ptr<zmq::context_t> tContext, const std::string &tAddress, const std::string &identiry);
   void init();
-  void run();
+  void start();
   void stop();
   void send(const std::string &tPlayload);
   void setReceiveCallBack(std::function<void(const std::string &)> &&);

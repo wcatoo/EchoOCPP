@@ -6,18 +6,22 @@
 #define ECHOOCPP_OCPPMANAGER_HPP
 
 
-//#include "../../../src/MessageQueue/MQDealer.hpp"
-//#include "../../../src/MessageQueue/MQRouter.hpp"
-#include "MQDealer.hpp"
-#include "MQRouter.hpp"
+#include "../../MessageQueue/MQDealer.hpp"
+#include "../../MessageQueue/MQRouter.hpp"
 namespace OCPP201 {
 class OCPPManager {
 public:
+  void init();
+  void start();
+  void stop();
+
+
+  void receiveMessageHandler(const std::string&);
 
 
 private:
-  std::unique_ptr<MQRouter> mCoreRouterPtr;
   std::unique_ptr<MQDealer> mWebsocketDealerPtr;
+
 
 };
 }

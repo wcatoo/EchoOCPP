@@ -94,7 +94,7 @@ void WebsocketServer::onMessage(websocketpp::connection_hdl hdl, server_t::messa
   }
 }
 void WebsocketServer::run() {
-  std::cout << "server run: port -> " << this->mPort << std::endl;
+  std::cout << "server start: port -> " << this->mPort << std::endl;
   this->mWSEndpoint.run();
 }
 void WebsocketServer::stop() {
