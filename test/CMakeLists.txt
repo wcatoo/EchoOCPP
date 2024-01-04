@@ -29,7 +29,8 @@ include_directories(${GTEST_INCLUDE_DIRS})
 #)
 
 
-add_executable(OCPP201ChargePointTest OCPP201ChargePointTest.cpp)
+add_executable(OCPP201ChargePointTest OCPP201ChargePointTest.cpp
+        ../src/OCPP201/Message/MessageRespone.hpp)
 target_link_libraries(
         OCPP201ChargePointTest
         PRIVATE

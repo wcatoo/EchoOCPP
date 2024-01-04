@@ -32,7 +32,7 @@ void MQDealer::start() {
         RouterProtobufMessage message;
         if (message.ParseFromArray(request.data(), static_cast<int>(request.size()))) {
           if (this->mReceiveCallback) {
-            this->mReceiveCallback(message.SerializeAsString());
+            this->mReceiveCallback(message.resource(), message.SerializeAsString());
           }
         }
       }
@@ -44,7 +44,7 @@ void MQDealer::start() {
 void MQDealer::stop() {
   this->mStatus = MessageQueueStatus::CLOSE;
 }
-void MQDealer::setReceiveCallBack(std::function<void(const std::string &)> &&tCallback) {
+void MQDealer::setReceiveCallBack(std::function<void(const std::string&, const std::string &)> &&tCallback) {
   this->mReceiveCallback = std::move(tCallback);
 }
 MQDealer::~MQDealer() {

@@ -8,6 +8,9 @@
 
 #include "../../MessageQueue/MQDealer.hpp"
 #include "../../MessageQueue/MQRouter.hpp"
+#include "../Utilies/Helper.hpp"
+#include "../Message/MessageRequest.hpp"
+#include "../Message/MessageRespone.hpp"
 namespace OCPP201 {
 class OCPPManager {
 public:
@@ -16,11 +19,14 @@ public:
   void stop();
 
 
-  void receiveMessageHandler(const std::string&);
+  void receiveMessageHandler(const std::string& tResource, const std::string & tMessage);
 
 
 private:
   std::unique_ptr<MQDealer> mWebsocketDealerPtr;
+
+  Helper mHelper{};
+
 
 
 };

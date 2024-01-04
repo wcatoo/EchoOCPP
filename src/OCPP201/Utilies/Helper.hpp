@@ -6,15 +6,19 @@
 #define ECHOOCPP_HELPER_HPP
 #include <regex>
 #include <string_view>
+#include <optional>
+#include <magic_enum.hpp>
+#include "../Message/MessageBase.hpp"
 
 namespace OCPP201 {
 
 class Helper {
 public:
 
-  bool checkOCPPMessageFormat(const std::string &tMessage);
+  std::optional<MessageCall> checkMessageCallValid(const std::string &tMessage);
+
 private:
-  std::regex mPattern{"\\[(\\d),\"([\\w-]+)\",\"(.+)\",(.+)\\]"};
+  std::regex mPattern{R"lit(\[(\d),"([\w-]+)","([\w]+)",(.+)\])lit"};
 
 };
 

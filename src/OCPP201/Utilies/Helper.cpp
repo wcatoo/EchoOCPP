@@ -1,14 +1,21 @@
-//
-// Created by 杨帆 on 2024/1/3.
-//
-
 #include "Helper.hpp"
 
 namespace OCPP201 {
-bool Helper::checkOCPPMessageFormat(const std::string &tMessage) {
+std::optional<MessageCall> Helper::checkMessageCallValid(const std::string &tMessage) {
   std::smatch matches;
-
-  return std::regex_match(tMessage, matches, this->mPattern);
+  if (std::regex_match(tMessage, matches, this->mPattern)) {
+    MessageCall messageCall;
+    messageCall.setMessageId(matches[2].str());
+    messageCall.setAction(matches[3].str());
+    messageCall.setPayload(matches[4].str());
+    return std::optional<MessageCall>{std::move(messageCall)};
+  }
+  return std::nullopt;
 
 }
+
+
+
+
+
 } // namespace OCPP201
