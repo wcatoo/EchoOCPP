@@ -8,6 +8,9 @@
 #include <string_view>
 #include <optional>
 #include <magic_enum.hpp>
+
+#include <json-schema-validator/json-schema-validator.hpp>
+
 #include "../Message/MessageBase.hpp"
 
 namespace OCPP201 {
@@ -15,10 +18,13 @@ namespace OCPP201 {
 class Helper {
 public:
 
-  std::optional<MessageCall> checkMessageCallValid(const std::string &tMessage);
+  std::optional<MessageCall> checkMessageReq(const std::string &tMessage);
+  std::optional<MessageCallResponse> checkMessageConf(const std::string &tMessage);
 
 private:
-  std::regex mPattern{R"lit(\[(\d),"([\w-]+)","([\w]+)",(.+)\])lit"};
+  std::regex mPattern{R"lit(\s*\[(\d)\s*,\s*"([\w-]+)"\s*,\s*"([\w]+)"\s*,\s*(.+)\s*\])lit"};
+  std::regex mPatternConf{R"lit(\s*\[\s*(\d+)\s*,\s*"([\w-]+)"\s*,\s*(.+)\s*\]\s*)lit"};
+
 
 };
 

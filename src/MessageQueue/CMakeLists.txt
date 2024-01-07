@@ -1,6 +1,7 @@
 add_library(MessageQueueRouter STATIC MQRouter.cpp protobufMessage.pb.cc)
 add_library(MessageQueueDealer STATIC MQDealer.cpp protobufMessage.pb.cc)
 
+
 find_package(cppzmq CONFIG REQUIRED)
 find_package(Protobuf CONFIG REQUIRED)
 

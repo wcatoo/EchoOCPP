@@ -66,11 +66,24 @@ public:
 class MessageCallResponse {
 protected:
   std::string mMessageId{};
-  int mAction{};
   nlohmann::json mPayload{};
   std::stringstream stream{};
 public:
-  virtual void messageParse() = 0;
+  void setMessageId(const std::string & tId) {
+    this->mMessageId = tId;
+  }
+
+  void setPayload(const std::string &tPayload) {
+    this->mPayload = tPayload;
+  }
+  std::string getMessageId() {
+    return this->mMessageId;
+  }
+  std::string serializeMessage() {
+    stream.clear();
+    stream << '[' << 3 << ",\"" << this->mMessageId << "\",\"" << this->mPayload << ']' << std::endl;
+    return stream.str();
+  }
 };
 
 class MessageErrorResponse {

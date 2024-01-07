@@ -19,8 +19,11 @@ void OCPP201::OCPPManager::start() {
 
 void OCPP201::OCPPManager::receiveMessageHandler(const std::string &tResource,
                                                  const std::string & tMessage) {
-  if (auto messageCall = mHelper.checkMessageCallValid(tMessage)  != std::nullopt) {
+  if (auto messageCall =
+          mHelper.checkMessageReq(tMessage)  != std::nullopt) {
     auto t = messageCall;
+  } else if (auto messageConf = this->mHelper.checkMessageConf(tMessage) != std::nullopt) {
+
   } else {
     RouterProtobufMessage routerProtobufMessage;
     routerProtobufMessage.set_resource(tResource);
@@ -35,6 +38,19 @@ void OCPP201::OCPPManager::receiveMessageHandler(const std::string &tResource,
     this->mWebsocketDealerPtr->send(routerProtobufMessage);
     return;
   }
-
-
+}
+bool OCPP201::OCPPManager::send(OCPP201Type tType, MessageCall *tCall, std::function<void()> tCallback) {
+  if (tCall == nullptr) {
+    return false;
+  }
+  if (!this->mMessagesTrace.contains(tCall->getMessageId())) {
+    {
+      std::lock_guard<std::mutex> lock(this->mMessageTimeoutTraceMutex);
+      this->mMessagesTrace[tCall->getMessageId()] = std::pair<OCPP201Type, std::function<void()>>(tType, tCallback);
+      this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tCall->getMessageId();
+    }
+    this->mWebsocketDealerPtr->send(tCall->serializeMessage());
+    return true;
+  }
+  return false;
 }

@@ -50,3 +50,4 @@ void MQDealer::setReceiveCallBack(std::function<void(const std::string&, const s
 MQDealer::~MQDealer() {
   this->mStatus = MessageQueueStatus::CLOSE;
 }
+void MQDealer::send(RouterProtobufMessage &tPayload) {}
