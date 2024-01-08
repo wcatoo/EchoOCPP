@@ -1,5 +1,10 @@
 namespace OCPP201 {
 
+enum class MessageMethod {
+  Request,
+  Response
+};
+
 enum class OCPP201Type {
   Authorize,
   BootNotification,

@@ -1,17 +1,16 @@
-//
-// Created by 杨帆 on 2024/1/3.
-//
 
 #ifndef ECHOOCPP_HELPER_HPP
 #define ECHOOCPP_HELPER_HPP
 #include <regex>
 #include <string_view>
 #include <optional>
+#include <fstream>
+
+#include <nlohmann/json-schema.hpp>
 #include <magic_enum.hpp>
 
-#include <json-schema-validator/json-schema-validator.hpp>
-
 #include "../Message/MessageBase.hpp"
+#include "../DataType/Datatypes.hpp"
 
 namespace OCPP201 {
 
@@ -20,11 +19,13 @@ public:
 
   std::optional<MessageCall> checkMessageReq(const std::string &tMessage);
   std::optional<MessageCallResponse> checkMessageConf(const std::string &tMessage);
+  bool checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod);
 
 private:
   std::regex mPattern{R"lit(\s*\[(\d)\s*,\s*"([\w-]+)"\s*,\s*"([\w]+)"\s*,\s*(.+)\s*\])lit"};
   std::regex mPatternConf{R"lit(\s*\[\s*(\d+)\s*,\s*"([\w-]+)"\s*,\s*(.+)\s*\]\s*)lit"};
-
+  std::unordered_map<OCPP201Type, std::string> mOCPP201JsonSchemasReq;
+  std::unordered_map<OCPP201Type, std::string> mOCPP201JsonSchemasConf;
 
 };
 
