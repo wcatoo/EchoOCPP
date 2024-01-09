@@ -19,13 +19,13 @@ public:
 
   std::optional<MessageCall> checkMessageReq(const std::string &tMessage);
   std::optional<MessageCallResponse> checkMessageConf(const std::string &tMessage);
-  bool checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod);
+  std::optional<std::string> checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod);
 
 private:
   std::regex mPattern{R"lit(\s*\[(\d)\s*,\s*"([\w-]+)"\s*,\s*"([\w]+)"\s*,\s*(.+)\s*\])lit"};
   std::regex mPatternConf{R"lit(\s*\[\s*(\d+)\s*,\s*"([\w-]+)"\s*,\s*(.+)\s*\]\s*)lit"};
-  std::unordered_map<OCPP201Type, std::string> mOCPP201JsonSchemasReq;
-  std::unordered_map<OCPP201Type, std::string> mOCPP201JsonSchemasConf;
+  std::unordered_map<OCPP201Type, std::string> mOCPP201JsonSchemasReq{};
+  std::unordered_map<OCPP201Type, std::string> mOCPP201JsonSchemasConf{};
 
 };
 

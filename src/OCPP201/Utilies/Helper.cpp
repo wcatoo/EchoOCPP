@@ -31,9 +31,7 @@ std::optional<std::string> readJsonSchema(std::filesystem::path tPath) {
   std::string fileContent{};
   std::filesystem::path rootPath =
       std::filesystem::current_path().parent_path();
-  std::filesystem::path schemasDir = "OCPP_201_JSON_schemas";
-  std::filesystem::path schemasFile = "AuthorizeRequest.json";
-  std::ifstream inputFile{rootPath / schemasDir / schemasFile};
+  std::ifstream inputFile{tPath};
   inputFile.seekg(0, std::ios::end);
   std::streampos fileSize = inputFile.tellg();
   inputFile.seekg(0, std::ios::beg);
@@ -44,16 +42,16 @@ std::optional<std::string> readJsonSchema(std::filesystem::path tPath) {
     return std::nullopt;
   }
   return fileContent;
+
 }
 
-bool Helper::checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod) {
-  bool isValidJson{false};
+std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod) {
+  nlohmann::json_schema::json_validator  jsonValidator;
   if (tMethod == MessageMethod::Request) {
     bool jsonSchemasExist = true;
-    if (auto isfinded = this->mOCPP201JsonSchemasReq.find(tType) ;
-        this->mOCPP201JsonSchemasReq.end() != isfinded) {
+    if (! this->mOCPP201JsonSchemasReq.contains(tType)){
       std::stringstream strStream;
-      strStream << (std::filesystem::current_path().parent_path()/"OCPP_201_JSON_schema").string() << magic_enum::enum_name(tType) << magic_enum::enum_name(tMethod) << ".json";
+      strStream << (std::filesystem::current_path().parent_path()/"OCPP_201_JSON_schemas").string() << "/" << magic_enum::enum_name(tType) <<   magic_enum::enum_name(tMethod) << ".json";
       auto fileContent = readJsonSchema(strStream.str());
       if (fileContent.has_value()) {
         this->mOCPP201JsonSchemasReq[tType] = fileContent.value();
@@ -62,14 +60,31 @@ bool Helper::checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, Me
       }
     }
     if (jsonSchemasExist) {
-      isValidJson = true;
+      std::stringstream strStream;
+      try {
+        jsonValidator.set_root_schema(nlohmann::json::parse(this->mOCPP201JsonSchemasReq[tType]));
+      } catch (const std::exception &e) {
+        strStream << "Validation of schema failed, here is why: " << e.what() << "\n";
+        std::cerr << strStream.str() << std::endl;
+        return strStream.str();
+      }
+
+      try {
+        jsonValidator.validate(nlohmann::json::parse(tJson)); // validate the document - uses the default throwing error-handler
+        return std::nullopt;
+      } catch (const std::exception &e) {
+        strStream << "Validation failed, here is why: " << e.what() << "\n";
+        std::cerr << strStream.str() << std::endl;
+        return strStream.str();
+      }
     }
+
+
   } else if (tMethod == MessageMethod::Response) {
     bool jsonSchemasExist = true;
-    if (auto isfinded = this->mOCPP201JsonSchemasConf.find(tType) ;
-        this->mOCPP201JsonSchemasConf.end() != isfinded) {
+    if (! this->mOCPP201JsonSchemasConf.contains(tType)){
       std::stringstream strStream;
-      strStream << (std::filesystem::current_path().parent_path()/"OCPP_201_JSON_schema").string() << magic_enum::enum_name(tType) << magic_enum::enum_name(tMethod) << ".json";
+      strStream << (std::filesystem::current_path().parent_path()/"OCPP_201_JSON_schemas").string() << "/" << magic_enum::enum_name(tType) <<   magic_enum::enum_name(tMethod) << ".json";
       auto fileContent = readJsonSchema(strStream.str());
       if (fileContent.has_value()) {
         this->mOCPP201JsonSchemasConf[tType] = fileContent.value();
@@ -78,13 +93,26 @@ bool Helper::checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, Me
       }
     }
     if (jsonSchemasExist) {
-      isValidJson = true;
+      std::stringstream strStream;
+      try {
+        jsonValidator.set_root_schema(nlohmann::json::parse(this->mOCPP201JsonSchemasConf[tType]));
+      } catch (const std::exception &e) {
+        strStream << "Validation of schema failed, here is why: " << e.what() << "\n";
+        std::cerr << strStream.str() << std::endl;
+        return strStream.str();
+      }
+
+      try {
+        jsonValidator.validate(nlohmann::json::parse(tJson)); // validate the document - uses the default throwing error-handler
+        return std::nullopt;
+      } catch (const std::exception &e) {
+        strStream << "Validation failed, here is why: " << e.what() << "\n";
+        std::cerr << strStream.str() << std::endl;
+        return strStream.str();
+      }
     }
-
   }
-
-  return isValidJson;
-
+  return "Internal error when check json schema";
 }
 
 } // namespace OCPP201

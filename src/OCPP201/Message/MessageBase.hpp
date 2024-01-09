@@ -56,6 +56,9 @@ public:
   std::string getAction() {
     return this->mAction;
   }
+  std::string getPayload() {
+      return to_string(this->mPayload);
+  }
   std::string serializeMessage() {
     stream.clear();
     stream << '[' << 2 << ",\"" <<  generateMessageId() << "\",\"" << this->mAction << "\"," << this->mPayload << "]";
