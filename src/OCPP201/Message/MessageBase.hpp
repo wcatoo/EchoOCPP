@@ -1,10 +1,10 @@
 
 #ifndef MESSAGECALLBASE_HPP
 #define MESSAGECALLBASE_HPP
-#include <uuid/uuid.h>
 #include <string>
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include "./uuid.h"
 
 namespace OCPP201
 {
@@ -24,12 +24,10 @@ enum class ProtocolError {
 
 static inline std::string generateMessageId()
 {
-  uuid_t uuid;
-  uuid_generate(uuid);
+  // auto newUUID = std::uuid::generate();
 
-  char uuidStr[36];
-  uuid_unparse(uuid, uuidStr);
-  return uuidStr;
+  // return to_string(newUUID);
+  return "";
 }
 
 class MessageCall {

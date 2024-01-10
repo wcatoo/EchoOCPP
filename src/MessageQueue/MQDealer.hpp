@@ -3,6 +3,7 @@
 #include <regex>
 #include <string_view>
 #include <zmq.hpp>
+#include <thread>
 #include "./protobufMessage.pb.h"
 #include "MQStatus.hpp"
 
