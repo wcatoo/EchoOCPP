@@ -24,10 +24,13 @@ enum class ProtocolError {
 
 static inline std::string generateMessageId()
 {
-  // auto newUUID = std::uuid::generate();
-
-  // return to_string(newUUID);
-  return "";
+  std::random_device rd;
+  auto seed_data = std::array<int, std::mt19937::state_size> {};
+  std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
+  std::seed_seq seq(std::begin(seed_data), std::end(seed_data));
+  std::mt19937 generator(seq);
+  uuids::uuid_random_generator gen{generator};
+  return uuids::to_string(gen());
 }
 
 class MessageCall {
@@ -77,6 +80,10 @@ public:
   void setPayload(const std::string &tPayload) {
     this->mPayload = tPayload;
   }
+  std::string getPayload() {
+      return to_string(this->mPayload);
+  }
+
   std::string getMessageId() {
     return this->mMessageId;
   }

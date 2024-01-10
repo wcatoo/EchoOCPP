@@ -27,7 +27,7 @@ Helper::checkMessageConf(const std::string &tMessage) {
   return std::nullopt;
 }
 
-std::optional<std::string> readJsonSchema(std::filesystem::path tPath) {
+std::optional<std::string> readJsonSchema(const std::filesystem::path& tPath) {
   std::string fileContent{};
   std::filesystem::path rootPath =
       std::filesystem::current_path().parent_path();

@@ -13,6 +13,7 @@
 #include "../Utilies/Helper.hpp"
 #include "../Message/MessageRequest.hpp"
 #include "../Message/MessageRespone.hpp"
+#include "ThreadPool.hpp"
 namespace OCPP201 {
 class OCPPManager {
 public:
@@ -23,6 +24,7 @@ public:
 
   void receiveMessageHandler(const std::string& tResource, const std::string & tMessage);
   bool send(OCPP201Type tType, MessageCall *tCall, std::function<void()> tCallback = nullptr);
+  bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
 
 
 private:

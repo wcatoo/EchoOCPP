@@ -15,21 +15,34 @@ protected:
 
 TEST_F(OCPP201ChargePoint, auto) {
 
+//  std::cout << "uuid: " <<  generateMessageId() << std::endl;
+  ThreadPool  threadPool(10);
 
-
-  ChargingStationType chargingStationType;
-  //
-  BootNotificationRequest bootNotificationRequest(BootReasonEnumType::ApplicationReset,
-                                                  chargingStationType);
-
-  std::cout << bootNotificationRequest.getPayload() << std::endl;
-  Helper helper;
-
-  std::string tt{R"({"chargingStation":{"model":"","vendorName":""},"reason":"ApplicationReset","a":false})"};
-  auto t = helper.checkOCPPJsonSchema(OCPP201Type::BootNotification, tt, MessageMethod::Request);
-  if (t.has_value()) {
-    std::cout << t.value() << std::endl;
+  for (int i = 0; i < 20; i++) {
+    threadPool.enqueue([](int answer) {
+      return answer;
+    }, i);
   }
+
+
+
+
+
+
+
+//  ChargingStationType chargingStationType;
+//  //
+//  BootNotificationRequest bootNotificationRequest(BootReasonEnumType::ApplicationReset,
+//                                                  chargingStationType);
+//
+//  std::cout << bootNotificationRequest.getPayload() << std::endl;
+//  Helper helper;
+//
+//  std::string tt{R"({"chargingStation":{"model":"","vendorName":""},"reason":"ApplicationReset","a":false})"};
+//  auto t = helper.checkOCPPJsonSchema(OCPP201Type::BootNotification, tt, MessageMethod::Request);
+//  if (t.has_value()) {
+//    std::cout << t.value() << std::endl;
+//  }
 //  std::string tmp{R"({
 //"$schema": "http://json-schema.org/draft-06/schema#",
 //"$id": "urn:OCPP:Cp:2:2020:3:BootNotificationRequest",
