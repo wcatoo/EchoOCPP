@@ -8,11 +8,12 @@
 #include <unordered_map>
 #include <mutex>
 
+#include "../../Devices/Connector.hpp"
 #include "../../MessageQueue/MQDealer.hpp"
 #include "../../MessageQueue/MQRouter.hpp"
-#include "../Utilies/Helper.hpp"
 #include "../Message/MessageRequest.hpp"
 #include "../Message/MessageRespone.hpp"
+#include "../Utilies/Helper.hpp"
 #include "ThreadPool.hpp"
 namespace OCPP201 {
 class OCPPManager {
@@ -36,6 +37,7 @@ private:
   std::mutex mMessageTimeoutTraceMutex;
 
   Helper mHelper{};
+  std::unique_ptr<ThreadPool> mThreadPoll;
 
 };
 }

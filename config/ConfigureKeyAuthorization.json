@@ -1,0 +1,10 @@
+{
+  "AuthEnabled" : false,
+  "AdditionalInfoItemsPerMessage" : 0,
+  "OfflineTxForUnknownIdEnabled" : false,
+  "AuthorizeRemoteStart" : false,
+  "LocalAuthorizeOffline" : false,
+  "LocalPreAuthorize" : false,
+  "MasterPassGroupId" : "",
+  "DisableRemoteAuthorization" : false
+}

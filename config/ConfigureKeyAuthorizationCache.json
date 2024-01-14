@@ -1,0 +1,8 @@
+{
+  "AuthCacheEnabled" : false,
+  "AuthCacheAvailable" : false,
+  "AuthCacheLifeTime" : 0,
+  "AuthCacheStorage" : 0,
+  "AuthCachePolicy" : "",
+  "AuthCacheDisablePostAuthorize" : false
+}

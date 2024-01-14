@@ -1,0 +1,11 @@
+{
+  "BasicAuthPassword" : "",
+  "Identity" : "",
+  "OrganizationName" : "",
+  "CertificateEntries": "",
+  "SecurityProfile" : "",
+  "AdditionalRootCertificateCheck" : "",
+  "MaxCertificateChainSize" : 0,
+  "CertSigningWaitMinimum" : 0,
+  "CertSigningRepeatTimes" : 0
+}

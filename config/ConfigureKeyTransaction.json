@@ -1,0 +1,8 @@
+{
+  "EVConnectionTimeOut" : 0,
+  "StopTxOnEVSideDisconnect" : false,
+  "TxBeforeAcceptedEnabled" : false,
+  "TxStartPoint" : "",
+  "TxStopPoint": "",
+
+}

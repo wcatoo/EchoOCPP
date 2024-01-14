@@ -1,0 +1,9 @@
+{
+  "LocalAuthListEnabled" : false,
+  "LocalAuthListEntries" : 0,
+  "LocalAuthListAvailable" : false,
+  "ItemsPerMessageSendLocalList" : 0,
+  "BytesPerMessageSendLocalList" : 0,
+  "LocalAuthListStorage" : 0,
+  "LocalAuthListDisablePostAuthorize" : false
+}

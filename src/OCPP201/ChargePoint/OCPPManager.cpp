@@ -5,8 +5,13 @@ void OCPP201::OCPPManager::init() {
   auto zmqContext = std::make_shared<zmq::context_t>(2);
   this->mWebsocketDealerPtr = std::make_unique<MQDealer>(zmqContext, "inproc://CoreRouter", "OCPP201Worker");
   this->mWebsocketDealerPtr->init();
-  this->mWebsocketDealerPtr->setReceiveCallBack([](const std::string& tResource, const std::string & tMessage){});
+  this->mThreadPoll = std::make_unique<ThreadPool>(5);
 
+  this->mWebsocketDealerPtr->setReceiveCallBack([this](const std::string& tResource, const std::string & tMessage){
+    if (tResource.find("websocket")) {
+      this->receiveMessageHandler(tResource, tMessage);
+    }
+  });
 }
 
 
@@ -25,6 +30,7 @@ void OCPP201::OCPPManager::receiveMessageHandler(const std::string &tResource,
       if (auto result = this->mHelper.checkOCPPJsonSchema(checkAction.value(), messageCall->getPayload(), MessageMethod::Request);
           result.has_value() && result.value().empty()){
         {
+          // TODO message call process
 
         }
       } else {
