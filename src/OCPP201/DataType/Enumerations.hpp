@@ -1,3 +1,5 @@
+#ifndef ECHOOCPP_OCPP201_ENUMERATIONS_HPP
+#define ECHOOCPP_OCPP201_ENUMERATIONS_HPP
 namespace OCPP201 {
 
 enum class MessageMethod {
@@ -802,3 +804,5 @@ enum class VPNEnumType {
 
 
 }
+
+#endif

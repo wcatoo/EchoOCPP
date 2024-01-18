@@ -8,12 +8,11 @@ public:
   void init();
 
 
+  std::vector<Connector> mConnectors;
 private:
 
   std::unique_ptr<OCPP201::OCPPManager> mOCPPManager{nullptr};
-
-
-
+  // connector
 
 };
 
