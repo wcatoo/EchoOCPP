@@ -54,14 +54,15 @@ PROTOBUF_NAMESPACE_CLOSE
 
 enum RouterMethods : int {
   ROUTER_METHODS_OCPP201 = 0,
-  ROUTER_METHODS_SAVE_DATA = 1,
-  ROUTER_METHODS_DELETE_SOCKET = 2,
+  ROUTER_METHODS_WRITE_DATABASE = 1,
+  ROUTER_METHODS_READ_DATABASE = 2,
+  ROUTER_METHODS_UPDATE_REALTIME_DATA = 3,
   RouterMethods_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   RouterMethods_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool RouterMethods_IsValid(int value);
 constexpr RouterMethods RouterMethods_MIN = ROUTER_METHODS_OCPP201;
-constexpr RouterMethods RouterMethods_MAX = ROUTER_METHODS_DELETE_SOCKET;
+constexpr RouterMethods RouterMethods_MAX = ROUTER_METHODS_UPDATE_REALTIME_DATA;
 constexpr int RouterMethods_ARRAYSIZE = RouterMethods_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RouterMethods_descriptor();

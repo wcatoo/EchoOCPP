@@ -1,7 +1,7 @@
 #include "MQDealer.hpp"
 #include <thread>
 #include <utility>
-MQDealer::MQDealer(std::shared_ptr<zmq::context_t> tContext, const std::string &tAddress, const std::string &tIdentity) {
+MQDealer::MQDealer(zmq::context_t *tContext, const std::string &tAddress, const std::string &tIdentity) {
   if (tContext != nullptr) {
     this->mDealer = std::make_unique<zmq::socket_t>(*tContext, zmq::socket_type::dealer);
   }

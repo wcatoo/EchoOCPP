@@ -13,7 +13,7 @@ class MQDealer {
 public:
   MQDealer() = default;
   ~MQDealer();
-  MQDealer(std::shared_ptr<zmq::context_t> tContext, const std::string &tAddress, const std::string &identiry);
+  MQDealer(zmq::context_t *tContext, const std::string &tAddress, const std::string &identiry);
   void init();
   void start();
   void stop();

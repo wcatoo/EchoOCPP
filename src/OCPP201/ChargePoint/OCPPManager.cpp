@@ -3,7 +3,7 @@
 
 void OCPP201::OCPPManager::init() {
   auto zmqContext = std::make_shared<zmq::context_t>(2);
-  this->mWebsocketDealerPtr = std::make_unique<MQDealer>(zmqContext, "inproc://CoreRouter", "OCPP201Worker");
+  this->mWebsocketDealerPtr = std::make_unique<MQDealer>(zmqContext.get(), "inproc://CoreRouter", "OCPP201Worker");
   this->mWebsocketDealerPtr->init();
   this->mThreadPoll = std::make_unique<ThreadPool>(5);
 

@@ -5,10 +5,10 @@ CenterSystem::CoreSystem::CoreSystem() {
 }
 
 void CenterSystem::CoreSystem::init() {
-  auto zmqContext = std::make_shared<zmq::context_t>(1);
-  this->mCoreRouterPtr = std::make_unique<MQRouter>(zmqContext, "inproc://coreRouter", "CoreRouter");
-  this->mCoreRouterPtr->addWorker("OCPP201", [](RouterProtobufMessage t){std::cout << "test add worker" << std::endl;});
-  this->mWebsocketDealerPtr = std::make_unique<MQDealer>(zmqContext, "inproc://coreRouter", "Websocket");
+//  auto zmqContext = make_shared<zmq::context_t>(1);
+//  this->mCoreRouterPtr = std::make_unique<MQRouter>(zmqContext, "inproc://coreRouter", "CoreRouter");
+//  this->mCoreRouterPtr->addWorker("OCPP201", [](RouterProtobufMessage t){std::cout << "test add worker" << std::endl;});
+//  this->mWebsocketDealerPtr = std::make_unique<MQDealer>(zmqContext, "inproc://coreRouter", "Websocket");
   this->mWebsocketDealerPtr->init();
   this->mWebsocketServer = std::make_unique<Components::WebsocketServer>();
   this->mWebsocketServer->setOnOpen([this](){
