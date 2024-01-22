@@ -2,12 +2,9 @@
 
 
 void OCPP201::OCPPManager::init() {
-  auto zmqContext = std::make_shared<zmq::context_t>(2);
-  this->mWebsocketDealerPtr = std::make_unique<MQDealer>(zmqContext.get(), "inproc://CoreRouter", "OCPP201Worker");
-  this->mWebsocketDealerPtr->init();
+  this->mMQRouterPtr->init();
   this->mThreadPoll = std::make_unique<ThreadPool>(5);
-
-  this->mWebsocketDealerPtr->setReceiveCallBack([this](const std::string& tResource, const std::string & tMessage){
+  this->mMQRouterPtr->setReceiveCallBack([this](const std::string& tResource, const std::string & tMessage){
     if (tResource.find("websocket")) {
       this->receiveMessageHandler(tResource, tMessage);
     }
@@ -17,7 +14,25 @@ void OCPP201::OCPPManager::init() {
 
 
 void OCPP201::OCPPManager::start() {
-  this->mWebsocketDealerPtr->start();
+  this->mMQRouterPtr->start();
+}
+void receiveMessageHandler(const RouterProtobufMessage & tMessage) {
+  switch (tMessage.method()) {
+  case ROUTER_METHODS_OCPP201:
+    break;
+  case ROUTER_METHODS_WRITE_DATABASE:
+    break;
+  case ROUTER_METHODS_READ_DATABASE:
+    break;
+  case ROUTER_METHODS_NOTIFY_REALTIME_DATA:
+    break;
+  case ROUTER_METHODS_GET_REALTIME_DATA:
+    break;
+  case RouterMethods_INT_MIN_SENTINEL_DO_NOT_USE_:
+    break;
+  case RouterMethods_INT_MAX_SENTINEL_DO_NOT_USE_:
+    break;
+  }
 }
 
 void OCPP201::OCPPManager::receiveMessageHandler(const std::string &tResource,
@@ -76,7 +91,7 @@ bool OCPP201::OCPPManager::send(OCPP201Type tType, MessageCall *tCall, std::func
       this->mMessagesTrace[tCall->getMessageId()] = std::pair<OCPP201Type, std::function<void()>>(tType, tCallback);
       this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tCall->getMessageId();
     }
-    this->mWebsocketDealerPtr->send(tCall->serializeMessage());
+    this->mMQRouterPtr->send(tCall->serializeMessage());
     return true;
   }
   return false;
@@ -92,6 +107,23 @@ bool OCPP201::OCPPManager::sendOCPPError(const std::string & tResource, Protocol
   nlohmann::json j = nlohmann::json::object();
   messageErrorResponse.setErrorDetails(j);
   routerProtobufMessage.set_data(messageErrorResponse.serializeMessage());
-  this->mWebsocketDealerPtr->send(routerProtobufMessage);
+  this->mMQRouterPtr->send(routerProtobufMessage);
   return true;
+}
+OCPP201::OCPPManager::OCPPManager(zmq::context_t *tContext,
+                                  const std::string &tAddress) {
+  this->mMQRouterPtr = std::make_unique<MQDealer>(tContext, tAddress, "OCPP201Dealer");
+}
+bool OCPP201::OCPPManager::send(
+    const RouterProtobufMessage &tMessage,
+    std::function<void(const RouterProtobufMessage &&)> tCallback) {
+  if (!this->mMessageCallback.contains(tMessage.uuid()) && tCallback != nullptr) {
+    {
+      std::lock_guard<std::mutex> lock(this->mMessageTimeoutTraceMutex);
+      this->mMessageCallback[tMessage.uuid()] = tCallback;
+      this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tMessage.uuid();
+    }
+    this->mMQRouterPtr->send(tMessage);
+  }
+  return false;
 }

@@ -18,7 +18,7 @@ public:
   void start();
   void stop();
   void send(const std::string &tPayload);
-  void send(RouterProtobufMessage &tPayload);
+  void send(const RouterProtobufMessage &tPayload);
   void setReceiveCallBack(std::function<void(const std::string &tResource, const std::string & tMessage)> &&);
 private:
   std::unique_ptr<zmq::socket_t> mDealer{};

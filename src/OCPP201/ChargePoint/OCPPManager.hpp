@@ -22,16 +22,18 @@ public:
   void start();
   void stop();
   OCPPManager() = default;
-  // OCPPManager()
+  OCPPManager(zmq::context_t *tContext, const std::string &tAddress);
 
 
   void receiveMessageHandler(const std::string& tResource, const std::string & tMessage);
+  void receiveMessageHandler(const RouterProtobufMessage & tMessage);
   bool send(OCPP201Type tType, MessageCall *tCall, std::function<void()> tCallback = nullptr);
+  bool send(const RouterProtobufMessage &tMessage, std::function<void(const RouterProtobufMessage &&)> tCallback);
   bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
 
 
 private:
-  std::unique_ptr<MQDealer> mWebsocketDealerPtr;
+  std::unique_ptr<MQDealer> mMQRouterPtr;
   // UUID | OCPPType | callback function
   std::unordered_map<std::string, std::pair<OCPP201Type, std::function<void()>>> mMessagesTrace;
   // if message timeout, it should be removed from trace
@@ -40,7 +42,12 @@ private:
 
   Helper mHelper{};
   std::unique_ptr<ThreadPool> mThreadPoll;
+  std::unordered_map<std::string, std::function<void(const RouterProtobufMessage &&)>> mMessageCallback;
 
 };
+
+
+
+
 }
 #endif // ECHOOCPP_OCPPMANAGER_HPP

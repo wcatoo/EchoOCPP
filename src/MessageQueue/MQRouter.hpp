@@ -32,15 +32,9 @@ public:
 
   std::function<void()> mMain;
   zmq::socket_t mDealerSocket;
-//  zmq::socket_t mWorkerSocket;
-
   void send(const std::string& identity, const std::string &tPalyload);
-//  void addWorker(const std::string& tIdentity, std::function<void(RouterProtobufMessage&)>);
 private:
  zmq::context_t *mContext;
-//  std::unordered_map<std::string,zmq::socket_t> mWorkers;
-  const std::string mWorkerRouterAddress = "inproc://router_worker";
-//  const std::string mWorkerRouterAddress = "tcp://localhost:5555";
   std::string mIdentity;
   std::string mAddress;
   std::unique_ptr<std::thread> mCoreRouterThreadPtr{nullptr};

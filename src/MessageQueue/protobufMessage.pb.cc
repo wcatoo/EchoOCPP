@@ -28,7 +28,7 @@ PROTOBUF_CONSTEXPR RouterProtobufMessage::RouterProtobufMessage(
   , /*decltype(_impl_.source_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.dest_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.data_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.ocpptype_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ocpp_type_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.method_)*/0} {}
 struct RouterProtobufMessageDefaultTypeInternal {
   PROTOBUF_CONSTEXPR RouterProtobufMessageDefaultTypeInternal()
@@ -55,7 +55,7 @@ const uint32_t TableStruct_protobufMessage_2eproto::offsets[] PROTOBUF_SECTION_V
   PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.source_),
   PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.dest_),
   PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.data_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.ocpptype_),
+  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.ocpp_type_),
   ~0u,
   ~0u,
   ~0u,
@@ -72,20 +72,20 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_protobufMessage_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\025protobufMessage.proto\"\225\001\n\025RouterProtob"
-  "ufMessage\022\014\n\004UUID\030\001 \001(\t\022\036\n\006method\030\002 \001(\0162"
+  "\n\025protobufMessage.proto\"\227\001\n\025RouterProtob"
+  "ufMessage\022\014\n\004uuid\030\001 \001(\t\022\036\n\006method\030\002 \001(\0162"
   "\016.RouterMethods\022\016\n\006source\030\003 \001(\t\022\014\n\004dest\030"
-  "\004 \001(\t\022\014\n\004data\030\005 \001(\t\022\025\n\010OCPPType\030\006 \001(\tH\000\210"
-  "\001\001B\013\n\t_OCPPType*\277\001\n\rRouterMethods\022\032\n\026ROU"
-  "TER_METHODS_OCPP201\020\000\022!\n\035ROUTER_METHODS_"
-  "WRITE_DATABASE\020\001\022 \n\034ROUTER_METHODS_READ_"
-  "DATABASE\020\002\022\'\n#ROUTER_METHODS_NOTIFY_REAL"
-  "TIME_DATA\020\003\022$\n ROUTER_METHODS_GET_REALTI"
-  "ME_DATA\020\004b\006proto3"
+  "\004 \001(\t\022\014\n\004data\030\005 \001(\t\022\026\n\tocpp_type\030\006 \001(\tH\000"
+  "\210\001\001B\014\n\n_ocpp_type*\277\001\n\rRouterMethods\022\032\n\026R"
+  "OUTER_METHODS_OCPP201\020\000\022!\n\035ROUTER_METHOD"
+  "S_WRITE_DATABASE\020\001\022 \n\034ROUTER_METHODS_REA"
+  "D_DATABASE\020\002\022\'\n#ROUTER_METHODS_NOTIFY_RE"
+  "ALTIME_DATA\020\003\022$\n ROUTER_METHODS_GET_REAL"
+  "TIME_DATA\020\004b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_protobufMessage_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_protobufMessage_2eproto = {
-    false, false, 377, descriptor_table_protodef_protobufMessage_2eproto,
+    false, false, 379, descriptor_table_protodef_protobufMessage_2eproto,
     "protobufMessage.proto",
     &descriptor_table_protobufMessage_2eproto_once, nullptr, 0, 1,
     schemas, file_default_instances, TableStruct_protobufMessage_2eproto::offsets,
@@ -121,7 +121,7 @@ bool RouterMethods_IsValid(int value) {
 class RouterProtobufMessage::_Internal {
  public:
   using HasBits = decltype(std::declval<RouterProtobufMessage>()._impl_._has_bits_);
-  static void set_has_ocpptype(HasBits* has_bits) {
+  static void set_has_ocpp_type(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
 };
@@ -142,7 +142,7 @@ RouterProtobufMessage::RouterProtobufMessage(const RouterProtobufMessage& from)
     , decltype(_impl_.source_){}
     , decltype(_impl_.dest_){}
     , decltype(_impl_.data_){}
-    , decltype(_impl_.ocpptype_){}
+    , decltype(_impl_.ocpp_type_){}
     , decltype(_impl_.method_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -178,12 +178,12 @@ RouterProtobufMessage::RouterProtobufMessage(const RouterProtobufMessage& from)
     _this->_impl_.data_.Set(from._internal_data(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.ocpptype_.InitDefault();
+  _impl_.ocpp_type_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ocpptype_.Set("", GetArenaForAllocation());
+    _impl_.ocpp_type_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_ocpptype()) {
-    _this->_impl_.ocpptype_.Set(from._internal_ocpptype(), 
+  if (from._internal_has_ocpp_type()) {
+    _this->_impl_.ocpp_type_.Set(from._internal_ocpp_type(), 
       _this->GetArenaForAllocation());
   }
   _this->_impl_.method_ = from._impl_.method_;
@@ -201,7 +201,7 @@ inline void RouterProtobufMessage::SharedCtor(
     , decltype(_impl_.source_){}
     , decltype(_impl_.dest_){}
     , decltype(_impl_.data_){}
-    , decltype(_impl_.ocpptype_){}
+    , decltype(_impl_.ocpp_type_){}
     , decltype(_impl_.method_){0}
   };
   _impl_.uuid_.InitDefault();
@@ -220,9 +220,9 @@ inline void RouterProtobufMessage::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.data_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.ocpptype_.InitDefault();
+  _impl_.ocpp_type_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ocpptype_.Set("", GetArenaForAllocation());
+    _impl_.ocpp_type_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -241,7 +241,7 @@ inline void RouterProtobufMessage::SharedDtor() {
   _impl_.source_.Destroy();
   _impl_.dest_.Destroy();
   _impl_.data_.Destroy();
-  _impl_.ocpptype_.Destroy();
+  _impl_.ocpp_type_.Destroy();
 }
 
 void RouterProtobufMessage::SetCachedSize(int size) const {
@@ -260,7 +260,7 @@ void RouterProtobufMessage::Clear() {
   _impl_.data_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    _impl_.ocpptype_.ClearNonDefaultToEmpty();
+    _impl_.ocpp_type_.ClearNonDefaultToEmpty();
   }
   _impl_.method_ = 0;
   _impl_._has_bits_.Clear();
@@ -274,13 +274,13 @@ const char* RouterProtobufMessage::_InternalParse(const char* ptr, ::_pbi::Parse
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string UUID = 1;
+      // string uuid = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           auto str = _internal_mutable_uuid();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.UUID"));
+          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.uuid"));
         } else
           goto handle_unusual;
         continue;
@@ -323,13 +323,13 @@ const char* RouterProtobufMessage::_InternalParse(const char* ptr, ::_pbi::Parse
         } else
           goto handle_unusual;
         continue;
-      // optional string OCPPType = 6;
+      // optional string ocpp_type = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
-          auto str = _internal_mutable_ocpptype();
+          auto str = _internal_mutable_ocpp_type();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.OCPPType"));
+          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.ocpp_type"));
         } else
           goto handle_unusual;
         continue;
@@ -363,12 +363,12 @@ uint8_t* RouterProtobufMessage::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string UUID = 1;
+  // string uuid = 1;
   if (!this->_internal_uuid().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_uuid().data(), static_cast<int>(this->_internal_uuid().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "RouterProtobufMessage.UUID");
+      "RouterProtobufMessage.uuid");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_uuid(), target);
   }
@@ -410,14 +410,14 @@ uint8_t* RouterProtobufMessage::_InternalSerialize(
         5, this->_internal_data(), target);
   }
 
-  // optional string OCPPType = 6;
-  if (_internal_has_ocpptype()) {
+  // optional string ocpp_type = 6;
+  if (_internal_has_ocpp_type()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_ocpptype().data(), static_cast<int>(this->_internal_ocpptype().length()),
+      this->_internal_ocpp_type().data(), static_cast<int>(this->_internal_ocpp_type().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "RouterProtobufMessage.OCPPType");
+      "RouterProtobufMessage.ocpp_type");
     target = stream->WriteStringMaybeAliased(
-        6, this->_internal_ocpptype(), target);
+        6, this->_internal_ocpp_type(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -436,7 +436,7 @@ size_t RouterProtobufMessage::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string UUID = 1;
+  // string uuid = 1;
   if (!this->_internal_uuid().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -464,12 +464,12 @@ size_t RouterProtobufMessage::ByteSizeLong() const {
         this->_internal_data());
   }
 
-  // optional string OCPPType = 6;
+  // optional string ocpp_type = 6;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_ocpptype());
+        this->_internal_ocpp_type());
   }
 
   // .RouterMethods method = 2;
@@ -508,8 +508,8 @@ void RouterProtobufMessage::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   if (!from._internal_data().empty()) {
     _this->_internal_set_data(from._internal_data());
   }
-  if (from._internal_has_ocpptype()) {
-    _this->_internal_set_ocpptype(from._internal_ocpptype());
+  if (from._internal_has_ocpp_type()) {
+    _this->_internal_set_ocpp_type(from._internal_ocpp_type());
   }
   if (from._internal_method() != 0) {
     _this->_internal_set_method(from._internal_method());
@@ -551,8 +551,8 @@ void RouterProtobufMessage::InternalSwap(RouterProtobufMessage* other) {
       &other->_impl_.data_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.ocpptype_, lhs_arena,
-      &other->_impl_.ocpptype_, rhs_arena
+      &_impl_.ocpp_type_, lhs_arena,
+      &other->_impl_.ocpp_type_, rhs_arena
   );
   swap(_impl_.method_, other->_impl_.method_);
 }

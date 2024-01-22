@@ -50,4 +50,7 @@ void MQDealer::setReceiveCallBack(std::function<void(const std::string&, const s
 MQDealer::~MQDealer() {
   this->mStatus = MessageQueueStatus::CLOSE;
 }
-void MQDealer::send(RouterProtobufMessage &tPayload) {}
+void MQDealer::send(const RouterProtobufMessage &tPayload) {
+  this->mDealer->send(zmq::message_t(this->mIdentity), zmq::send_flags::sndmore);
+  this->mDealer->send(zmq::message_t(tPayload.SerializeAsString()), zmq::send_flags::none);
+}

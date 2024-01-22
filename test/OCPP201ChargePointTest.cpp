@@ -5,6 +5,7 @@
 #include "../src/OCPP201/ChargePoint/OCPPManager.hpp"
 #include "../src/OCPP201/Utilies/Helper.hpp"
 #include <gtest/gtest.h>
+#include <string>
 namespace OCPP201 {
 
 class OCPP201ChargePoint : public ::testing::Test {
@@ -13,17 +14,19 @@ protected:
   std::unique_ptr<OCPP201::OCPPManager> OCPPManager;
 };
 
+void print(std::function<void(const std::string &)> tmp) {
+  tmp("tt");
+}
+
 TEST_F(OCPP201ChargePoint, auto) {
 
  std::cout << "uuid: " <<  generateMessageId().substr(0,9) << std::endl;
-//  ThreadPool  threadPool(10);
-//
-//  for (int i = 0; i < 20; i++) {
-//    threadPool.enqueue([](int answer) {
-//      return answer;
-//    }, i);
-//  }
-//
+
+ print([](const std::string &t ){
+   std::cout << t << std::endl;
+ });
+
+
 
 
 
