@@ -9,4 +9,8 @@ enum class WorkerName {
   OCPP201
 };
 
+class Timer {
+
+};
+
 #endif // ECHOOCPP_UTILIES_HPP

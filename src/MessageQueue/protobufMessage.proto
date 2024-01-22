@@ -8,8 +8,10 @@ enum RouterMethods {
     ROUTER_METHODS_GET_REALTIME_DATA = 4;
 }
 message RouterProtobufMessage {
-    RouterMethods method = 1;
-    string resource = 2;
-    string dest = 3;
-    string data = 4;
+    string UUID = 1;
+    RouterMethods method = 2;
+    string source = 3;
+    string dest = 4;
+    string data = 5;
+    optional string OCPPType = 6;
 }

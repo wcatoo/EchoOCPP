@@ -32,7 +32,7 @@ void MQDealer::start() {
         RouterProtobufMessage message;
         if (message.ParseFromArray(request.data(), static_cast<int>(request.size()))) {
           if (this->mReceiveCallback) {
-            this->mReceiveCallback(message.resource(), message.SerializeAsString());
+            this->mReceiveCallback(message.source(), message.SerializeAsString());
           }
         }
       }

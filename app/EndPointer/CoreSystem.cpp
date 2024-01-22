@@ -8,7 +8,7 @@ namespace EndPointer {
 void CoreSystem::init() {
   // init core router
   this->mZMQContext = std::make_unique<zmq::context_t>(zmq::context_t(1));
-  this->mCoreRouter = std::make_unique<MQRouter>(this->mZMQContext.get(), "tcp://localhost:8888", "CoreRouter");
+  this->mCoreRouter = std::make_unique<MQRouter>(this->mZMQContext.get(), "inproc://coreRouter", "CoreRouter");
 
   this->mCoreRouter->setCoreRouterFunction([this](){
     zmq::pollitem_t  items[] = {
@@ -50,10 +50,11 @@ void CoreSystem::init() {
 
 }
 void CoreSystem::run() {
+  // run core router thread
   this->mCoreRouter->startCoreRouterFunction();
 //  std::shared_ptr<zmq::context_t> context = std::make_shared<zmq::context_t>(2);
-//  MQDealer mqDealer(this->mZMQContext.get(), "tcp://localhost:8888", "test");
-//
+//  MQDealer mqDealer(this->mZMQContext.get(), "inproc://coreRouter", "test");
+
 //  mqDealer.init();
 //  mqDealer.start();
 //  while (true) {

@@ -20,7 +20,6 @@ private:
   std::unique_ptr<std::vector<Components::WebsocketClient>> mWebsocketClients{nullptr};
   std::unique_ptr<OCPP201::OCPPManager> mOCPP201Manager{nullptr};
   std::unique_ptr<zmq::context_t> mZMQContext;
-
 };
 
 

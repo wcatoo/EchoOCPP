@@ -56,13 +56,14 @@ enum RouterMethods : int {
   ROUTER_METHODS_OCPP201 = 0,
   ROUTER_METHODS_WRITE_DATABASE = 1,
   ROUTER_METHODS_READ_DATABASE = 2,
-  ROUTER_METHODS_UPDATE_REALTIME_DATA = 3,
+  ROUTER_METHODS_NOTIFY_REALTIME_DATA = 3,
+  ROUTER_METHODS_GET_REALTIME_DATA = 4,
   RouterMethods_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   RouterMethods_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool RouterMethods_IsValid(int value);
 constexpr RouterMethods RouterMethods_MIN = ROUTER_METHODS_OCPP201;
-constexpr RouterMethods RouterMethods_MAX = ROUTER_METHODS_UPDATE_REALTIME_DATA;
+constexpr RouterMethods RouterMethods_MAX = ROUTER_METHODS_GET_REALTIME_DATA;
 constexpr int RouterMethods_ARRAYSIZE = RouterMethods_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RouterMethods_descriptor();
@@ -202,26 +203,42 @@ class RouterProtobufMessage final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kResourceFieldNumber = 2,
-    kDestFieldNumber = 3,
-    kDataFieldNumber = 4,
-    kMethodFieldNumber = 1,
+    kUUIDFieldNumber = 1,
+    kSourceFieldNumber = 3,
+    kDestFieldNumber = 4,
+    kDataFieldNumber = 5,
+    kOCPPTypeFieldNumber = 6,
+    kMethodFieldNumber = 2,
   };
-  // string resource = 2;
-  void clear_resource();
-  const std::string& resource() const;
+  // string UUID = 1;
+  void clear_uuid();
+  const std::string& uuid() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_resource(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_resource();
-  PROTOBUF_NODISCARD std::string* release_resource();
-  void set_allocated_resource(std::string* resource);
+  void set_uuid(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_uuid();
+  PROTOBUF_NODISCARD std::string* release_uuid();
+  void set_allocated_uuid(std::string* uuid);
   private:
-  const std::string& _internal_resource() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_resource(const std::string& value);
-  std::string* _internal_mutable_resource();
+  const std::string& _internal_uuid() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_uuid(const std::string& value);
+  std::string* _internal_mutable_uuid();
   public:
 
-  // string dest = 3;
+  // string source = 3;
+  void clear_source();
+  const std::string& source() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_source(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_source();
+  PROTOBUF_NODISCARD std::string* release_source();
+  void set_allocated_source(std::string* source);
+  private:
+  const std::string& _internal_source() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_source(const std::string& value);
+  std::string* _internal_mutable_source();
+  public:
+
+  // string dest = 4;
   void clear_dest();
   const std::string& dest() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -235,7 +252,7 @@ class RouterProtobufMessage final :
   std::string* _internal_mutable_dest();
   public:
 
-  // string data = 4;
+  // string data = 5;
   void clear_data();
   const std::string& data() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -249,7 +266,25 @@ class RouterProtobufMessage final :
   std::string* _internal_mutable_data();
   public:
 
-  // .RouterMethods method = 1;
+  // optional string OCPPType = 6;
+  bool has_ocpptype() const;
+  private:
+  bool _internal_has_ocpptype() const;
+  public:
+  void clear_ocpptype();
+  const std::string& ocpptype() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ocpptype(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ocpptype();
+  PROTOBUF_NODISCARD std::string* release_ocpptype();
+  void set_allocated_ocpptype(std::string* ocpptype);
+  private:
+  const std::string& _internal_ocpptype() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ocpptype(const std::string& value);
+  std::string* _internal_mutable_ocpptype();
+  public:
+
+  // .RouterMethods method = 2;
   void clear_method();
   ::RouterMethods method() const;
   void set_method(::RouterMethods value);
@@ -266,11 +301,14 @@ class RouterProtobufMessage final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr resource_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uuid_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr source_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr dest_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr data_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ocpptype_;
     int method_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_protobufMessage_2eproto;
@@ -286,7 +324,57 @@ class RouterProtobufMessage final :
 #endif  // __GNUC__
 // RouterProtobufMessage
 
-// .RouterMethods method = 1;
+// string UUID = 1;
+inline void RouterProtobufMessage::clear_uuid() {
+  _impl_.uuid_.ClearToEmpty();
+}
+inline const std::string& RouterProtobufMessage::uuid() const {
+  // @@protoc_insertion_point(field_get:RouterProtobufMessage.UUID)
+  return _internal_uuid();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RouterProtobufMessage::set_uuid(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.uuid_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:RouterProtobufMessage.UUID)
+}
+inline std::string* RouterProtobufMessage::mutable_uuid() {
+  std::string* _s = _internal_mutable_uuid();
+  // @@protoc_insertion_point(field_mutable:RouterProtobufMessage.UUID)
+  return _s;
+}
+inline const std::string& RouterProtobufMessage::_internal_uuid() const {
+  return _impl_.uuid_.Get();
+}
+inline void RouterProtobufMessage::_internal_set_uuid(const std::string& value) {
+  
+  _impl_.uuid_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RouterProtobufMessage::_internal_mutable_uuid() {
+  
+  return _impl_.uuid_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RouterProtobufMessage::release_uuid() {
+  // @@protoc_insertion_point(field_release:RouterProtobufMessage.UUID)
+  return _impl_.uuid_.Release();
+}
+inline void RouterProtobufMessage::set_allocated_uuid(std::string* uuid) {
+  if (uuid != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.uuid_.SetAllocated(uuid, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.uuid_.IsDefault()) {
+    _impl_.uuid_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.UUID)
+}
+
+// .RouterMethods method = 2;
 inline void RouterProtobufMessage::clear_method() {
   _impl_.method_ = 0;
 }
@@ -306,57 +394,57 @@ inline void RouterProtobufMessage::set_method(::RouterMethods value) {
   // @@protoc_insertion_point(field_set:RouterProtobufMessage.method)
 }
 
-// string resource = 2;
-inline void RouterProtobufMessage::clear_resource() {
-  _impl_.resource_.ClearToEmpty();
+// string source = 3;
+inline void RouterProtobufMessage::clear_source() {
+  _impl_.source_.ClearToEmpty();
 }
-inline const std::string& RouterProtobufMessage::resource() const {
-  // @@protoc_insertion_point(field_get:RouterProtobufMessage.resource)
-  return _internal_resource();
+inline const std::string& RouterProtobufMessage::source() const {
+  // @@protoc_insertion_point(field_get:RouterProtobufMessage.source)
+  return _internal_source();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void RouterProtobufMessage::set_resource(ArgT0&& arg0, ArgT... args) {
+void RouterProtobufMessage::set_source(ArgT0&& arg0, ArgT... args) {
  
- _impl_.resource_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:RouterProtobufMessage.resource)
+ _impl_.source_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:RouterProtobufMessage.source)
 }
-inline std::string* RouterProtobufMessage::mutable_resource() {
-  std::string* _s = _internal_mutable_resource();
-  // @@protoc_insertion_point(field_mutable:RouterProtobufMessage.resource)
+inline std::string* RouterProtobufMessage::mutable_source() {
+  std::string* _s = _internal_mutable_source();
+  // @@protoc_insertion_point(field_mutable:RouterProtobufMessage.source)
   return _s;
 }
-inline const std::string& RouterProtobufMessage::_internal_resource() const {
-  return _impl_.resource_.Get();
+inline const std::string& RouterProtobufMessage::_internal_source() const {
+  return _impl_.source_.Get();
 }
-inline void RouterProtobufMessage::_internal_set_resource(const std::string& value) {
+inline void RouterProtobufMessage::_internal_set_source(const std::string& value) {
   
-  _impl_.resource_.Set(value, GetArenaForAllocation());
+  _impl_.source_.Set(value, GetArenaForAllocation());
 }
-inline std::string* RouterProtobufMessage::_internal_mutable_resource() {
+inline std::string* RouterProtobufMessage::_internal_mutable_source() {
   
-  return _impl_.resource_.Mutable(GetArenaForAllocation());
+  return _impl_.source_.Mutable(GetArenaForAllocation());
 }
-inline std::string* RouterProtobufMessage::release_resource() {
-  // @@protoc_insertion_point(field_release:RouterProtobufMessage.resource)
-  return _impl_.resource_.Release();
+inline std::string* RouterProtobufMessage::release_source() {
+  // @@protoc_insertion_point(field_release:RouterProtobufMessage.source)
+  return _impl_.source_.Release();
 }
-inline void RouterProtobufMessage::set_allocated_resource(std::string* resource) {
-  if (resource != nullptr) {
+inline void RouterProtobufMessage::set_allocated_source(std::string* source) {
+  if (source != nullptr) {
     
   } else {
     
   }
-  _impl_.resource_.SetAllocated(resource, GetArenaForAllocation());
+  _impl_.source_.SetAllocated(source, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.resource_.IsDefault()) {
-    _impl_.resource_.Set("", GetArenaForAllocation());
+  if (_impl_.source_.IsDefault()) {
+    _impl_.source_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.resource)
+  // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.source)
 }
 
-// string dest = 3;
+// string dest = 4;
 inline void RouterProtobufMessage::clear_dest() {
   _impl_.dest_.ClearToEmpty();
 }
@@ -406,7 +494,7 @@ inline void RouterProtobufMessage::set_allocated_dest(std::string* dest) {
   // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.dest)
 }
 
-// string data = 4;
+// string data = 5;
 inline void RouterProtobufMessage::clear_data() {
   _impl_.data_.ClearToEmpty();
 }
@@ -454,6 +542,74 @@ inline void RouterProtobufMessage::set_allocated_data(std::string* data) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.data)
+}
+
+// optional string OCPPType = 6;
+inline bool RouterProtobufMessage::_internal_has_ocpptype() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool RouterProtobufMessage::has_ocpptype() const {
+  return _internal_has_ocpptype();
+}
+inline void RouterProtobufMessage::clear_ocpptype() {
+  _impl_.ocpptype_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& RouterProtobufMessage::ocpptype() const {
+  // @@protoc_insertion_point(field_get:RouterProtobufMessage.OCPPType)
+  return _internal_ocpptype();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RouterProtobufMessage::set_ocpptype(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.ocpptype_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:RouterProtobufMessage.OCPPType)
+}
+inline std::string* RouterProtobufMessage::mutable_ocpptype() {
+  std::string* _s = _internal_mutable_ocpptype();
+  // @@protoc_insertion_point(field_mutable:RouterProtobufMessage.OCPPType)
+  return _s;
+}
+inline const std::string& RouterProtobufMessage::_internal_ocpptype() const {
+  return _impl_.ocpptype_.Get();
+}
+inline void RouterProtobufMessage::_internal_set_ocpptype(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.ocpptype_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RouterProtobufMessage::_internal_mutable_ocpptype() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.ocpptype_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RouterProtobufMessage::release_ocpptype() {
+  // @@protoc_insertion_point(field_release:RouterProtobufMessage.OCPPType)
+  if (!_internal_has_ocpptype()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.ocpptype_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ocpptype_.IsDefault()) {
+    _impl_.ocpptype_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void RouterProtobufMessage::set_allocated_ocpptype(std::string* ocpptype) {
+  if (ocpptype != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.ocpptype_.SetAllocated(ocpptype, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ocpptype_.IsDefault()) {
+    _impl_.ocpptype_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.OCPPType)
 }
 
 #ifdef __GNUC__

@@ -15,7 +15,7 @@ protected:
 
 TEST_F(OCPP201ChargePoint, auto) {
 
-////  std::cout << "uuid: " <<  generateMessageId() << std::endl;
+ std::cout << "uuid: " <<  generateMessageId().substr(0,9) << std::endl;
 //  ThreadPool  threadPool(10);
 //
 //  for (int i = 0; i < 20; i++) {
@@ -24,6 +24,7 @@ TEST_F(OCPP201ChargePoint, auto) {
 //    }, i);
 //  }
 //
+
 
 
 

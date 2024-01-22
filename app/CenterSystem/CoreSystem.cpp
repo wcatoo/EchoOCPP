@@ -19,7 +19,7 @@ void CenterSystem::CoreSystem::init() {
     routerProtobufMessage.set_dest("OCPP201");
     routerProtobufMessage.set_data(tMessage.getPayload());
     routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-    routerProtobufMessage.set_resource("/");
+    routerProtobufMessage.set_source("/");
 
   });
 

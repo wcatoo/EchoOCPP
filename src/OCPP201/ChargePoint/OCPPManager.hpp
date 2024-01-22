@@ -21,6 +21,8 @@ public:
   void init();
   void start();
   void stop();
+  OCPPManager() = default;
+  // OCPPManager()
 
 
   void receiveMessageHandler(const std::string& tResource, const std::string & tMessage);

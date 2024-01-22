@@ -17,9 +17,7 @@ void OCPP201::OCPPManager::init() {
 
 
 void OCPP201::OCPPManager::start() {
-
   this->mWebsocketDealerPtr->start();
-
 }
 
 void OCPP201::OCPPManager::receiveMessageHandler(const std::string &tResource,
@@ -85,7 +83,7 @@ bool OCPP201::OCPPManager::send(OCPP201Type tType, MessageCall *tCall, std::func
 }
 bool OCPP201::OCPPManager::sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback) {
   RouterProtobufMessage routerProtobufMessage;
-  routerProtobufMessage.set_resource(tResource);
+  routerProtobufMessage.set_source(tResource);
   routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
   routerProtobufMessage.set_dest("websocket:"+tResource);
   MessageErrorResponse messageErrorResponse;
