@@ -19,12 +19,13 @@ public:
   void stop();
   void send(const std::string &tPayload);
   void send(const RouterProtobufMessage &tPayload);
-  void setReceiveCallBack(std::function<void(const std::string &tResource, const std::string & tMessage)> &&);
+//  void setReceiveCallBack(std::function<void(const std::string &tResource, const std::string & tMessage)> &&);
+  void setReceiveCallBack(std::function<void(const RouterProtobufMessage & tMessage)> &&);
 private:
   std::unique_ptr<zmq::socket_t> mDealer{};
   std::string mIdentity{};
   std::unique_ptr<std::thread> mReceiveThread{};
-  std::function<void(const std::string &, const std::string&)> mReceiveCallback{};
+  std::function<void(const RouterProtobufMessage&)> mReceiveCallback{};
   MessageQueueStatus mStatus{MessageQueueStatus::CLOSE};
 
   std::string mAddress;

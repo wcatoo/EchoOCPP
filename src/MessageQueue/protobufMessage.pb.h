@@ -80,6 +80,33 @@ inline bool RouterMethods_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<RouterMethods>(
     RouterMethods_descriptor(), name, value);
 }
+enum MessageType : int {
+  REQUEST = 0,
+  RESPONSE = 1,
+  NETWORK_ONLINE = 2,
+  NETWORK_OFFLINE = 3,
+  MessageType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  MessageType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool MessageType_IsValid(int value);
+constexpr MessageType MessageType_MIN = REQUEST;
+constexpr MessageType MessageType_MAX = NETWORK_OFFLINE;
+constexpr int MessageType_ARRAYSIZE = MessageType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MessageType_descriptor();
+template<typename T>
+inline const std::string& MessageType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, MessageType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function MessageType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    MessageType_descriptor(), enum_t_value);
+}
+inline bool MessageType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, MessageType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MessageType>(
+    MessageType_descriptor(), name, value);
+}
 // ===================================================================
 
 class RouterProtobufMessage final :
@@ -204,11 +231,12 @@ class RouterProtobufMessage final :
 
   enum : int {
     kUuidFieldNumber = 1,
-    kSourceFieldNumber = 3,
-    kDestFieldNumber = 4,
-    kDataFieldNumber = 5,
-    kOcppTypeFieldNumber = 6,
+    kSourceFieldNumber = 4,
+    kDestFieldNumber = 5,
+    kDataFieldNumber = 6,
+    kOcppTypeFieldNumber = 7,
     kMethodFieldNumber = 2,
+    kMessageTypeFieldNumber = 3,
   };
   // string uuid = 1;
   void clear_uuid();
@@ -224,7 +252,7 @@ class RouterProtobufMessage final :
   std::string* _internal_mutable_uuid();
   public:
 
-  // string source = 3;
+  // string source = 4;
   void clear_source();
   const std::string& source() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -238,7 +266,7 @@ class RouterProtobufMessage final :
   std::string* _internal_mutable_source();
   public:
 
-  // string dest = 4;
+  // string dest = 5;
   void clear_dest();
   const std::string& dest() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -252,7 +280,7 @@ class RouterProtobufMessage final :
   std::string* _internal_mutable_dest();
   public:
 
-  // string data = 5;
+  // string data = 6;
   void clear_data();
   const std::string& data() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -266,7 +294,7 @@ class RouterProtobufMessage final :
   std::string* _internal_mutable_data();
   public:
 
-  // optional string ocpp_type = 6;
+  // optional string ocpp_type = 7;
   bool has_ocpp_type() const;
   private:
   bool _internal_has_ocpp_type() const;
@@ -293,6 +321,15 @@ class RouterProtobufMessage final :
   void _internal_set_method(::RouterMethods value);
   public:
 
+  // .MessageType message_type = 3;
+  void clear_message_type();
+  ::MessageType message_type() const;
+  void set_message_type(::MessageType value);
+  private:
+  ::MessageType _internal_message_type() const;
+  void _internal_set_message_type(::MessageType value);
+  public:
+
   // @@protoc_insertion_point(class_scope:RouterProtobufMessage)
  private:
   class _Internal;
@@ -309,6 +346,7 @@ class RouterProtobufMessage final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr data_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ocpp_type_;
     int method_;
+    int message_type_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_protobufMessage_2eproto;
@@ -394,7 +432,27 @@ inline void RouterProtobufMessage::set_method(::RouterMethods value) {
   // @@protoc_insertion_point(field_set:RouterProtobufMessage.method)
 }
 
-// string source = 3;
+// .MessageType message_type = 3;
+inline void RouterProtobufMessage::clear_message_type() {
+  _impl_.message_type_ = 0;
+}
+inline ::MessageType RouterProtobufMessage::_internal_message_type() const {
+  return static_cast< ::MessageType >(_impl_.message_type_);
+}
+inline ::MessageType RouterProtobufMessage::message_type() const {
+  // @@protoc_insertion_point(field_get:RouterProtobufMessage.message_type)
+  return _internal_message_type();
+}
+inline void RouterProtobufMessage::_internal_set_message_type(::MessageType value) {
+  
+  _impl_.message_type_ = value;
+}
+inline void RouterProtobufMessage::set_message_type(::MessageType value) {
+  _internal_set_message_type(value);
+  // @@protoc_insertion_point(field_set:RouterProtobufMessage.message_type)
+}
+
+// string source = 4;
 inline void RouterProtobufMessage::clear_source() {
   _impl_.source_.ClearToEmpty();
 }
@@ -444,7 +502,7 @@ inline void RouterProtobufMessage::set_allocated_source(std::string* source) {
   // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.source)
 }
 
-// string dest = 4;
+// string dest = 5;
 inline void RouterProtobufMessage::clear_dest() {
   _impl_.dest_.ClearToEmpty();
 }
@@ -494,7 +552,7 @@ inline void RouterProtobufMessage::set_allocated_dest(std::string* dest) {
   // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.dest)
 }
 
-// string data = 5;
+// string data = 6;
 inline void RouterProtobufMessage::clear_data() {
   _impl_.data_.ClearToEmpty();
 }
@@ -544,7 +602,7 @@ inline void RouterProtobufMessage::set_allocated_data(std::string* data) {
   // @@protoc_insertion_point(field_set_allocated:RouterProtobufMessage.data)
 }
 
-// optional string ocpp_type = 6;
+// optional string ocpp_type = 7;
 inline bool RouterProtobufMessage::_internal_has_ocpp_type() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -625,6 +683,11 @@ template <> struct is_proto_enum< ::RouterMethods> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::RouterMethods>() {
   return ::RouterMethods_descriptor();
+}
+template <> struct is_proto_enum< ::MessageType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::MessageType>() {
+  return ::MessageType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

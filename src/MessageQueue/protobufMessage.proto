@@ -7,11 +7,18 @@ enum RouterMethods {
     ROUTER_METHODS_NOTIFY_REALTIME_DATA = 3;
     ROUTER_METHODS_GET_REALTIME_DATA = 4;
 }
+enum MessageType {
+    REQUEST = 0;
+    RESPONSE = 1;
+    NETWORK_ONLINE = 2;
+    NETWORK_OFFLINE = 3;
+}
 message RouterProtobufMessage {
     string uuid = 1;
     RouterMethods method = 2;
-    string source = 3;
-    string dest = 4;
-    string data = 5;
-    optional string ocpp_type = 6;
+    MessageType message_type = 3;
+    string source = 4;
+    string dest = 5;
+    string data = 6;
+    optional string ocpp_type = 7;
 }

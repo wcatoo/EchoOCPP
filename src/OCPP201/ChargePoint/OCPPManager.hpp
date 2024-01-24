@@ -25,10 +25,10 @@ public:
   OCPPManager(zmq::context_t *tContext, const std::string &tAddress);
 
 
-  void receiveMessageHandler(const std::string& tResource, const std::string & tMessage);
+  void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
-  bool send(OCPP201Type tType, MessageCall *tCall, std::function<void()> tCallback = nullptr);
-  bool send(const RouterProtobufMessage &tMessage, std::function<void(const RouterProtobufMessage &&)> tCallback);
+//  bool send(OCPP201Type tType, MessageCall *tCall, std::function<void()> tCallback = nullptr);
+  bool send(const RouterProtobufMessage &tMessage, std::function<void(const RouterProtobufMessage &&)> tCallback = nullptr, bool isResponse = false);
   bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
 
 
@@ -43,6 +43,7 @@ private:
   Helper mHelper{};
   std::unique_ptr<ThreadPool> mThreadPoll;
   std::unordered_map<std::string, std::function<void(const RouterProtobufMessage &&)>> mMessageCallback;
+  std::unordered_map<std::string, OCPP201Type> mOCPPMessageType;
 
 };
 

@@ -114,6 +114,9 @@ public:
   void setMessageId(const std::string &tMessageId) {
     this->mMessageId = tMessageId;
   }
+  inline std::string getMessageId() {
+    return this->mMessageId;
+  }
 
 protected:
   std::string mMessageId{};
