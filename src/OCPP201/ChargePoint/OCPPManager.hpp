@@ -15,6 +15,7 @@
 #include "../Message/MessageRespone.hpp"
 #include "../Utilies/Helper.hpp"
 #include "ThreadPool.hpp"
+#include "../../Devices/Connector.hpp"
 namespace OCPP201 {
 class OCPPManager {
 public:
@@ -23,7 +24,6 @@ public:
   void stop();
   OCPPManager() = default;
   OCPPManager(zmq::context_t *tContext, const std::string &tAddress);
-
 
   void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
@@ -44,6 +44,7 @@ private:
   std::unique_ptr<ThreadPool> mThreadPoll;
   std::unordered_map<std::string, std::function<void(const RouterProtobufMessage &&)>> mMessageCallback;
   std::unordered_map<std::string, OCPP201Type> mOCPPMessageType;
+  std::vector<Connector> mConnectors;
 
 };
 
