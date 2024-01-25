@@ -80,18 +80,20 @@ const char descriptor_table_protodef_protobufMessage_2eproto[] PROTOBUF_SECTION_
   "\016.RouterMethods\022\"\n\014message_type\030\003 \001(\0162\014."
   "MessageType\022\016\n\006source\030\004 \001(\t\022\014\n\004dest\030\005 \001("
   "\t\022\014\n\004data\030\006 \001(\t\022\026\n\tocpp_type\030\007 \001(\tH\000\210\001\001B"
-  "\014\n\n_ocpp_type*\277\001\n\rRouterMethods\022\032\n\026ROUTE"
+  "\014\n\n_ocpp_type*\206\002\n\rRouterMethods\022\032\n\026ROUTE"
   "R_METHODS_OCPP201\020\000\022!\n\035ROUTER_METHODS_WR"
   "ITE_DATABASE\020\001\022 \n\034ROUTER_METHODS_READ_DA"
   "TABASE\020\002\022\'\n#ROUTER_METHODS_NOTIFY_REALTI"
   "ME_DATA\020\003\022$\n ROUTER_METHODS_GET_REALTIME"
-  "_DATA\020\004*Q\n\013MessageType\022\013\n\007REQUEST\020\000\022\014\n\010R"
-  "ESPONSE\020\001\022\022\n\016NETWORK_ONLINE\020\002\022\023\n\017NETWORK"
-  "_OFFLINE\020\003b\006proto3"
+  "_DATA\020\004\022!\n\035ROUTER_METHODS_NETWORK_ONLINE"
+  "\020\005\022\"\n\036ROUTER_METHODS_NETWORK_OFFLINE\020\006*Q"
+  "\n\013MessageType\022\013\n\007REQUEST\020\000\022\014\n\010RESPONSE\020\001"
+  "\022\022\n\016NETWORK_ONLINE\020\002\022\023\n\017NETWORK_OFFLINE\020"
+  "\003b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_protobufMessage_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_protobufMessage_2eproto = {
-    false, false, 498, descriptor_table_protodef_protobufMessage_2eproto,
+    false, false, 569, descriptor_table_protodef_protobufMessage_2eproto,
     "protobufMessage.proto",
     &descriptor_table_protobufMessage_2eproto_once, nullptr, 0, 1,
     schemas, file_default_instances, TableStruct_protobufMessage_2eproto::offsets,
@@ -115,6 +117,8 @@ bool RouterMethods_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+    case 5:
+    case 6:
       return true;
     default:
       return false;

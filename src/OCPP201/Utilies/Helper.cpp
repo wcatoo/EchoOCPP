@@ -27,10 +27,10 @@ Helper::checkMessageConf(const std::string &tMessage) {
   return std::nullopt;
 }
 
-std::optional<std::string> readJsonSchema(const std::filesystem::path& tPath) {
+std::optional<std::string> Helper::readFromFile(const std::filesystem::path &tPath){
   std::string fileContent{};
-  std::filesystem::path rootPath =
-      std::filesystem::current_path().parent_path();
+//  std::filesystem::path rootPath =
+//      std::filesystem::current_path().parent_path();
   std::ifstream inputFile{tPath};
   inputFile.seekg(0, std::ios::end);
   std::streampos fileSize = inputFile.tellg();
@@ -52,7 +52,7 @@ std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201Type tType, const 
     if (! this->mOCPP201JsonSchemasReq.contains(tType)){
       std::stringstream strStream;
       strStream << (std::filesystem::current_path().parent_path()/"OCPP_201_JSON_schemas").string() << "/" << magic_enum::enum_name(tType) <<   magic_enum::enum_name(tMethod) << ".json";
-      auto fileContent = readJsonSchema(strStream.str());
+      auto fileContent = this->readFromFile(strStream.str());
       if (fileContent.has_value()) {
         this->mOCPP201JsonSchemasReq[tType] = fileContent.value();
       } else {
@@ -85,7 +85,7 @@ std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201Type tType, const 
     if (! this->mOCPP201JsonSchemasConf.contains(tType)){
       std::stringstream strStream;
       strStream << (std::filesystem::current_path().parent_path()/"OCPP_201_JSON_schemas").string() << "/" << magic_enum::enum_name(tType) <<   magic_enum::enum_name(tMethod) << ".json";
-      auto fileContent = readJsonSchema(strStream.str());
+      auto fileContent = this->readFromFile(strStream.str());
       if (fileContent.has_value()) {
         this->mOCPP201JsonSchemasConf[tType] = fileContent.value();
       } else {

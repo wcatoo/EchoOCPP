@@ -21,6 +21,8 @@ public:
   std::optional<MessageCallResponse> checkMessageConf(const std::string &tMessage);
   std::optional<std::string> checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod);
 
+  static std::optional<std::string> readFromFile(const std::filesystem::path & tPath);
+
 private:
   std::regex mPattern{R"lit(\s*\[(\d)\s*,\s*"([\w-]+)"\s*,\s*"([\w]+)"\s*,\s*(.+)\s*\])lit"};
   std::regex mPatternConf{R"lit(\s*\[\s*(\d+)\s*,\s*"([\w-]+)"\s*,\s*(.+)\s*\]\s*)lit"};

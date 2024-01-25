@@ -58,12 +58,14 @@ enum RouterMethods : int {
   ROUTER_METHODS_READ_DATABASE = 2,
   ROUTER_METHODS_NOTIFY_REALTIME_DATA = 3,
   ROUTER_METHODS_GET_REALTIME_DATA = 4,
+  ROUTER_METHODS_NETWORK_ONLINE = 5,
+  ROUTER_METHODS_NETWORK_OFFLINE = 6,
   RouterMethods_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   RouterMethods_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool RouterMethods_IsValid(int value);
 constexpr RouterMethods RouterMethods_MIN = ROUTER_METHODS_OCPP201;
-constexpr RouterMethods RouterMethods_MAX = ROUTER_METHODS_GET_REALTIME_DATA;
+constexpr RouterMethods RouterMethods_MAX = ROUTER_METHODS_NETWORK_OFFLINE;
 constexpr int RouterMethods_ARRAYSIZE = RouterMethods_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RouterMethods_descriptor();

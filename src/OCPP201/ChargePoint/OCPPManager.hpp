@@ -15,11 +15,17 @@
 #include "../Message/MessageRespone.hpp"
 #include "../Utilies/Helper.hpp"
 #include "ThreadPool.hpp"
-#include "../../Devices/Connector.hpp"
+
+#include "../ConfigureKey/ConfigureKeyGeneral.hpp"
+
+// message manager
+#include "./MessageManager/BootNotificationManager.hpp"
+
+
 namespace OCPP201 {
 class OCPPManager {
 public:
-  void init();
+  bool init();
   void start();
   void stop();
   OCPPManager() = default;
@@ -28,10 +34,12 @@ public:
   void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
 //  bool send(OCPP201Type tType, MessageCall *tCall, std::function<void()> tCallback = nullptr);
-  bool send(const RouterProtobufMessage &tMessage, std::function<void(const RouterProtobufMessage &&)> tCallback = nullptr, bool isResponse = false);
+  bool send(const RouterProtobufMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr, bool isResponse = false);
   bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
 
 
+  ConfigureKeyGeneral mConfigureKeyGeneral{};
+  BootNotificationManager mBootNotificationManager;
 private:
   std::unique_ptr<MQDealer> mMQRouterPtr;
   // UUID | OCPPType | callback function
@@ -42,9 +50,13 @@ private:
 
   Helper mHelper{};
   std::unique_ptr<ThreadPool> mThreadPoll;
-  std::unordered_map<std::string, std::function<void(const RouterProtobufMessage &&)>> mMessageCallback;
+  std::unordered_map<std::string, std::function<void(const std::string &)>> mMessageCallback;
   std::unordered_map<std::string, OCPP201Type> mOCPPMessageType;
   std::vector<Connector> mConnectors;
+
+  // configure key
+
+  //Message Manager
 
 };
 

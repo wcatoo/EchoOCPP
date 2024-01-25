@@ -3,6 +3,5 @@
   "StopTxOnEVSideDisconnect" : false,
   "TxBeforeAcceptedEnabled" : false,
   "TxStartPoint" : "",
-  "TxStopPoint": "",
-
+  "TxStopPoint": ""
 }

@@ -11,7 +11,7 @@ namespace OCPP201 {
 class OCPP201ChargePoint : public ::testing::Test {
 protected:
   void SetUp() override {}
-  std::unique_ptr<OCPP201::OCPPManager> OCPPManager;
+  std::unique_ptr<OCPP201::OCPPManager> ocppManager;
 };
 
 void print(std::function<void(const std::string &)> tmp) {
@@ -22,14 +22,18 @@ TEST_F(OCPP201ChargePoint, auto) {
 
  std::cout << "uuid: " <<  generateMessageId().substr(0,9) << std::endl;
 
- print([](const std::string &t ){
-   std::cout << t << std::endl;
- });
 
+ ocppManager = std::make_unique<OCPPManager>();
+ ocppManager->init();
+  nlohmann::json json = ocppManager->mConfigureKeyGeneral;
 
+ ConfigureKeyGeneral configureKeyGeneral = nlohmann::json::parse(json.dump());
 
-
-
+// nlohmann::json json = ChargingStationType();
+//
+//std::cout << "json : " << json.dump() << std::endl;
+//
+//ChargingStationType chargingStationType = nlohmann::json::parse(json.dump());
 
 
 

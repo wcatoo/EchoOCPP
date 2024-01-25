@@ -1,14 +1,23 @@
 #include "OCPPManager.hpp"
 
-#include <utility>
 
 
-void OCPP201::OCPPManager::init() {
+bool OCPP201::OCPPManager::init() {
   this->mMQRouterPtr->init();
   this->mThreadPoll = std::make_unique<ThreadPool>(5);
   this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage &tMessage){
     this->receiveMessageHandler(tMessage);
   });
+  auto fileContext = this->mHelper.readFromFile(std::filesystem::current_path().parent_path()/"config/ConfigureKeyGeneral.json");
+  if (fileContext.has_value()) {
+
+    this->mConfigureKeyGeneral = nlohmann::json::parse(fileContext.value());
+  } else {
+    return false;
+  }
+
+
+  return true;
 }
 void OCPP201::OCPPManager::start() {
   this->mMQRouterPtr->start();
@@ -32,11 +41,36 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage & t
     break;
   case RouterMethods_INT_MAX_SENTINEL_DO_NOT_USE_:
     break;
+  case ROUTER_METHODS_NETWORK_ONLINE:
+    this->mThreadPoll->enqueue([&](){
+      ChargingStationType chargingStationType;
+      chargingStationType.setVendorName("vendor yang");
+      chargingStationType.setModel("Yang model");
+      BootNotificationRequest bootNotificationRequest(BootReasonEnumType::PowerUp, chargingStationType);
+      RouterProtobufMessage routerProtobufMessage;
+      routerProtobufMessage.set_uuid(bootNotificationRequest.getMessageId());
+      routerProtobufMessage.set_dest(tMessage.source());
+      routerProtobufMessage.set_method(ROUTER_METHODS_OCPP201);
+      routerProtobufMessage.set_message_type(::MessageType::REQUEST);
+      routerProtobufMessage.set_source("OCPP201");
+      routerProtobufMessage.set_data(bootNotificationRequest.serializeMessage());
+      this->send(routerProtobufMessage, [](const std::string &tMessageConf) {
+        BootNotificationResponse bootNotificationResponse = nlohmann::json::parse(tMessageConf);
+//        if (bootNotificationResponse.get)
+
+      });
+
+    });
+    break;
+  case ROUTER_METHODS_NETWORK_OFFLINE:
+    break;
+  default:
+    break;
   }
 }
 
 void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tMessage) {
-  std::string errorInfo{""};
+  std::string errorInfo;
   if (tMessage.message_type() == ::MessageType::REQUEST) {
     if (auto messageCall = mHelper.checkMessageReq(tMessage.data()); messageCall.has_value()) {
       auto checkAction =
@@ -79,7 +113,7 @@ void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tM
               });
             }
             if (callback)
-              callback(std::move(tMessage));
+              callback(messageConf->getPayload());
           }
         } else {
           errorInfo = result.value();
@@ -116,13 +150,13 @@ OCPP201::OCPPManager::OCPPManager(zmq::context_t *tContext,
 }
 bool OCPP201::OCPPManager::send(
     const RouterProtobufMessage &tMessage,
-    std::function<void(const RouterProtobufMessage &&)> tCallback,
+    std::function<void(const std::string &)> tCallback,
     bool isResponse) {
   if (!this->mMessageCallback.contains(tMessage.uuid())) {
     if (!isResponse) {
       {
         std::lock_guard<std::mutex> lock(this->mMessageTimeoutTraceMutex);
-        this->mMessageCallback[tMessage.uuid()] = std::move(tCallback);
+        this->mMessageCallback[tMessage.uuid()] = tCallback;
         this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tMessage.uuid();
         if (tMessage.method() == RouterMethods::ROUTER_METHODS_OCPP201) {
           this->mOCPPMessageType[tMessage.uuid()] = magic_enum::enum_cast<OCPP201Type>(tMessage.ocpp_type()).value();
