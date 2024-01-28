@@ -44,6 +44,15 @@ std::optional<std::string> Helper::readFromFile(const std::filesystem::path &tPa
   return fileContent;
 
 }
+void Helper::writeToFile(const std::string &fileContext,
+                         const std::filesystem::path &tPath) {
+  std::ofstream outputFile(tPath);
+  if (outputFile.good()) {
+    outputFile << fileContext;
+    outputFile.close();
+  }
+  outputFile.good()
+}
 
 std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod) {
   nlohmann::json_schema::json_validator  jsonValidator;

@@ -8,17 +8,15 @@ bool OCPP201::OCPPManager::init() {
   this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage &tMessage){
     this->receiveMessageHandler(tMessage);
   });
-  auto fileContext = this->mHelper.readFromFile(std::filesystem::current_path().parent_path()/"config/ConfigureKeyGeneral.json");
+  auto fileContext = OCPP201::Helper::readFromFile(std::filesystem::current_path().parent_path()/"config/ConfigureKeyGeneral.json");
   if (fileContext.has_value()) {
-
     this->mConfigureKeyGeneral = nlohmann::json::parse(fileContext.value());
   } else {
     return false;
   }
-
-
   return true;
 }
+
 void OCPP201::OCPPManager::start() {
   this->mMQRouterPtr->start();
 }
@@ -56,7 +54,6 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage & t
       routerProtobufMessage.set_data(bootNotificationRequest.serializeMessage());
       this->send(routerProtobufMessage, [](const std::string &tMessageConf) {
         BootNotificationResponse bootNotificationResponse = nlohmann::json::parse(tMessageConf);
-//        if (bootNotificationResponse.get)
 
       });
 
