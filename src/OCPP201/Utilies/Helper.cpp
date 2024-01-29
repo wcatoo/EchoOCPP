@@ -51,7 +51,6 @@ void Helper::writeToFile(const std::string &fileContext,
     outputFile << fileContext;
     outputFile.close();
   }
-  outputFile.good()
 }
 
 std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod) {

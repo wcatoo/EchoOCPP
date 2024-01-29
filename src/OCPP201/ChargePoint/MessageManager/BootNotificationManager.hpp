@@ -6,12 +6,23 @@
 namespace OCPP201 {
 class BootNotificationManager {
 public:
-  BootNotificationRequest networkOnline(BootReasonEnumType tReason, const ChargingStationType & tChargingStationType) {
-    BootNotificationRequest bootNotificationRequest(tReason, tChargingStationType);
-    return bootNotificationRequest;
+  BootNotificationManager(const std::string &tModel, const std::string &tVendorName){
+    this->mBootNotificationRequest = BootNotificationRequest(BootReasonEnumType::PowerUp, ChargingStationType(tModel, tVendorName));
   }
+  void setSerialNumber(const std::string &tSerialNum) {
+    this->mBootNotificationRequest.chargingStation.setSerialNumber(tSerialNum);
+  }
+  void setFirmwareVersion(const std::string &tVersion) {
+    this->mBootNotificationRequest.chargingStation.setFirmwareVersion(tVersion);
+  }
+
+
+  RouterProtobufMessage& getRequest() {
+  }
+
 private:
   bool isBoot{false};
+  BootNotificationRequest mBootNotificationRequest;
 };
 
 }

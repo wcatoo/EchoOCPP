@@ -33,7 +33,6 @@ public:
 
   void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
-//  bool send(OCPP201Type tType, MessageCall *tCall, std::function<void()> tCallback = nullptr);
   bool send(const RouterProtobufMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr, bool isResponse = false);
   bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
 

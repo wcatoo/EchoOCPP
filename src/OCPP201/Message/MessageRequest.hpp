@@ -33,12 +33,9 @@ private:
 };
 
 class BootNotificationRequest : public MessageCall {
-private:
-  BootReasonEnumType reason;
-  ChargingStationType chargingStation;
-
 public:
-  explicit BootNotificationRequest(
+  BootNotificationRequest() = default;
+  BootNotificationRequest(
       const BootReasonEnumType &bootReason,
       const ChargingStationType &chargingStationInfo)
       : reason(bootReason), chargingStation(chargingStationInfo) {
@@ -46,6 +43,8 @@ public:
     mMessageId = generateMessageId();
     buildPayload();
   }
+  BootReasonEnumType reason;
+  ChargingStationType chargingStation;
 
 private:
   void buildPayload() {
