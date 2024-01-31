@@ -20,6 +20,7 @@
 
 // message manager
 #include "./MessageManager/BootNotificationManager.hpp"
+#include "../../Devices/Configure/ConfigureManager.hpp"
 
 
 namespace OCPP201 {
@@ -30,16 +31,12 @@ public:
   void stop();
   OCPPManager() = default;
   OCPPManager(zmq::context_t *tContext, const std::string &tAddress);
-
-  void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
-  void receiveMessageHandler(const RouterProtobufMessage & tMessage);
+private:
+  void setBaseInfo(BaseInfoType tType, const std::string &tValue);
   bool send(const RouterProtobufMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr, bool isResponse = false);
   bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
-
-
-  ConfigureKeyGeneral mConfigureKeyGeneral{};
-  BootNotificationManager mBootNotificationManager;
-private:
+  void receiveMessageHandler(const RouterProtobufMessage & tMessage);
+  void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
   std::unique_ptr<MQDealer> mMQRouterPtr;
   // UUID | OCPPType | callback function
   std::unordered_map<std::string, std::pair<OCPP201Type, std::function<void()>>> mMessagesTrace;
@@ -53,9 +50,15 @@ private:
   std::unordered_map<std::string, OCPP201Type> mOCPPMessageType;
   std::vector<Connector> mConnectors;
 
+  // custome configure
+  ConfigureManager mConfigureManager;
+
   // configure key
+  ConfigureKeyGeneral mConfigureKeyGeneral{};
 
   //Message Manager
+  // BootNotificationManager mBootNotificationManager;
+
 
 };
 

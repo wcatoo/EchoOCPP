@@ -17,8 +17,9 @@ public:
   }
 
 
-  RouterProtobufMessage& getRequest() {
-  }
+  // RouterProtobufMessage& getRequest() {
+    
+  // }
 
 private:
   bool isBoot{false};

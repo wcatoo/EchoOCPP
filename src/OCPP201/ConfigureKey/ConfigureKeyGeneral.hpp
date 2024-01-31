@@ -1,7 +1,3 @@
-//
-// Created by 杨帆 on 2024/1/13.
-//
-
 #ifndef ECHOOCPP_CONFIGUREKEYGENERAL_HPP
 #define ECHOOCPP_CONFIGUREKEYGENERAL_HPP
 #include <iostream>
