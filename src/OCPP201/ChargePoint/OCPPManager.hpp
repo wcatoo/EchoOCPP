@@ -10,10 +10,10 @@
 
 #include "../../Devices/Connector.hpp"
 #include "../../MessageQueue/MQDealer.hpp"
-#include "../../MessageQueue/MQRouter.hpp"
 #include "../Message/MessageRequest.hpp"
 #include "../Message/MessageRespone.hpp"
 #include "../Utilies/Helper.hpp"
+#include "../Utilies/Utilies.hpp"
 #include "ThreadPool.hpp"
 
 #include "../ConfigureKey/ConfigureKeyGeneral.hpp"
@@ -24,12 +24,13 @@
 
 
 namespace OCPP201 {
+// OCPP manager should be initial before websocket
 class OCPPManager {
 public:
   bool init();
   void start();
   void stop();
-  OCPPManager() = default;
+  OCPPManager() = delete;
   OCPPManager(zmq::context_t *tContext, const std::string &tAddress);
 private:
   void setBaseInfo(BaseInfoType tType, const std::string &tValue);
@@ -57,7 +58,7 @@ private:
   ConfigureKeyGeneral mConfigureKeyGeneral{};
 
   //Message Manager
-  // BootNotificationManager mBootNotificationManager;
+   BootNotificationManager mBootNotificationManager;
 
 
 };

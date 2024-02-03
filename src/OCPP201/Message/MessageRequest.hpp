@@ -20,7 +20,7 @@ public:
       : certificate(certificate), idToken(idToken),
         iso15118CertificateHashData(iso15118CertificateHashData) {
     mAction = "AuthorizeRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -40,7 +40,7 @@ public:
       const ChargingStationType &chargingStationInfo)
       : reason(bootReason), chargingStation(chargingStationInfo) {
     mAction = "BootNotificationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
   BootReasonEnumType reason;
@@ -63,7 +63,7 @@ public:
   explicit CancelReservationRequest(int reservationId)
       : reservationId(reservationId) {
     mAction = "CancelReservationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -82,7 +82,7 @@ public:
       std::optional<CertificateSigningUseEnumType> certType = std::nullopt)
       : certificateChain(certChain), certificateType(certType) {
     mAction = "CertificateSignedRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -107,7 +107,7 @@ public:
       const std::optional<EVSEType> &evseInfo = std::nullopt)
       : operationalStatus(status), evse(evseInfo) {
     mAction = "ChangeAvailabilityRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -132,7 +132,7 @@ public:
       const std::optional<StatusInfoType> &info = std::nullopt)
       : status(clearCacheStatus), statusInfo(info) {
     mAction = "ClearCacheResponse";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -157,7 +157,7 @@ public:
       const std::optional<ClearChargingProfileType> &criteria = std::nullopt)
       : chargingProfileId(profileId), chargingProfileCriteria(criteria) {
     mAction = "ClearChargingProfileRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -180,7 +180,7 @@ private:
 public:
   explicit ClearDisplayMessageRequest(int messageId) : messageId(messageId) {
     mAction = "ClearDisplayMessageRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -199,7 +199,7 @@ public:
       const std::optional<int> &identifier = std::nullopt)
       : chargingLimitSource(limitSource), evseId(identifier) {
     mAction = "ClearedChargingLimitRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -221,7 +221,7 @@ public:
   explicit ClearVariableMonitoringRequest(const std::vector<int> &monitorIds)
       : monitorIds(monitorIds) {
     mAction = "ClearVariableMonitoringRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -238,7 +238,7 @@ public:
   CostUpdatedRequest(double cost, const std::string &txnId)
       : totalCost(cost), transactionId(txnId) {
     mAction = "CostUpdatedRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -268,7 +268,7 @@ public:
         customerIdentifier(identifier), idToken(token),
         customerCertificate(certificate) {
     mAction = "CustomerInformationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -305,7 +305,7 @@ public:
       const std::string &vendor)
       : messageId(msgId), data(transferData), vendorId(vendor) {
     mAction = "DataTransferRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -331,7 +331,7 @@ public:
   explicit DeleteCertificateRequest(const CertificateHashDataType &certHashData)
       : certificateHashData(certHashData) {
     mAction = "DeleteCertificateRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -352,7 +352,7 @@ public:
       const std::optional<int> &updateRequestId = std::nullopt)
       : status(firmwareStatus), requestId(updateRequestId) {
     mAction = "FirmwareStatusNotificationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -380,7 +380,7 @@ public:
       : iso15118SchemaVersion(schemaVersion), action(certificateAction),
         exiRequest(base64EncodedRequest) {
     mAction = "Get15118EVCertificateRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -402,7 +402,7 @@ public:
                                 const ReportBaseEnumType &reportBaseType)
       : requestId(reqId), reportBase(reportBaseType) {
     mAction = "GetBaseReportRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -421,7 +421,7 @@ public:
   explicit GetCertificateStatusRequest(const OCSPRequestDataType &requestData)
       : ocspRequestData(requestData) {
     mAction = "GetCertificateStatusRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -441,7 +441,7 @@ public:
       const ChargingProfileCriterionType &criterion)
       : requestId(reqId), evseId(identifier), chargingProfile(criterion) {
     mAction = "GetChargingProfilesRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -469,7 +469,7 @@ public:
       int identifier)
       : duration(dur), chargingRateUnit(rateUnit), evseId(identifier) {
     mAction = "GetCompositeScheduleRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -501,7 +501,7 @@ public:
       : messageIds(ids), requestId(reqId), priority(msgPriority),
         state(msgState) {
     mAction = "GetDisplayMessagesRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -532,7 +532,7 @@ public:
       const std::vector<GetCertificateIdUseEnumType> &certTypes)
       : certificateTypes(certTypes) {
     mAction = "GetInstalledCertificateIdsRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -564,7 +564,7 @@ public:
       : logType(log), requestId(reqId), retries(numRetries),
         retryInterval(retryInt), logParameters(logParams) {
     mAction = "GetLogRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -598,7 +598,7 @@ public:
       : requestId(reqId), monitoringCriteria(criteria),
         componentVariables(componentVars) {
     mAction = "GetMonitoringReportRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -633,7 +633,7 @@ public:
       : requestId(reqId), componentCriteria(criteria),
         componentVariables(componentVars) {
     mAction = "GetReportRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -664,7 +664,7 @@ public:
       const std::optional<IdentifierString> &transId = std::nullopt)
       : transactionId(transId) {
     mAction = "GetTransactionStatusRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -685,7 +685,7 @@ public:
       const std::vector<GetVariableDataType> &variableData)
       : getVariableData(variableData) {
     mAction = "GetVariablesRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -703,7 +703,7 @@ public:
       const InstallCertificateUseEnumType &certType, const std::string &cert)
       : certificateType(certType), certificate(cert) {
     mAction = "InstallCertificateRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -725,7 +725,7 @@ public:
       const std::optional<int> &reqId = std::nullopt)
       : status(logStatus), requestId(reqId) {
     mAction = "LogStatusNotificationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -748,7 +748,7 @@ public:
   MeterValuesRequest(int id, const std::vector<MeterValueType> &values)
       : evseId(id), meterValues(values) {
     mAction = "MeterValuesRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -771,7 +771,7 @@ public:
       const std::vector<ChargingScheduleType> &schedule = {})
       : evseId(id), chargingLimit(limit), chargingSchedule(schedule) {
     mAction = "NotifyChargingLimitRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -806,7 +806,7 @@ public:
       : data(customerData), tbc(toBeContinued), seqNo(sequenceNumber),
         generatedAt(timestamp), requestId(reqId) {
     mAction = "NotifyCustomerInformationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -831,7 +831,7 @@ public:
                                const std::vector<MessageInfoType> &info)
       : requestId(displayRequestId), tbc(toBeContinued), messageInfo(info) {
     mAction = "NotifyDisplayMessagesRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -854,7 +854,7 @@ public:
                                int stationId, const ChargingNeedsType &needs)
       : maxScheduleTuples(maxTuples), evseId(stationId), chargingNeeds(needs) {
     mAction = "NotifyEVChargingNeedsRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -880,7 +880,7 @@ public:
                                   const ChargingScheduleType &schedule)
       : timeBase(baseTime), evseId(stationId), chargingSchedule(schedule) {
     mAction = "NotifyEVChargingScheduleRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -905,7 +905,7 @@ public:
       : generatedAt(timestamp), tbc(toBeContinued), seqNo(sequenceNumber),
         eventData(data) {
     mAction = "NotifyEventRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -934,7 +934,7 @@ public:
       : requestId(monitoringRequestId), tbc(toBeContinued),
         seqNo(sequenceNumber), generatedAt(timestamp), monitorData(data) {
     mAction = "NotifyMonitoringReportRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -963,7 +963,7 @@ public:
       : requestId(reportRequestId), generatedAt(timestamp), tbc(toBeContinued),
         seqNo(sequenceNumber), reportData(data) {
     mAction = "NotifyReportRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -992,7 +992,7 @@ public:
       : location(firmwareLocation), retries(numRetries), checksum(md5Checksum),
         requestId(publishRequestId), retryInterval(intervalBetweenRetries) {
     mAction = "PublishFirmwareRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1022,7 +1022,7 @@ public:
       : status(firmwareStatus), locations(firmwareLocations),
         requestId(publishRequestId) {
     mAction = "PublishFirmwareStatusNotificationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1056,7 +1056,7 @@ public:
       : requestId(reportRequestId), chargingLimitSource(limitSource),
         tbc(toBeContinued), evseId(evseIdentifier), chargingProfiles(profiles) {
     mAction = "ReportChargingProfilesRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1088,7 +1088,7 @@ public:
       : evseId(evseIdentifier), remoteStartId(startRequestId), idToken(tokenId),
         chargingProfile(profile), groupIdToken(groupToken) {
     mAction = "RequestStartTransactionRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1119,7 +1119,7 @@ public:
   RequestStopTransactionRequest(const std::string &transactionIdentifier)
       : transactionId(transactionIdentifier) {
     mAction = "RequestStopTransactionRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1138,7 +1138,7 @@ public:
       : reservationId(reservationIdentifier),
         reservationUpdateStatus(updateStatus) {
     mAction = "ReservationStatusUpdateRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1170,7 +1170,7 @@ public:
         connectorType(connector), evseId(evseIdentifier), idToken(token),
         groupIdToken(groupToken) {
     mAction = "ReserveNowRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1201,7 +1201,7 @@ public:
                const std::optional<int> &evseIdentifier = std::nullopt)
       : resetType(type), evseId(evseIdentifier) {
     mAction = "ResetRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1226,7 +1226,7 @@ public:
       const std::optional<std::string> &techInfo = std::nullopt)
       : eventType(type), timestamp(eventTimestamp), technicalInfo(techInfo) {
     mAction = "SecurityEventNotificationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1252,7 +1252,7 @@ public:
       : versionNumber(version), updateType(type),
         localAuthorizationList(authList) {
     mAction = "SendLocalListRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1276,7 +1276,7 @@ public:
   SetChargingProfileRequest(int evse, const ChargingProfileType &profile)
       : evseId(evse), chargingProfile(profile) {
     mAction = "SetChargingProfileRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1294,7 +1294,7 @@ private:
 public:
   SetDisplayMessageRequest(const MessageInfoType &msg) : message(msg) {
     mAction = "SetDisplayMessageRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1310,7 +1310,7 @@ public:
   SetMonitoringBaseRequest(const MonitoringBaseEnumType &base)
       : monitoringBase(base) {
     mAction = "SetMonitoringBaseRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1327,7 +1327,7 @@ private:
 public:
   SetMonitoringLevelRequest(int severityLevel) : severity(severityLevel) {
     mAction = "SetMonitoringLevelRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1345,7 +1345,7 @@ public:
       int slot, const NetworkConnectionProfileType &connectionProfile)
       : configurationSlot(slot), connectionData(connectionProfile) {
     mAction = "SetNetworkProfileRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1365,7 +1365,7 @@ public:
       const std::vector<SetMonitoringDataType> &monitoringData)
       : setMonitoringData(monitoringData) {
     mAction = "SetVariableMonitoringRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1381,7 +1381,7 @@ public:
   SetVariablesRequest(const std::vector<SetVariableDataType> &variableData)
       : setVariableData(variableData) {
     mAction = "SetVariablesRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1401,7 +1401,7 @@ public:
           CertificateSigningUseEnumType::ChargingStationCertificate)
       : csr(csr), certificateType(certType) {
     mAction = "SignCertificateRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1426,7 +1426,7 @@ public:
       : timestamp(timestamp), connectorStatus(status), evseId(evse),
         connectorId(connector) {
     mAction = "StatusNotificationRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1470,7 +1470,7 @@ public:
         transactionInfo(transactionInfo), idToken(idToken), evse(evse),
         meterValues(meterValues) {
     mAction = "TransactionEventRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1502,7 +1502,7 @@ public:
                         const EVSEType &evse)
       : requestedMessage(requestedMessage), evse(evse) {
     mAction = "TriggerMessageRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1522,7 +1522,7 @@ public:
   UnlockConnectorRequest(int evseId, int connectorId)
       : evseId(evseId), connectorId(connectorId) {
     mAction = "UnlockConnectorRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1540,7 +1540,7 @@ private:
 public:
   UnpublishFirmwareRequest(const std::string &checksum) : checksum(checksum) {
     mAction = "UnpublishFirmwareRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 
@@ -1562,7 +1562,7 @@ public:
       : retries(retries), retryInterval(retryInterval), requestId(requestId),
         firmware(firmware) {
     mAction = "UpdateFirmwareRequest";
-    mMessageId = generateMessageId();
+    mMessageId = Utility::generateMessageId();
     buildPayload();
   }
 

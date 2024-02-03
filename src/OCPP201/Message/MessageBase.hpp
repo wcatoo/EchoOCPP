@@ -1,10 +1,10 @@
 
 #ifndef MESSAGECALLBASE_HPP
 #define MESSAGECALLBASE_HPP
-#include <string>
+#include "../Utilies/Utilies.hpp"
 #include <nlohmann/json.hpp>
 #include <sstream>
-#include "./uuid.h"
+#include <string>
 
 namespace OCPP201
 {
@@ -22,16 +22,7 @@ enum class ProtocolError {
   TypeConstraintViolation
 };
 
-static inline std::string generateMessageId()
-{
-  std::random_device rd;
-  auto seed_data = std::array<int, std::mt19937::state_size> {};
-  std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
-  std::seed_seq seq(std::begin(seed_data), std::end(seed_data));
-  std::mt19937 generator(seq);
-  uuids::uuid_random_generator gen{generator};
-  return uuids::to_string(gen());
-}
+
 
 class MessageCall {
 protected:
@@ -60,9 +51,10 @@ public:
   std::string getPayload() {
       return to_string(this->mPayload);
   }
-  std::string serializeMessage() {
+  [[nodiscard]]std::string serializeMessage() {
     stream.clear();
-    stream << '[' << 2 << ",\"" <<  generateMessageId() << "\",\"" << this->mAction << "\"," << this->mPayload << "]";
+    this->mMessageId = Utility::generateMessageId();
+    stream << '[' << 2 << ",\"" <<  this->mMessageId << "\",\"" << this->mAction << "\"," << this->mPayload << "]";
     return stream.str();
   }
 };
@@ -98,6 +90,7 @@ class MessageErrorResponse {
 public:
   std::string serializeMessage() {
     stream.clear();
+    this->mMessageId = Utility::generateMessageId();
     stream << '[' << 4 << ",\"" <<  this->mMessageId << "\",\"" << magic_enum::enum_name<ProtocolError>(this->mErrorCode) << "\",\"" << this->mErrorDescription << "\"," << this->mErrorDetails << "]";
     return stream.str();
   }
