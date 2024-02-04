@@ -21,6 +21,7 @@
 // message manager
 #include "./MessageManager/BootNotificationManager.hpp"
 #include "../../Devices/Configure/ConfigureManager.hpp"
+#include "./MessageManager/HeartBeatManager.hpp"
 
 
 namespace OCPP201 {
