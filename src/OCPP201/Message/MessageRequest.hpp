@@ -1413,26 +1413,22 @@ private:
 };
 
 class StatusNotificationRequest : public MessageCall {
-private:
-  std::string timestamp;
+public:
+  RFC3339DateTime timestamp;
   ConnectorStatusEnumType connectorStatus;
   int evseId;
   int connectorId;
+  StatusNotificationRequest() {
 
-public:
-  StatusNotificationRequest(const std::string &timestamp,
-                            const ConnectorStatusEnumType &status, int evse,
-                            int connector)
-      : timestamp(timestamp), connectorStatus(status), evseId(evse),
-        connectorId(connector) {
-    mAction = "StatusNotificationRequest";
-    mMessageId = Utility::generateMessageId();
-    buildPayload();
+    this->timestamp.setDateTime(std::chrono::system_clock::now());
+    this->connectorStatus = ConnectorStatusEnumType::Unavailable;
+    this->evseId = 0;
+    this->connectorId = 0;
+    this->buildPayload();
   }
 
-private:
   void buildPayload() {
-    mPayload["timestamp"] = timestamp;
+    mPayload["timestamp"] = timestamp.toString();
     mPayload["connectorStatus"] = magic_enum::enum_name(connectorStatus);
     mPayload["evseId"] = evseId;
     mPayload["connectorId"] = connectorId;
@@ -1573,6 +1569,13 @@ private:
     mPayload["requestId"] = requestId;
     mPayload["firmware"] =
         firmware; // Assuming FirmwareType has a toJson() method
+  }
+};
+class HeartbeatRequest : public MessageCall {
+public:
+  HeartbeatRequest() {
+    MessageCall::mAction = "Heartbeat";
+    MessageCall::mPayload = nlohmann::json::object();
   }
 };
 

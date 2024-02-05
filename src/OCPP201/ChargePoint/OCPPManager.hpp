@@ -22,6 +22,7 @@
 #include "./MessageManager/BootNotificationManager.hpp"
 #include "../../Devices/Configure/ConfigureManager.hpp"
 #include "./MessageManager/HeartBeatManager.hpp"
+#include "./MessageManager/StatusNotificationManager.hpp"
 
 
 namespace OCPP201 {
@@ -59,7 +60,9 @@ private:
   ConfigureKeyGeneral mConfigureKeyGeneral{};
 
   //Message Manager
-   BootNotificationManager mBootNotificationManager;
+  BootNotificationManager mBootNotificationManager;
+  HeartBeatManager mHeartbeatManager;
+  StatusNotificationManager mStatusNotificationManager;
 
 
 };

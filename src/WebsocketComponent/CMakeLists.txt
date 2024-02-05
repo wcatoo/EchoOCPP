@@ -1,5 +1,5 @@
 add_library(WebsocketServer STATIC Server/WebsocketServer.cpp)
-add_library(WebsocketClient STATIC Client/WebsocketClient.cpp)
+add_library(WebsocketClient STATIC Client/WebsocketClient.cpp Client/WebsocketClientManager.cpp)
 
 find_package(websocketpp CONFIG REQUIRED)
 

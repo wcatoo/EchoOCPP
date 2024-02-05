@@ -8,8 +8,8 @@
 
 class Connector {
 public:
-private:
-  int mId{0};
+  int mConnectorId{0};
+  int mEVSEId{0};
   OCPP201::ConnectorEnumType mConnectorType{OCPP201::ConnectorEnumType::Unknown};
   OCPP201::ConnectorStatusEnumType mConnectorStatus{OCPP201::ConnectorStatusEnumType::Unavailable};
   Meter mMeter{};

@@ -2,6 +2,7 @@
 #define ECHOOCPP_CHARGEPOINT_HPP
 #include "../../src/Devices/Connector.hpp"
 #include "../../src/OCPP201/ChargePoint/OCPPManager.hpp"
+#include "../../src/WebsocketComponent/Client/WebsocketClientManager.hpp"
 
 class ChargePoint {
 public:
@@ -12,7 +13,7 @@ public:
 private:
 
   std::unique_ptr<OCPP201::OCPPManager> mOCPPManager{nullptr};
-  // connector
+  std::unique_ptr<Component::WebsocketClientManager> mWebsocketManager;
 
 };
 

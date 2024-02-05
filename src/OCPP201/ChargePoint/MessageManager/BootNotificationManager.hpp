@@ -48,14 +48,18 @@ public:
     return routerProtobufMessage;
   }
 
-
-
   inline void setBootInterval(int tValue) {
     this->mBootInterval = tValue;
   }
 
   int getBootInterval() {
     return this->mBootInterval;
+  }
+
+  void release() {
+    this->mBootInterval = 3;
+    this->isBooting = false;
+    this->bootFinish = false;
   }
 
 

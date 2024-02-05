@@ -21,6 +21,8 @@ void print(std::function<void(const std::string &)> tmp) {
 TEST_F(OCPP201ChargePoint, auto) {
 
  std::cout << "uuid: " <<  Utility::generateMessageId().substr(0,9) << std::endl;
+ StatusNotificationRequest tt;
+ std::cout << tt.serializeMessage() << std::endl;
 
     //  ocppManager = std::make_unique<OCPPManager>();
     //  ocppManager->init();

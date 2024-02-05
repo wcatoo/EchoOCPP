@@ -17,7 +17,7 @@ bool OCPP201::OCPPManager::init()
     return false;
   }
 
-  //TODO init BootNotificationManager
+  // TODO init BootNotificationManager
   return true;
 }
 
@@ -41,16 +41,16 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
     break;
   case ROUTER_METHODS_GET_REALTIME_DATA:
     break;
-  case RouterMethods_INT_MIN_SENTINEL_DO_NOT_USE_:
-    break;
-  case RouterMethods_INT_MAX_SENTINEL_DO_NOT_USE_:
-    break;
   case ROUTER_METHODS_NETWORK_ONLINE:
-    if (this->mBootNotificationManager.isBooting == false) {
+    if (this->mBootNotificationManager.isBooting == false)
+    {
       this->mThreadPoll->enqueue([&]()
                                  {
                                    this->mBootNotificationManager.isBooting = true;
                                    this->mBootNotificationManager.bootFinish = false;
+                                   // set dest
+                                   this->mStatusNotificationManager.mDest = tMessage.source();
+                                    this->mHeartbeatManager.mDest = tMessage.source();
                                    while (this->mBootNotificationManager.getBootInterval() && this->mBootNotificationManager.isBooting) {
                                      this->send(this->mBootNotificationManager.getRequestMessage(tMessage.source()), [this](const std::string &tMessageConf)
                                      {
@@ -60,6 +60,25 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
                                        case RegistrationStatusEnumType::Accepted:
                                          this->mBootNotificationManager.isBooting = false;
                                          this->mBootNotificationManager.bootFinish = true;
+                                         // init heartbeat Timer
+                                         this->mHeartbeatManager.mInterval = bootNotificationResponse.getInterval();
+                                         this->mThreadPoll->enqueue([this](){
+                                          this->mHeartbeatManager.setHeartbeatHandler([&](){
+                                            this->send(this->mHeartbeatManager.getRequestMessage(), [this](const std::string &tMessageConf) {
+                                              //TODO heartbeat response
+
+                                            });
+                                          });
+                                          // start heartbeat timer
+                                          this->mHeartbeatManager.start();
+                                          // send statusnotification for each connector
+                                          std::for_each(this->mConnectors.begin(), this->mConnectors.end(), [this](const Connector &tConnector){
+                                            this->send(this->mStatusNotificationManager.getRequestMessage(tConnector), [](const std::string &tMessageConf){});
+                                          });
+
+                                          //TODO offline meesage
+
+                                          });
                                          break;
                                          // 1. To inform the Charging Station that it is not yet accepted by the CSMS: Pending status.
                                          // 2. To give the CSMS a way to retrieve or set certain configuration information.
@@ -74,12 +93,12 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
                                          break;
                                        }
                                      });
-                                   }
-                                 });
-
+                                   } });
     }
     break;
   case ROUTER_METHODS_NETWORK_OFFLINE:
+    this->mBootNotificationManager.release();
+    this->mHeartbeatManager.stop();
     break;
   default:
     break;
@@ -98,8 +117,8 @@ void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tM
       if (checkAction.has_value())
       {
         if (auto result = this->mHelper.checkOCPPJsonSchema(
-              checkAction.value(), messageCall->getPayload(),
-              MessageMethod::Request);
+                checkAction.value(), messageCall->getPayload(),
+                MessageMethod::Request);
             result.has_value() && result.value().empty())
         {
           {
@@ -139,7 +158,7 @@ void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tM
               this->mMessageCallback.erase(messageConf->getMessageId());
               this->mOCPPMessageType.erase(messageConf->getMessageId());
               std::for_each(this->mMessageTimeoutTrace.begin(), this->mMessageTimeoutTrace.end(), [&](const auto &entry)
-              {
+                            {
                 if (std::equal(messageConf.value().getMessageId().begin(), messageConf.value().getMessageId().end(), entry.second.begin(), entry.second.end())) {
                   this->mMessageTimeoutTrace.erase(entry.first);
                   return;
@@ -221,23 +240,20 @@ void OCPP201::OCPPManager::setBaseInfo(BaseInfoType tType, const std::string &tV
     this->mConfigureManager.getBaseInfo().model = tValue;
     // this->mBaseConfigureInfo.model = tValue;
     break;
-//  case BaseInfoType::VendorName:
-//    this->mBaseConfigureInfo.vendorName = tValue;
-//    break;
-//  case BaseInfoType::SerialNumber:
-//    this->mBaseConfigureInfo.serialNumber = tValue;
-//    break;
-//  case BaseInfoType::FirmwareVersion:
-//    this->mBaseConfigureInfo.firmwareVersion = tValue;
-//    break;
+    //  case BaseInfoType::VendorName:
+    //    this->mBaseConfigureInfo.vendorName = tValue;
+    //    break;
+    //  case BaseInfoType::SerialNumber:
+    //    this->mBaseConfigureInfo.serialNumber = tValue;
+    //    break;
+    //  case BaseInfoType::FirmwareVersion:
+    //    this->mBaseConfigureInfo.firmwareVersion = tValue;
+    //    break;
   default:
     break;
   }
-  this->mThreadPoll->enqueue([this](){
-    // this->mHelper->writeToFile()
-
-
-
-  });
-
+  this->mThreadPoll->enqueue([this]()
+                             {
+                               // this->mHelper->writeToFile()
+                             });
 }
