@@ -67,8 +67,13 @@ void WebsocketClient::onMessage(websocketpp::connection_hdl tHandler,websocketpp
 
 void WebsocketClient::onOpen(websocketpp::connection_hdl tHandler) {
   this->mStatus = WebsocketStatus::OPEN;
+  std::cout << "onopen" << std::endl;
   if (this->mOnOpen) {
     this->mOnOpen();
+    std::cout << "onopen callback " << std::endl;
+  } else {
+    std::cout << "onopen callback null" << std::endl;
+
   }
 }
 

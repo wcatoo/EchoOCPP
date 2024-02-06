@@ -13,8 +13,9 @@ public:
     WebsocketClientManager() = default;
     WebsocketClientManager(zmq::context_t *tContext, const std::string &tZMQAddress, const std::string &tZMQID);
     void init();
-    ~WebsocketClientManager();
+    
     std::unique_ptr<MQDealer> mMQRouterPtr;
+    WebsocketClient mWebsocketClient;
 };
 
 

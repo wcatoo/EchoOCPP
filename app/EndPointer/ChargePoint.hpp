@@ -13,7 +13,7 @@ public:
 private:
 
   std::unique_ptr<OCPP201::OCPPManager> mOCPPManager{nullptr};
-  std::unique_ptr<Component::WebsocketClientManager> mWebsocketManager;
+  std::unique_ptr<Components::WebsocketClientManager> mWebsocketManager;
 
 };
 

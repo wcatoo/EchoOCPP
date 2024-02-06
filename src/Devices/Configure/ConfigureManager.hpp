@@ -21,18 +21,6 @@ public:
     BaseInfo& getBaseInfo() {
         return this->mBaseInfo;
     }
-
-    ConfigureManager(/* args */);
-    ~ConfigureManager();
 };
-
-ConfigureManager::ConfigureManager(/* args */)
-{
-}
-
-ConfigureManager::~ConfigureManager()
-{
-}
-
 
 #endif

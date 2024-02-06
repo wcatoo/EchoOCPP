@@ -23,7 +23,6 @@ public:
   bool setOnClose(const std::function<void()>&& tOnClose) override;
   bool setOnFail(const std::function<void(const std::string&)>&& tOnFail) override;
 
-private:
   void onMessage(websocketpp::connection_hdl,websocketpp::client<websocketpp::config::asio_client>::message_ptr);
   void onOpen(websocketpp::connection_hdl);
   void onClose(websocketpp::connection_hdl);
@@ -33,6 +32,7 @@ private:
   std::shared_ptr<websocketpp::connection<websocketpp::config::asio_client>::type> mHandler;
   websocketpp::client<websocketpp::config::asio_client> mWSEndpoint{};
   std::string mUrl{};
+private:
 };
 
 
