@@ -38,13 +38,15 @@ public:
   }
 
   RouterProtobufMessage getRequestMessage(const std::string &tDest) {
-    RouterProtobufMessage routerProtobufMessage;
+      RouterProtobufMessage routerProtobufMessage;
     routerProtobufMessage.set_data(this->mBootNotificationRequest.serializeMessage());
     routerProtobufMessage.set_uuid(this->mBootNotificationRequest.getMessageId());
     routerProtobufMessage.set_source("OCPP201");
     routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
     routerProtobufMessage.set_message_type(MessageType::REQUEST);
     routerProtobufMessage.set_dest(tDest);
+    routerProtobufMessage.set_ocpp_type("BootNotification");
+    std::cout << "serial message: " << routerProtobufMessage.SerializeAsString() <<std::endl;
     return routerProtobufMessage;
   }
 

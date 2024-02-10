@@ -6,7 +6,7 @@
 #include <utility>
 namespace Components {
 
-bool WebsocketClient::setOnFail(const std::function<void(const std::string &)> &&tOnFail){
+bool WebsocketClient::setOnFail(std::function<void(const std::string &)> &&tOnFail){
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
@@ -14,7 +14,7 @@ bool WebsocketClient::setOnFail(const std::function<void(const std::string &)> &
   return true;
 }
 
-bool WebsocketClient::setOnMessage(const std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) {
+bool WebsocketClient::setOnMessage(std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) {
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
@@ -22,7 +22,7 @@ bool WebsocketClient::setOnMessage(const std::function<void(const WebsocketOnMes
   return true;
 }
 
-bool WebsocketClient::setOnOpen(const std::function<void()>&& tOnOpen) {
+bool WebsocketClient::setOnOpen(std::function<void()>&& tOnOpen) {
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
@@ -31,7 +31,7 @@ bool WebsocketClient::setOnOpen(const std::function<void()>&& tOnOpen) {
   return true;
 
 }
-bool WebsocketClient::setOnClose(const std::function<void()>&& tOnClose) {
+bool WebsocketClient::setOnClose(std::function<void()>&& tOnClose) {
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
@@ -67,19 +67,13 @@ void WebsocketClient::onMessage(websocketpp::connection_hdl tHandler,websocketpp
 
 void WebsocketClient::onOpen(websocketpp::connection_hdl tHandler) {
   this->mStatus = WebsocketStatus::OPEN;
-  std::cout << "onopen" << std::endl;
+//  auto tmp = this->mWSEndpoint.get_con_from_hdl(std::move(tHandler));
   if (this->mOnOpen) {
     this->mOnOpen();
-    std::cout << "onopen callback " << std::endl;
-  } else {
-    std::cout << "onopen callback null" << std::endl;
-
   }
 }
 
 void WebsocketClient::onClose(websocketpp::connection_hdl tHandler){
-//  this->mWSEndpoint.stop();
-//  if (this->mWSEndpoint.stopped()) {
     this->mStatus = WebsocketStatus::CLOSE;
     if (this->mOnClose) {
       this->mOnClose();

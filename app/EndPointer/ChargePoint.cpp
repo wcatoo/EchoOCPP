@@ -2,25 +2,58 @@
 
 #include "ChargePoint.hpp"
 void ChargePoint::init() {
-    this->mWebsocketManager = std::make_unique<Components::WebsocketClientManager>();
-    // this->mWebsocketManager->mWebsocketClient.init();
-    // this->mWebsocketManager->mWebsocketClient.connect("ws://124.222.224.186:8800");
+    this->mZMQContext = zmq::context_t(1);
+    this->mCoreRouter = std::make_unique<MQRouter>(&this->mZMQContext, "inproc://core_router", "coreRouter");
+    this->mCoreRouter->init();
+    this->mCoreRouter->setCoreRouterFunction([this](){
+        zmq::pollitem_t  items[] = {
+                {this->mCoreRouter->mDealerSocket, 0, ZMQ_POLLIN, 0}
+        };
+        zmq::message_t id;
+        zmq::message_t request;
+        while (true) {
+            id.rebuild();
+            request.rebuild();
+            zmq::poll(items, 1, std::chrono::milliseconds(-1));
+            if (items[0].revents & ZMQ_POLLIN) {
+                bool isFrameBroken = false;
+                auto idReturn = this->mCoreRouter->mDealerSocket.recv(id, zmq::recv_flags::none);
+                std::string idStr(static_cast<char*>(id.data()), id.size());
+                if (!idReturn.has_value()) {
+                    isFrameBroken = true;
+                }
+                //       empty frame
+                auto emptyFrame = this->mCoreRouter->mDealerSocket.recv(request, zmq::recv_flags::none);
+                if (!emptyFrame.has_value()) {
+                    isFrameBroken = true;
+                }
+                auto dataFrame = this->mCoreRouter->mDealerSocket.recv(request, zmq::recv_flags::none);
+                if (!dataFrame.has_value()) {
+                    isFrameBroken = true;
+                }
+                RouterProtobufMessage routerMessage;
+                if (routerMessage.ParseFromArray(request.data(), static_cast<int>(request.size())) && !isFrameBroken) {
+                    std::cout << "router rcv data: " << routerMessage.data() << std::endl;
+                    this->mCoreRouter->mDealerSocket.send(zmq::message_t(routerMessage.dest()), zmq::send_flags::sndmore);
+                    std::cout << "router rcv dest: " << routerMessage.dest() << std::endl;
+                    this->mCoreRouter->mDealerSocket.send(request, zmq::send_flags::none);
+                }
+            }
+        }
+    });
+    this->mCoreRouter->run();
+    //OCPP201
+    this->mOCPPManager = std::make_unique<OCPP201::OCPPManager>(&this->mZMQContext, "inproc://core_router");
+    this->mOCPPManager->init();
+    this->mOCPPManager->start();
+
+
+    // websocket
+    this->mWebsocketManager = std::make_unique<Components::WebsocketClientManager>(&this->mZMQContext, "inproc://core_router","websocket");
     this->mWebsocketManager->init();
-    
-    // std::this_thread::sleep_for(std::chrono::seconds(3));
-    // std::thread th([this]() {
-    //     this->mWebsocketManager->mWebsocketClient.mWSEndpoint.run();
-    // });
+    this->mWebsocketManager->start();
 
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-
-    // std::cout << "here1" << std::endl;
-    // this->mWebsocketManager->mWebsocketClient.stop();
-    std::cout << "here2" << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-    this->mWebsocketManager->mWebsocketClient.connect("ws://124.222.224.186:8800");
     while (true) {
-        std::cout << "asdsad" << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(2));
     }
 }

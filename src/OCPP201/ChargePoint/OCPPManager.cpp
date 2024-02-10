@@ -17,7 +17,7 @@ bool OCPP201::OCPPManager::init()
     return false;
   }
 
-  // TODO init BootNotificationManager
+  this->mBootNotificationManager = std::make_unique<BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
   return true;
 }
 
@@ -27,6 +27,8 @@ void OCPP201::OCPPManager::start()
 }
 void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tMessage)
 {
+    std::cout <<"OCPP201 <<< " << tMessage.data() << std::endl;
+
   switch (tMessage.method())
   {
   case ROUTER_METHODS_OCPP201:
@@ -42,24 +44,26 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
   case ROUTER_METHODS_GET_REALTIME_DATA:
     break;
   case ROUTER_METHODS_NETWORK_ONLINE:
-    if (this->mBootNotificationManager.isBooting == false)
+    if (this->mBootNotificationManager->isBooting == false)
     {
-      this->mThreadPoll->enqueue([&]()
+      this->mThreadPoll->enqueue([this, tMessage]()
                                  {
-                                   this->mBootNotificationManager.isBooting = true;
-                                   this->mBootNotificationManager.bootFinish = false;
+                                   this->mBootNotificationManager->isBooting = true;
+                                   this->mBootNotificationManager->bootFinish = false;
                                    // set dest
                                    this->mStatusNotificationManager.mDest = tMessage.source();
                                     this->mHeartbeatManager.mDest = tMessage.source();
-                                   while (this->mBootNotificationManager.getBootInterval() && this->mBootNotificationManager.isBooting) {
-                                     this->send(this->mBootNotificationManager.getRequestMessage(tMessage.source()), [this](const std::string &tMessageConf)
+                                    std::cout << "here" << std::endl;
+                                   while (this->mBootNotificationManager->getBootInterval() && this->mBootNotificationManager->isBooting) {
+                                       std::this_thread::sleep_for(std::chrono::seconds(1));
+                                     this->send(this->mBootNotificationManager->getRequestMessage(tMessage.source()), [this](const std::string &tMessageConf)
                                      {
                                        BootNotificationResponse bootNotificationResponse = nlohmann::json::parse(tMessageConf);
-                                       this->mBootNotificationManager.setBootInterval(bootNotificationResponse.getInterval());
+                                       this->mBootNotificationManager->setBootInterval(bootNotificationResponse.getInterval());
                                        switch (bootNotificationResponse.getStatus()) {
                                        case RegistrationStatusEnumType::Accepted:
-                                         this->mBootNotificationManager.isBooting = false;
-                                         this->mBootNotificationManager.bootFinish = true;
+                                         this->mBootNotificationManager->isBooting = false;
+                                         this->mBootNotificationManager->bootFinish = true;
                                          // init heartbeat Timer
                                          this->mHeartbeatManager.mInterval = bootNotificationResponse.getInterval();
                                          this->mThreadPoll->enqueue([this](){
@@ -84,16 +88,18 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
                                          // 2. To give the CSMS a way to retrieve or set certain configuration information.
                                          // 3. To give the CSMS a way of limiting the load on the CSMS after e.g. a reboot of the CSMS.
                                        case RegistrationStatusEnumType::Pending:
-                                         this->mBootNotificationManager.isBooting = true;
-                                         this->mBootNotificationManager.bootFinish = false;
+                                         this->mBootNotificationManager->isBooting = true;
+                                         this->mBootNotificationManager->bootFinish = false;
                                          break;
                                        case RegistrationStatusEnumType::Rejected:
-                                         this->mBootNotificationManager.isBooting = false;
-                                         this->mBootNotificationManager.bootFinish = false;
+                                         this->mBootNotificationManager->isBooting = false;
+                                         this->mBootNotificationManager->bootFinish = false;
                                          break;
                                        }
-                                     });
-                                   } });
+                                     }
+                                     );
+                                   }
+                                   });
     }
     break;
   case ROUTER_METHODS_NETWORK_OFFLINE:
@@ -190,7 +196,7 @@ bool OCPP201::OCPPManager::sendOCPPError(const std::string &tResource, ProtocolE
   RouterProtobufMessage routerProtobufMessage;
   routerProtobufMessage.set_source(tResource);
   routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-  routerProtobufMessage.set_dest("websocket:" + tResource);
+  routerProtobufMessage.set_dest(tResource);
   routerProtobufMessage.set_message_type(::MessageType::REQUEST);
   MessageErrorResponse messageErrorResponse;
   messageErrorResponse.setErrorCode(ProtocolError::FormatViolation);
@@ -205,7 +211,7 @@ bool OCPP201::OCPPManager::sendOCPPError(const std::string &tResource, ProtocolE
 OCPP201::OCPPManager::OCPPManager(zmq::context_t *tContext,
                                   const std::string &tAddress)
 {
-  this->mMQRouterPtr = std::make_unique<MQDealer>(tContext, tAddress, "OCPP201Dealer");
+  this->mMQRouterPtr = std::make_unique<MQDealer>(tContext, tAddress, "OCPP201");
 }
 bool OCPP201::OCPPManager::send(
     const RouterProtobufMessage &tMessage,
@@ -222,6 +228,7 @@ bool OCPP201::OCPPManager::send(
         this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tMessage.uuid();
         if (tMessage.method() == RouterMethods::ROUTER_METHODS_OCPP201)
         {
+//            std::cout << magic_enum::enum_cast<OCPP201Type>(tMessage.ocpp_type()).value() << std::endl << std::endl;
           this->mOCPPMessageType[tMessage.uuid()] = magic_enum::enum_cast<OCPP201Type>(tMessage.ocpp_type()).value();
         }
       }

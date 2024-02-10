@@ -23,11 +23,8 @@ void MQDealer::start() {
   this->mReceiveThread = std::make_unique<std::thread>([this](){
     this->mStatus = MessageQueueStatus::RUNNING;
     while (this->mStatus == MessageQueueStatus::RUNNING) {
-      zmq::message_t id;
       zmq::message_t request;
-      auto idReturn = this->mDealer->recv(id, zmq::recv_flags::none);
-
-      auto dataFrame = this->mDealer->recv(request, zmq::recv_flags::none);
+        auto dataFrame = this->mDealer->recv(request, zmq::recv_flags::none);
       if (dataFrame.has_value()) {
         RouterProtobufMessage message;
         if (message.ParseFromArray(request.data(), static_cast<int>(request.size()))) {
@@ -51,9 +48,13 @@ MQDealer::~MQDealer() {
   this->mStatus = MessageQueueStatus::CLOSE;
 }
 void MQDealer::send(const RouterProtobufMessage &tPayload) {
+    std::cout << "send dest: " << tPayload.dest() << std::endl;
   this->mDealer->send(zmq::message_t(this->mIdentity), zmq::send_flags::sndmore);
+    std::cout << "send data: " << tPayload.data() << std::endl;
   this->mDealer->send(zmq::message_t(tPayload.SerializeAsString()), zmq::send_flags::none);
 }
+
+
 void MQDealer::setReceiveCallBack(
     std::function<void(const RouterProtobufMessage &)> &&tCallback) {
   this->mReceiveCallback = std::move(tCallback);

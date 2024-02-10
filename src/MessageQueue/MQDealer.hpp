@@ -27,7 +27,6 @@ private:
   std::unique_ptr<std::thread> mReceiveThread{};
   std::function<void(const RouterProtobufMessage&)> mReceiveCallback{};
   MessageQueueStatus mStatus{MessageQueueStatus::CLOSE};
-
   std::string mAddress;
 };
 

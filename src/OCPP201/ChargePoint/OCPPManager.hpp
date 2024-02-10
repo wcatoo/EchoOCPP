@@ -60,7 +60,7 @@ private:
   ConfigureKeyGeneral mConfigureKeyGeneral{};
 
   //Message Manager
-  BootNotificationManager mBootNotificationManager;
+  std::unique_ptr<BootNotificationManager> mBootNotificationManager;
   HeartBeatManager mHeartbeatManager;
   StatusNotificationManager mStatusNotificationManager;
 

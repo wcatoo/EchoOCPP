@@ -1,24 +1,23 @@
-//
-// Created by 杨帆 on 2023/12/20.
-//
-
 #ifndef ECHOOCPP_WEBSOCKETDEFINES_HPP
 #define ECHOOCPP_WEBSOCKETDEFINES_HPP
 
 #include <string>
+#include <iostream>
 
 namespace Components {
 enum class WebsocketStatus {
   OPEN,
   CLOSE
 };
-
-
 class WebsocketOnMessageInfo {
 public:
   WebsocketOnMessageInfo() {
+      std::cout <<"init" << std::endl;
     mResource = "";
     mMessage = "";
+  }
+  ~WebsocketOnMessageInfo() {
+      std::cout <<"destory" << std::endl;
   }
   void reset() {
     this->mMessage = "";
@@ -42,7 +41,6 @@ public:
 private:
   std::string mMessage;
   std::string mResource;
-
 };
 
 

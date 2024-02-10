@@ -52,7 +52,7 @@ public:
       return to_string(this->mPayload);
   }
   [[nodiscard]]std::string serializeMessage() {
-    stream.clear();
+    stream.str("");
     this->mMessageId = Utility::generateMessageId();
     stream << '[' << 2 << ",\"" <<  this->mMessageId << "\",\"" << this->mAction << "\"," << this->mPayload << "]";
     return stream.str();
@@ -80,7 +80,7 @@ public:
     return this->mMessageId;
   }
   std::string serializeMessage() {
-    stream.clear();
+    stream.str("");
     stream << '[' << 3 << ",\"" << this->mMessageId << "\",\"" << this->mPayload << ']' << std::endl;
     return stream.str();
   }
@@ -89,7 +89,7 @@ public:
 class MessageErrorResponse {
 public:
   std::string serializeMessage() {
-    stream.clear();
+    stream.str("");
     this->mMessageId = Utility::generateMessageId();
     stream << '[' << 4 << ",\"" <<  this->mMessageId << "\",\"" << magic_enum::enum_name<ProtocolError>(this->mErrorCode) << "\",\"" << this->mErrorDescription << "\"," << this->mErrorDetails << "]";
     return stream.str();

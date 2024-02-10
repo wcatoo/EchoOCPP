@@ -18,10 +18,10 @@ public:
   void connect(const std::string &tURL);
   void sendPayload(const std::string &, const std::string &) override;
   void sendPayload(const std::string &);
-  bool setOnMessage(const std::function<void(const WebsocketOnMessageInfo &)>&& tOnMessage) override;
-  bool setOnOpen(const std::function<void()>&& tOnOpen) override;
-  bool setOnClose(const std::function<void()>&& tOnClose) override;
-  bool setOnFail(const std::function<void(const std::string&)>&& tOnFail) override;
+  bool setOnMessage(std::function<void(const WebsocketOnMessageInfo &)>&& tOnMessage) override;
+  bool setOnOpen(std::function<void()>&& tOnOpen) override;
+  bool setOnClose(std::function<void()>&& tOnClose) override;
+  bool setOnFail(std::function<void(const std::string&)>&& tOnFail) override;
 
   void onMessage(websocketpp::connection_hdl,websocketpp::client<websocketpp::config::asio_client>::message_ptr);
   void onOpen(websocketpp::connection_hdl);
