@@ -40,7 +40,8 @@ private:
   bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
   void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
-  std::unique_ptr<MQDealer> mMQRouterPtr;
+void OCPP201RequestHandler(const std::string &tUUID, OCPP201Type tType, const std::string &tMessage);
+        std::unique_ptr<MQDealer> mMQRouterPtr;
   // UUID | OCPPType | callback function
   std::unordered_map<std::string, std::pair<OCPP201Type, std::function<void()>>> mMessagesTrace;
   // if message timeout, it should be removed from trace

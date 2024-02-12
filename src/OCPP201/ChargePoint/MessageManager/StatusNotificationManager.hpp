@@ -24,6 +24,8 @@ class StatusNotificationManager {
         routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
         routerProtobufMessage.set_message_type(MessageType::REQUEST);
         routerProtobufMessage.set_dest(this->mDest);
+        routerProtobufMessage.set_ocpp_type(this->mRequest.getAction());
+        std::cout << "serial message: " << routerProtobufMessage.SerializeAsString() <<std::endl;
         return routerProtobufMessage;
     }
 

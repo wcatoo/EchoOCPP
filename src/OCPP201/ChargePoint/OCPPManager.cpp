@@ -18,6 +18,9 @@ bool OCPP201::OCPPManager::init()
   }
 
   this->mBootNotificationManager = std::make_unique<BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
+  for (auto i = 0; i < 3; i++) {
+      this->mConnectors.emplace_back();
+  }
   return true;
 }
 
@@ -53,8 +56,7 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
                                    // set dest
                                    this->mStatusNotificationManager.mDest = tMessage.source();
                                     this->mHeartbeatManager.mDest = tMessage.source();
-                                    std::cout << "here" << std::endl;
-                                   while (this->mBootNotificationManager->getBootInterval() && this->mBootNotificationManager->isBooting) {
+                                     while (this->mBootNotificationManager->getBootInterval() && this->mBootNotificationManager->isBooting) {
                                        std::this_thread::sleep_for(std::chrono::seconds(1));
                                      this->send(this->mBootNotificationManager->getRequestMessage(tMessage.source()), [this](const std::string &tMessageConf)
                                      {
@@ -109,6 +111,19 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
   default:
     break;
   }
+}
+
+void OCPP201::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, OCPP201Type tType, const std::string &tMessage) {
+    switch (tType) {
+        case OCPP201Type::SetVariables:
+            break;
+        case OCPP201Type::SetNetworkProfile:
+//            SetNetworkProfileRequest request = nlohmann::json::parse(tMessage);
+            break;
+        default:
+            break;
+    }
+
 }
 
 void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tMessage)

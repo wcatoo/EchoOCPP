@@ -9,43 +9,43 @@ class BootNotificationManager {
 public:
   BootNotificationManager() = default;
   BootNotificationManager(const std::string &tModel, const std::string &tVendorName){
-    this->mBootNotificationRequest = BootNotificationRequest(BootReasonEnumType::PowerUp, ChargingStationType(tModel, tVendorName));
+    this->mRequest = BootNotificationRequest(BootReasonEnumType::PowerUp, ChargingStationType(tModel, tVendorName));
   }
   inline void setSerialNumber(const std::string &tValue) {
-    this->mBootNotificationRequest.chargingStation.setSerialNumber(tValue.empty()?std::nullopt:std::optional<std::string>(tValue));
+    this->mRequest.chargingStation.setSerialNumber(tValue.empty() ? std::nullopt : std::optional<std::string>(tValue));
   }
   inline void setFirmwareVersion(const std::string &tValue) {
-    this->mBootNotificationRequest.chargingStation.setFirmwareVersion(tValue.empty()?std::nullopt:std::optional<std::string>(tValue));
+    this->mRequest.chargingStation.setFirmwareVersion(tValue.empty() ? std::nullopt : std::optional<std::string>(tValue));
   }
 
   inline void setModel(const std::string &tValue) {
-    this->mBootNotificationRequest.chargingStation.setModel(tValue);
+    this->mRequest.chargingStation.setModel(tValue);
   }
   inline void setVendorName(const std::string &tValue) {
-    this->mBootNotificationRequest.chargingStation.setVendorName(tValue);
+    this->mRequest.chargingStation.setVendorName(tValue);
   }
 
   inline void setBootReason(BootReasonEnumType tReason) {
-    this->mBootNotificationRequest.reason = tReason;
+    this->mRequest.reason = tReason;
   }
 
   inline void setModem(const std::string &tIccid, const std::string &tImsi) {
     if (tIccid.empty() && tImsi.empty()) {
-      this->mBootNotificationRequest.chargingStation.setModem(std::nullopt);
+      this->mRequest.chargingStation.setModem(std::nullopt);
     } else {
-      this->mBootNotificationRequest.chargingStation.setModem(std::optional<ModemType>(ModemType((IdentifierString(tIccid)), IdentifierString(tImsi))));
+      this->mRequest.chargingStation.setModem(std::optional<ModemType>(ModemType((IdentifierString(tIccid)), IdentifierString(tImsi))));
     }
   }
 
   RouterProtobufMessage getRequestMessage(const std::string &tDest) {
-      RouterProtobufMessage routerProtobufMessage;
-    routerProtobufMessage.set_data(this->mBootNotificationRequest.serializeMessage());
-    routerProtobufMessage.set_uuid(this->mBootNotificationRequest.getMessageId());
+  RouterProtobufMessage routerProtobufMessage;
+    routerProtobufMessage.set_data(this->mRequest.serializeMessage());
+    routerProtobufMessage.set_uuid(this->mRequest.getMessageId());
     routerProtobufMessage.set_source("OCPP201");
     routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
     routerProtobufMessage.set_message_type(MessageType::REQUEST);
     routerProtobufMessage.set_dest(tDest);
-    routerProtobufMessage.set_ocpp_type("BootNotification");
+    routerProtobufMessage.set_ocpp_type(this->mRequest.getAction());
     std::cout << "serial message: " << routerProtobufMessage.SerializeAsString() <<std::endl;
     return routerProtobufMessage;
   }
@@ -71,7 +71,7 @@ public:
   // is boot status is pending, the charger station should receive GetVariablesReq and setVariableReq
   bool bootFinish = false;
 private:
-  BootNotificationRequest mBootNotificationRequest;
+  BootNotificationRequest mRequest;
   int mBootInterval = 3;
 
 };

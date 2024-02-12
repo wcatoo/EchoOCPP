@@ -677,17 +677,24 @@ private:
 };
 
 class GetVariablesRequest : public MessageCall {
-private:
-  std::vector<GetVariableDataType> getVariableData;
-
 public:
-  explicit GetVariablesRequest(
+    std::vector<GetVariableDataType> getVariableData;
+    GetVariablesRequest() = default;
+    explicit GetVariablesRequest(
       const std::vector<GetVariableDataType> &variableData)
       : getVariableData(variableData) {
     mAction = "GetVariablesRequest";
     mMessageId = Utility::generateMessageId();
     buildPayload();
   }
+    friend void from_json(const nlohmann::json& j, GetVariablesRequest& data) {
+        std::cout << j.dump() << std::endl;
+        if (j.contains("getVariableData")) {
+            data.getVariableData = j.at("getVariableData").get<std::vector<GetVariableDataType>>();
+        } else {
+            std::cout << "no data" << std::endl;
+        }
+    }
 
 private:
   void buildPayload() { mPayload["getVariableData"] = (getVariableData); }
@@ -1336,11 +1343,10 @@ private:
 };
 
 class SetNetworkProfileRequest : public MessageCall {
-private:
-  int configurationSlot;
-  NetworkConnectionProfileType connectionData;
-
 public:
+    int configurationSlot;
+    NetworkConnectionProfileType connectionData;
+    SetNetworkProfileRequest() = default;
   SetNetworkProfileRequest(
       int slot, const NetworkConnectionProfileType &connectionProfile)
       : configurationSlot(slot), connectionData(connectionProfile) {
@@ -1348,6 +1354,10 @@ public:
     mMessageId = Utility::generateMessageId();
     buildPayload();
   }
+friend void from_json(const nlohmann::json& j, SetNetworkProfileRequest& data) {
+  data.configurationSlot = j.at("configurationSlot").get<int>();
+  data.connectionData = j.at("connectionData").get<NetworkConnectionProfileType>();
+}
 
 private:
   void buildPayload() {
@@ -1424,7 +1434,8 @@ public:
     this->connectorStatus = ConnectorStatusEnumType::Unavailable;
     this->evseId = 0;
     this->connectorId = 0;
-    this->buildPayload();
+ this->mAction = "StatusNotification";
+      this->buildPayload();
   }
 
   void buildPayload() {

@@ -40,13 +40,37 @@ namespace Components {
             }
         });
         this->mWebsocketClient.setOnFail([](const std::string &t){
-            std::cout << "fail" << std::endl;
+            // TODO websocket connect fail handler
+            std::cout << "websocket connect failed -> "  << t<< std::endl;
         });
-         this->mWebsocketClient.setOnMessage([](WebsocketOnMessageInfo t){
+         this->mWebsocketClient.setOnMessage([this](WebsocketOnMessageInfo t){
              std::cout << "message: " << t.getPayload() << std::endl;
+             RouterProtobufMessage routerProtobufMessage;
+             routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
+             routerProtobufMessage.set_dest("OCPP201");
+             routerProtobufMessage.set_source(this->mZMQIdentity);
+             if (t.getPayload().size() > 2) {
+                 switch (t.getPayload().at(1)) {
+                     case '2':
+                         routerProtobufMessage.set_message_type(MessageType::REQUEST);
+                         break;
+                     case '3':
+                         routerProtobufMessage.set_message_type(MessageType::RESPONSE);
+                         break;
+                     case '4':
+                         break;
+                     default:
+                         std::cout << t.getPayload() << " -> no OCPP message" << std::endl;
+                         break;
+                 }
+                 routerProtobufMessage.set_data(t.getPayload());
+             } else {
+                 return ;
+             }
          });
         this->mWebsocketClient.init();
         this->mWebsocketClient.connect("ws://124.222.224.186:8800");
+//        this->mWebsocketClient.connect("ws://127.0.0.1:8080");
     }
 
     void WebsocketClientManager::start() {

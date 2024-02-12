@@ -14,36 +14,15 @@ protected:
   std::unique_ptr<OCPP201::OCPPManager> ocppManager;
 };
 
-void print(std::function<void(const std::string &)> tmp) {
-  tmp("tt");
+TEST_F(OCPP201ChargePoint, GetVariableRequest) {
+    std::vector<GetVariableDataType> data;
+    for (int i =0; i< 10; i++) {
+        data.emplace_back();
+    }
+    GetVariablesRequest getVariablesRequest(data);
+//    GetVariablesRequest tmp = nlohmann::json::parse(tt);
+//    EXPECT_EQ(getVariablesRequest.getPayload(), tmp.getPayload());
 }
 
-TEST_F(OCPP201ChargePoint, auto) {
-
- std::cout << "uuid: " <<  Utility::generateMessageId().substr(0,9) << std::endl;
- StatusNotificationRequest tt;
- std::cout << tt.serializeMessage() << std::endl;
-
-    //  ocppManager = std::make_unique<OCPPManager>();
-    //  ocppManager->init();
-    //   nlohmann::json json = ocppManager->mConfigureKeyGeneral;
-
-// ocppManager = std::make_unique<OCPPManager>();
-// ocppManager->init();
-//  nlohmann::json json = ocppManager->mConfigureKeyGeneral;
-//
-// ConfigureKeyGeneral configureKeyGeneral = nlohmann::json::parse(json.dump());
-
-// nlohmann::json json = ChargingStationType();
-//
-//std::cout << "json : " << json.dump() << std::endl;
-//
-//ChargingStationType chargingStationType = nlohmann::json::parse(json.dump());
-
-
-
-
-
-}
 
 }
