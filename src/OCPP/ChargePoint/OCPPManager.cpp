@@ -7,17 +7,9 @@ bool OCPP201::OCPPManager::init()
   this->mThreadPoll = std::make_unique<ThreadPool>(5);
   this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage &tMessage)
                                          { this->receiveMessageHandler(tMessage); });
-  auto fileContext = System_IO::readFromFile(std::filesystem::current_path().parent_path() / "config/ConfigureKeyGeneral.json");
-  if (fileContext.has_value())
-  {
-    this->mConfigureKeyGeneral = nlohmann::json::parse(fileContext.value());
-  }
-  else
-  {
-    return false;
-  }
 
   this->mBootNotificationManager = std::make_unique<BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
+  // test connectors
   for (auto i = 0; i < 3; i++) {
       this->mConnectors.emplace_back();
   }

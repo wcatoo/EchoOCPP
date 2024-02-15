@@ -1,6 +1,6 @@
 #ifndef ECHOOCPP_HEARTBEAT_HPP
 #define ECHOOCPP_HEARTBEAT_HPP
-#include "../../DataType/Datatypes.hpp"
+#include "../DataType/Datatypes.hpp"
 #include <thread>
 #include <memory>
 #include <atomic>

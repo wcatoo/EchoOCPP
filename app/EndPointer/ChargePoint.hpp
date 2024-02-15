@@ -1,7 +1,7 @@
 #ifndef ECHOOCPP_CHARGEPOINT_HPP
 #define ECHOOCPP_CHARGEPOINT_HPP
-#include "../../src/Devices/Connector.hpp"
-#include "../../src/OCPP201/ChargePoint/OCPPManager.hpp"
+#include "../../src/OCPP/201/Devices/Connector.hpp"
+#include "../../src/OCPP/ChargePoint/OCPPManager.hpp"
 #include "WebsocketClientManager.hpp"
 #include "../../src/MessageQueue/MQRouter.hpp"
 
@@ -10,7 +10,7 @@ public:
   void init();
 
 
-  std::vector<Connector> mConnectors;
+  std::vector<OCPP201::Connector> mConnectors;
 private:
 
   std::unique_ptr<OCPP201::OCPPManager> mOCPPManager{nullptr};

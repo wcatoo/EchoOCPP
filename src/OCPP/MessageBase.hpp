@@ -1,12 +1,12 @@
 
 #ifndef MESSAGECALLBASE_HPP
 #define MESSAGECALLBASE_HPP
-#include "../Utilies/Utilies.hpp"
+#include "Utilies/Utilies.hpp"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <string>
 
-namespace OCPP201
+namespace OCPP
 {
 enum class ProtocolError {
   FormatViolation,
@@ -24,7 +24,7 @@ enum class ProtocolError {
 
 
 
-class MessageCall {
+class MessageCallRequest {
 protected:
   std::string mMessageId{};
   std::string mAction{};

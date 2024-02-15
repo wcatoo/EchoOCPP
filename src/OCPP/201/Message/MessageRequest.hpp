@@ -5,10 +5,11 @@
 #ifndef ECHOOCPP_MESSAGEREQUEST_HPP
 #define ECHOOCPP_MESSAGEREQUEST_HPP
 #include "../DataType/Datatypes.hpp"
-#include "MessageBase.hpp"
+#include "../../MessageBase.hpp"
 
 namespace OCPP201 {
-class AuthorizeRequest : public MessageCall {
+    using namespace OCPP;
+class AuthorizeRequest : public MessageCallRequest {
 private:
   std::string certificate;
   std::string idToken;
@@ -32,7 +33,7 @@ private:
   }
 };
 
-class BootNotificationRequest : public MessageCall {
+class BootNotificationRequest : public MessageCallRequest {
 public:
   BootNotificationRequest() = default;
   BootNotificationRequest(
@@ -55,7 +56,7 @@ private:
   }
 };
 
-class CancelReservationRequest : public MessageCall {
+class CancelReservationRequest : public MessageCallRequest {
 private:
   int reservationId;
 
@@ -71,7 +72,7 @@ private:
   void buildPayload() { mPayload["reservationId"] = reservationId; }
 };
 
-class CertificateSignedRequest : public MessageCall {
+class CertificateSignedRequest : public MessageCallRequest {
 private:
   std::vector<std::string> certificateChain;
   std::optional<CertificateSigningUseEnumType> certificateType;
@@ -96,7 +97,7 @@ private:
   }
 };
 
-class ChangeAvailabilityRequest : public MessageCall {
+class ChangeAvailabilityRequest : public MessageCallRequest {
 private:
   OperationalStatusEnumType operationalStatus;
   std::optional<EVSEType> evse;
@@ -121,7 +122,7 @@ private:
   }
 };
 
-class ClearCacheResponse : public MessageCall {
+class ClearCacheResponse : public MessageCallRequest {
 private:
   ClearCacheStatusEnumType status;
   std::optional<StatusInfoType> statusInfo;
@@ -146,7 +147,7 @@ private:
   }
 };
 
-class ClearChargingProfileRequest : public MessageCall {
+class ClearChargingProfileRequest : public MessageCallRequest {
 private:
   std::optional<int> chargingProfileId;
   std::optional<ClearChargingProfileType> chargingProfileCriteria;
@@ -173,7 +174,7 @@ private:
   }
 };
 
-class ClearDisplayMessageRequest : public MessageCall {
+class ClearDisplayMessageRequest : public MessageCallRequest {
 private:
   int messageId;
 
@@ -188,7 +189,7 @@ private:
   void buildPayload() { mPayload["id"] = messageId; }
 };
 
-class ClearedChargingLimitRequest : public MessageCall {
+class ClearedChargingLimitRequest : public MessageCallRequest {
 private:
   ChargingLimitSourceEnumType chargingLimitSource;
   std::optional<int> evseId;
@@ -213,7 +214,7 @@ private:
   }
 };
 
-class ClearVariableMonitoringRequest : public MessageCall {
+class ClearVariableMonitoringRequest : public MessageCallRequest {
 private:
   std::vector<int> monitorIds;
 
@@ -229,7 +230,7 @@ private:
   void buildPayload() { mPayload["id"] = monitorIds; }
 };
 
-class CostUpdatedRequest : public MessageCall {
+class CostUpdatedRequest : public MessageCallRequest {
 private:
   double totalCost;
   std::string transactionId;
@@ -249,7 +250,7 @@ private:
   }
 };
 
-class CustomerInformationRequest : public MessageCall {
+class CustomerInformationRequest : public MessageCallRequest {
 private:
   int requestId;
   bool report;
@@ -292,7 +293,7 @@ private:
   }
 };
 
-class DataTransferRequest : public MessageCall {
+class DataTransferRequest : public MessageCallRequest {
 private:
   std::optional<std::string> messageId;
   std::optional<nlohmann::json> data;
@@ -323,7 +324,7 @@ private:
   }
 };
 
-class DeleteCertificateRequest : public MessageCall {
+class DeleteCertificateRequest : public MessageCallRequest {
 private:
   CertificateHashDataType certificateHashData;
 
@@ -341,7 +342,7 @@ private:
   }
 };
 
-class FirmwareStatusNotificationRequest : public MessageCall {
+class FirmwareStatusNotificationRequest : public MessageCallRequest {
 private:
   FirmwareStatusEnumType status;
   std::optional<int> requestId;
@@ -366,7 +367,7 @@ private:
   }
 };
 
-class Get15118EVCertificateRequest : public MessageCall {
+class Get15118EVCertificateRequest : public MessageCallRequest {
 private:
   std::string iso15118SchemaVersion;
   CertificateActionEnumType action;
@@ -392,7 +393,7 @@ private:
   }
 };
 
-class GetBaseReportRequest : public MessageCall {
+class GetBaseReportRequest : public MessageCallRequest {
 private:
   int requestId;
   ReportBaseEnumType reportBase;
@@ -413,7 +414,7 @@ private:
   }
 };
 
-class GetCertificateStatusRequest : public MessageCall {
+class GetCertificateStatusRequest : public MessageCallRequest {
 private:
   OCSPRequestDataType ocspRequestData;
 
@@ -429,7 +430,7 @@ private:
   void buildPayload() { mPayload["ocspRequestData"] = (ocspRequestData); }
 };
 
-class GetChargingProfilesRequest : public MessageCall {
+class GetChargingProfilesRequest : public MessageCallRequest {
 private:
   int requestId;
   std::optional<int> evseId;
@@ -457,7 +458,7 @@ private:
   }
 };
 
-class GetCompositeScheduleRequest : public MessageCall {
+class GetCompositeScheduleRequest : public MessageCallRequest {
 private:
   int duration;
   std::optional<ChargingRateUnitEnumType> chargingRateUnit;
@@ -486,7 +487,7 @@ private:
   }
 };
 
-class GetDisplayMessagesRequest : public MessageCall {
+class GetDisplayMessagesRequest : public MessageCallRequest {
 private:
   std::vector<int> messageIds;
   int requestId;
@@ -523,7 +524,7 @@ private:
   }
 };
 
-class GetInstalledCertificateIdsRequest : public MessageCall {
+class GetInstalledCertificateIdsRequest : public MessageCallRequest {
 private:
   std::vector<GetCertificateIdUseEnumType> certificateTypes;
 
@@ -548,7 +549,7 @@ private:
   }
 };
 
-class GetLogRequest : public MessageCall {
+class GetLogRequest : public MessageCallRequest {
 private:
   LogEnumType logType;
   int requestId;
@@ -585,7 +586,7 @@ private:
   }
 };
 
-class GetMonitoringReportRequest : public MessageCall {
+class GetMonitoringReportRequest : public MessageCallRequest {
 private:
   int requestId;
   std::vector<MonitoringCriterionEnumType> monitoringCriteria;
@@ -620,7 +621,7 @@ private:
   }
 };
 
-class GetReportRequest : public MessageCall {
+class GetReportRequest : public MessageCallRequest {
 private:
   int requestId;
   std::vector<ComponentCriterionEnumType> componentCriteria;
@@ -655,7 +656,7 @@ private:
   }
 };
 
-class GetTransactionStatusRequest : public MessageCall {
+class GetTransactionStatusRequest : public MessageCallRequest {
 private:
   std::optional<IdentifierString> transactionId;
 
@@ -676,7 +677,7 @@ private:
   }
 };
 
-class GetVariablesRequest : public MessageCall {
+class GetVariablesRequest : public MessageCallRequest {
 public:
     std::vector<GetVariableDataType> getVariableData;
     GetVariablesRequest() = default;
@@ -700,7 +701,7 @@ private:
   void buildPayload() { mPayload["getVariableData"] = (getVariableData); }
 };
 
-class InstallCertificateRequest : public MessageCall {
+class InstallCertificateRequest : public MessageCallRequest {
 private:
   InstallCertificateUseEnumType certificateType;
   std::string certificate;
@@ -721,7 +722,7 @@ private:
   }
 };
 
-class LogStatusNotificationRequest : public MessageCall {
+class LogStatusNotificationRequest : public MessageCallRequest {
 private:
   UploadLogStatusEnumType status;
   std::optional<int> requestId;
@@ -746,7 +747,7 @@ private:
   }
 };
 
-class MeterValuesRequest : public MessageCall {
+class MeterValuesRequest : public MessageCallRequest {
 private:
   int evseId;
   std::vector<MeterValueType> meterValues;
@@ -766,7 +767,7 @@ private:
   }
 };
 
-class NotifyChargingLimitRequest : public MessageCall {
+class NotifyChargingLimitRequest : public MessageCallRequest {
 private:
   std::optional<int> evseId;
   ChargingLimitType chargingLimit;
@@ -796,7 +797,7 @@ private:
   }
 };
 
-class NotifyCustomerInformationRequest : public MessageCall {
+class NotifyCustomerInformationRequest : public MessageCallRequest {
 private:
   std::string data;
   bool tbc;
@@ -827,7 +828,7 @@ private:
   }
 };
 
-class NotifyDisplayMessagesRequest : public MessageCall {
+class NotifyDisplayMessagesRequest : public MessageCallRequest {
 private:
   int requestId;
   bool tbc;
@@ -850,7 +851,7 @@ private:
   }
 };
 
-class NotifyEVChargingNeedsRequest : public MessageCall {
+class NotifyEVChargingNeedsRequest : public MessageCallRequest {
 private:
   std::optional<int> maxScheduleTuples;
   int evseId;
@@ -876,7 +877,7 @@ private:
   }
 };
 
-class NotifyEVChargingScheduleRequest : public MessageCall {
+class NotifyEVChargingScheduleRequest : public MessageCallRequest {
 private:
   std::string timeBase;
   int evseId;
@@ -899,7 +900,7 @@ private:
   }
 };
 
-class NotifyEventRequest : public MessageCall {
+class NotifyEventRequest : public MessageCallRequest {
 private:
   std::string generatedAt;
   bool tbc;
@@ -925,7 +926,7 @@ private:
   }
 };
 
-class NotifyMonitoringReportRequest : public MessageCall {
+class NotifyMonitoringReportRequest : public MessageCallRequest {
 private:
   int requestId;
   bool tbc;
@@ -955,7 +956,7 @@ private:
   }
 };
 
-class NotifyReportRequest : public MessageCall {
+class NotifyReportRequest : public MessageCallRequest {
 private:
   int requestId;
   std::string generatedAt;
@@ -984,7 +985,7 @@ private:
   }
 };
 
-class PublishFirmwareRequest : public MessageCall {
+class PublishFirmwareRequest : public MessageCallRequest {
 private:
   std::string location;
   int retries;
@@ -1015,7 +1016,7 @@ private:
   }
 };
 
-class PublishFirmwareStatusNotificationRequest : public MessageCall {
+class PublishFirmwareStatusNotificationRequest : public MessageCallRequest {
 private:
   PublishFirmwareStatusEnumType status;
   std::vector<std::string> locations;
@@ -1047,7 +1048,7 @@ private:
   }
 };
 
-class ReportChargingProfilesRequest : public MessageCall {
+class ReportChargingProfilesRequest : public MessageCallRequest {
 private:
   int requestId;
   ChargingLimitSourceEnumType chargingLimitSource;
@@ -1078,7 +1079,7 @@ private:
   }
 };
 
-class RequestStartTransactionRequest : public MessageCall {
+class RequestStartTransactionRequest : public MessageCallRequest {
 private:
   std::optional<int> evseId;
   int remoteStartId;
@@ -1118,7 +1119,7 @@ private:
   }
 };
 
-class RequestStopTransactionRequest : public MessageCall {
+class RequestStopTransactionRequest : public MessageCallRequest {
 private:
   std::string transactionId;
 
@@ -1134,7 +1135,7 @@ private:
   void buildPayload() { mPayload["transactionId"] = transactionId; }
 };
 
-class ReservationStatusUpdateRequest : public MessageCall {
+class ReservationStatusUpdateRequest : public MessageCallRequest {
 private:
   int reservationId;
   ReservationUpdateStatusEnumType reservationUpdateStatus;
@@ -1157,7 +1158,7 @@ private:
   }
 };
 
-class ReserveNowRequest : public MessageCall {
+class ReserveNowRequest : public MessageCallRequest {
 private:
   int reservationId;
   std::string expiryDateTime;
@@ -1198,7 +1199,7 @@ private:
   }
 };
 
-class ResetRequest : public MessageCall {
+class ResetRequest : public MessageCallRequest {
 private:
   ResetEnumType resetType;
   std::optional<int> evseId;
@@ -1221,7 +1222,7 @@ private:
   }
 };
 
-class SecurityEventNotificationRequest : public MessageCall {
+class SecurityEventNotificationRequest : public MessageCallRequest {
 private:
   std::string eventType;
   RFC3339DateTime timestamp;
@@ -1247,7 +1248,7 @@ private:
   }
 };
 
-class SendLocalListRequest : public MessageCall {
+class SendLocalListRequest : public MessageCallRequest {
 private:
   int versionNumber;
   UpdateEnumType updateType;
@@ -1274,7 +1275,7 @@ private:
   }
 };
 
-class SetChargingProfileRequest : public MessageCall {
+class SetChargingProfileRequest : public MessageCallRequest {
 private:
   int evseId;
   ChargingProfileType chargingProfile;
@@ -1294,7 +1295,7 @@ private:
   }
 };
 
-class SetDisplayMessageRequest : public MessageCall {
+class SetDisplayMessageRequest : public MessageCallRequest {
 private:
   MessageInfoType message;
 
@@ -1309,7 +1310,7 @@ private:
   void buildPayload() { mPayload["message"] = message; }
 };
 
-class SetMonitoringBaseRequest : public MessageCall {
+class SetMonitoringBaseRequest : public MessageCallRequest {
 private:
   MonitoringBaseEnumType monitoringBase;
 
@@ -1327,7 +1328,7 @@ private:
   }
 };
 
-class SetMonitoringLevelRequest : public MessageCall {
+class SetMonitoringLevelRequest : public MessageCallRequest {
 private:
   int severity;
 
@@ -1342,7 +1343,7 @@ private:
   void buildPayload() { mPayload["severity"] = severity; }
 };
 
-class SetNetworkProfileRequest : public MessageCall {
+class SetNetworkProfileRequest : public MessageCallRequest {
 public:
     int configurationSlot;
     NetworkConnectionProfileType connectionData;
@@ -1366,7 +1367,7 @@ private:
   }
 };
 
-class SetVariableMonitoringRequest : public MessageCall {
+class SetVariableMonitoringRequest : public MessageCallRequest {
 private:
   std::vector<SetMonitoringDataType> setMonitoringData;
 
@@ -1383,7 +1384,7 @@ private:
   void buildPayload() { mPayload["setMonitoringData"] = setMonitoringData; }
 };
 
-class SetVariablesRequest : public MessageCall {
+class SetVariablesRequest : public MessageCallRequest {
 private:
   std::vector<SetVariableDataType> setVariableData;
 
@@ -1399,7 +1400,7 @@ private:
   void buildPayload() { mPayload["setVariableData"] = setVariableData; }
 };
 
-class SignCertificateRequest : public MessageCall {
+class SignCertificateRequest : public MessageCallRequest {
 private:
   std::string csr;
   CertificateSigningUseEnumType certificateType;
@@ -1422,7 +1423,7 @@ private:
   }
 };
 
-class StatusNotificationRequest : public MessageCall {
+class StatusNotificationRequest : public MessageCallRequest {
 public:
   RFC3339DateTime timestamp;
   ConnectorStatusEnumType connectorStatus;
@@ -1446,7 +1447,7 @@ public:
   }
 };
 
-class TransactionEventRequest : public MessageCall {
+class TransactionEventRequest : public MessageCallRequest {
 private:
   TransactionEventEnumType eventType;
   std::string timestamp;
@@ -1499,7 +1500,7 @@ private:
   }
 };
 
-class TriggerMessageRequest : public MessageCall {
+class TriggerMessageRequest : public MessageCallRequest {
 private:
   MessageTriggerEnumType requestedMessage;
   EVSEType evse;
@@ -1520,7 +1521,7 @@ private:
   }
 };
 
-class UnlockConnectorRequest : public MessageCall {
+class UnlockConnectorRequest : public MessageCallRequest {
 private:
   int evseId;
   int connectorId;
@@ -1540,7 +1541,7 @@ private:
   }
 };
 
-class UnpublishFirmwareRequest : public MessageCall {
+class UnpublishFirmwareRequest : public MessageCallRequest {
 private:
   std::string checksum;
 
@@ -1555,7 +1556,7 @@ private:
   void buildPayload() { mPayload["checksum"] = checksum; }
 };
 
-class UpdateFirmwareRequest : public MessageCall {
+class UpdateFirmwareRequest : public MessageCallRequest {
 private:
   int retries;
   int retryInterval;
@@ -1582,11 +1583,11 @@ private:
         firmware; // Assuming FirmwareType has a toJson() method
   }
 };
-class HeartbeatRequest : public MessageCall {
+class HeartbeatRequest : public MessageCallRequest {
 public:
   HeartbeatRequest() {
-    MessageCall::mAction = "Heartbeat";
-    MessageCall::mPayload = nlohmann::json::object();
+      MessageCallRequest::mAction = "Heartbeat";
+      MessageCallRequest::mPayload = nlohmann::json::object();
   }
 };
 

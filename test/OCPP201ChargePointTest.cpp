@@ -1,9 +1,4 @@
-//
-// Created by 杨帆 on 2023/11/20.
-//
-
 #include "../src/OCPP201/ChargePoint/OCPPManager.hpp"
-#include "../src/OCPP201/Utilies/Helper.hpp"
 #include <gtest/gtest.h>
 #include <string>
 namespace OCPP201 {

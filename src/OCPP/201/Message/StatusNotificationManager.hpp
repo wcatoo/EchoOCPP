@@ -1,6 +1,6 @@
 #ifndef ECHOOCPP_STATUSNOTIFICATION_HPP
 #define ECHOOCPP_STATUSNOTIFICATION_HPP
-#include "../../DataType/Datatypes.hpp"
+#include "../DataType/Datatypes.hpp"
 #include <functional>
 
 namespace OCPP201 {

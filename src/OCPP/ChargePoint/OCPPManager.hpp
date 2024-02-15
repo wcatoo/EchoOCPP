@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <mutex>
 
-#include "../../Devices/Connector.hpp"
+#include "../201/Devices/Connector.hpp"
 #include "../../MessageQueue/MQDealer.hpp"
 #include "../Message/MessageRequest.hpp"
 #include "../Message/MessageRespone.hpp"
@@ -16,13 +16,13 @@
 #include "../Utilies/Utilies.hpp"
 #include "ThreadPool.hpp"
 
-#include "../ConfigureKey/ConfigureKeyGeneral.hpp"
 
 // message manager
-#include "./MessageManager/BootNotificationManager.hpp"
-#include "../../Devices/Configure/ConfigureManager.hpp"
-#include "./MessageManager/HeartBeatManager.hpp"
-#include "./MessageManager/StatusNotificationManager.hpp"
+#include "BootNotificationManager.hpp"
+#include "../../Devices/Configure/OCPP201ConfigureManager.hpp"
+#include "HeartBeatManager.hpp"
+#include "StatusNotificationManager.hpp"
+#include "../Configure/ConfigureVariables.hpp"
 
 
 namespace OCPP201 {
@@ -40,10 +40,8 @@ private:
   bool sendOCPPError(const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
   void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
-void OCPP201RequestHandler(const std::string &tUUID, OCPP201Type tType, const std::string &tMessage);
+    void OCPP201RequestHandler(const std::string &tUUID, OCPP201Type tType, const std::string &tMessage);
         std::unique_ptr<MQDealer> mMQRouterPtr;
-  // UUID | OCPPType | callback function
-  std::unordered_map<std::string, std::pair<OCPP201Type, std::function<void()>>> mMessagesTrace;
   // if message timeout, it should be removed from trace
   std::map<std::chrono::time_point<std::chrono::system_clock>, std::string> mMessageTimeoutTrace;
   std::mutex mMessageTimeoutTraceMutex;
@@ -51,14 +49,12 @@ void OCPP201RequestHandler(const std::string &tUUID, OCPP201Type tType, const st
   Helper mHelper{};
   std::unique_ptr<ThreadPool> mThreadPoll;
   std::unordered_map<std::string, std::function<void(const std::string &)>> mMessageCallback;
-  std::unordered_map<std::string, OCPP201Type> mOCPPMessageType;
+    // UUID | OCPPType | callback function
+    std::unordered_map<std::string, OCPP201Type> mOCPPMessageType;
   std::vector<Connector> mConnectors;
 
   // custome configure
-  ConfigureManager mConfigureManager;
-
-  // configure key
-  ConfigureKeyGeneral mConfigureKeyGeneral{};
+  OCPP201ConfigureManager mConfigureManager;
 
   //Message Manager
   std::unique_ptr<BootNotificationManager> mBootNotificationManager;

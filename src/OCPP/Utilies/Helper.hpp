@@ -9,8 +9,8 @@
 #include <nlohmann/json-schema.hpp>
 #include <magic_enum.hpp>
 
-#include "../Message/MessageBase.hpp"
-#include "../DataType/Datatypes.hpp"
+#include "../MessageBase.hpp"
+#include "../201/DataType/Datatypes.hpp"
 #include "../../System/IO.hpp"
 
 namespace OCPP201 {
@@ -19,8 +19,8 @@ namespace OCPP201 {
 class Helper {
 public:
 
-  std::optional<MessageCall> checkMessageReq(const std::string &tMessage);
-  std::optional<MessageCallResponse> checkMessageConf(const std::string &tMessage);
+  std::optional<OCPP::MessageCallRequest> checkMessageReq(const std::string &tMessage);
+  std::optional<OCPP::MessageCallResponse> checkMessageConf(const std::string &tMessage);
   std::optional<std::string> checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod);
 
 

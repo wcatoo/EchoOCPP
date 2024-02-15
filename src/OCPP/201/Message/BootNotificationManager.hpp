@@ -1,6 +1,6 @@
 #ifndef ECHOOCPP_BOOTNOTIFICATIONMANAGER_HPP
 #define ECHOOCPP_BOOTNOTIFICATIONMANAGER_HPP
-#include "../../DataType/Datatypes.hpp"
+#include "../DataType/Datatypes.hpp"
 #include <atomic>
 
 
