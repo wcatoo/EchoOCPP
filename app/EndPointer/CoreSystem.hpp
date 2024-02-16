@@ -5,7 +5,7 @@
 //#include "../../src/MessageQueue/MQDealer.hpp"
 #include "../../src/MessageQueue/MQRouter.hpp"
 #include "../../src/WebsocketComponent/Client/WebsocketClient.hpp"
-#include "../../src/OCPP/ChargePoint/OCPPManager.hpp"
+#include "../../src/OCPP/ChargeStation/OCPPManager.hpp"
 #include <memory>
 
 namespace EndPointer {

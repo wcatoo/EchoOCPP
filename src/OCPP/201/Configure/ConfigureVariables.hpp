@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <nlohmann/json.hpp>
-#include "PrimitiveDatatypes.hpp"
+#include "../DataType/PrimitiveDatatypes.hpp"
 
 
 class ConfigureVariables {

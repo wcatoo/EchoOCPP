@@ -1,2 +1,2 @@
 add_subdirectory(Utilies)
-add_subdirectory(ChargePoint)
+add_subdirectory(ChargeStation)

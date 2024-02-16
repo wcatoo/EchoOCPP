@@ -1,6 +1,6 @@
 #ifndef ECHOOCPP_Meter_HPP
 #define ECHOOCPP_Meter_HPP
-#include "Enumerations.hpp"
+#include "../DataType/Enumerations.hpp"
 #include <optional>
 
 namespace OCPP201 {

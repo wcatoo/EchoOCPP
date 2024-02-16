@@ -8,7 +8,7 @@ bool OCPP201::OCPPManager::init()
   this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage &tMessage)
                                          { this->receiveMessageHandler(tMessage); });
 
-  this->mBootNotificationManager = std::make_unique<BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
+  this->mBootNotificationManager = std::make_unique<OCPP201::BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
   // test connectors
   for (auto i = 0; i < 3; i++) {
       this->mConnectors.emplace_back();
@@ -22,8 +22,6 @@ void OCPP201::OCPPManager::start()
 }
 void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tMessage)
 {
-    std::cout <<"OCPP201 <<< " << tMessage.data() << std::endl;
-
   switch (tMessage.method())
   {
   case ROUTER_METHODS_OCPP201:
@@ -41,7 +39,13 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
   case ROUTER_METHODS_NETWORK_ONLINE:
     if (this->mBootNotificationManager->isBooting == false)
     {
-      this->mThreadPoll->enqueue([this, tMessage]()
+        if (this->mOCPP201MessageManager == nullptr) {
+            this->mOCPP201MessageManager = std::make_unique<OCPP201::MessageManager>();
+        }
+        this->mBootNotificationManager = std::make_unique<OCPP201::BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
+        this->mOCPP201MessageManager->mBootNotificationManager.setModel(this->mConfigureManager.getBaseInfo().model);
+        this->mOCPP201MessageManager->mBootNotificationManager.setVendorName(this->mConfigureManager.getBaseInfo().vendorName);
+        this->mThreadPoll->enqueue([this, tMessage]()
                                  {
                                    this->mBootNotificationManager->isBooting = true;
                                    this->mBootNotificationManager->bootFinish = false;
@@ -52,10 +56,10 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
                                        std::this_thread::sleep_for(std::chrono::seconds(1));
                                      this->send(this->mBootNotificationManager->getRequestMessage(tMessage.source()), [this](const std::string &tMessageConf)
                                      {
-                                       BootNotificationResponse bootNotificationResponse = nlohmann::json::parse(tMessageConf);
+                                       OCPP201::BootNotificationResponse bootNotificationResponse = nlohmann::json::parse(tMessageConf);
                                        this->mBootNotificationManager->setBootInterval(bootNotificationResponse.getInterval());
                                        switch (bootNotificationResponse.getStatus()) {
-                                       case RegistrationStatusEnumType::Accepted:
+                                       case OCPP201::RegistrationStatusEnumType::Accepted:
                                          this->mBootNotificationManager->isBooting = false;
                                          this->mBootNotificationManager->bootFinish = true;
                                          // init heartbeat Timer
@@ -70,7 +74,7 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
                                           // start heartbeat timer
                                           this->mHeartbeatManager.start();
                                           // send statusnotification for each connector
-                                          std::for_each(this->mConnectors.begin(), this->mConnectors.end(), [this](const Connector &tConnector){
+                                          std::for_each(this->mConnectors.begin(), this->mConnectors.end(), [this](const OCPP201::Connector &tConnector){
                                             this->send(this->mStatusNotificationManager.getRequestMessage(tConnector), [](const std::string &tMessageConf){});
                                           });
 
@@ -81,11 +85,11 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
                                          // 1. To inform the Charging Station that it is not yet accepted by the CSMS: Pending status.
                                          // 2. To give the CSMS a way to retrieve or set certain configuration information.
                                          // 3. To give the CSMS a way of limiting the load on the CSMS after e.g. a reboot of the CSMS.
-                                       case RegistrationStatusEnumType::Pending:
+                                       case OCPP201::RegistrationStatusEnumType::Pending:
                                          this->mBootNotificationManager->isBooting = true;
                                          this->mBootNotificationManager->bootFinish = false;
                                          break;
-                                       case RegistrationStatusEnumType::Rejected:
+                                       case OCPP201::RegistrationStatusEnumType::Rejected:
                                          this->mBootNotificationManager->isBooting = false;
                                          this->mBootNotificationManager->bootFinish = false;
                                          break;
@@ -105,11 +109,11 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
   }
 }
 
-void OCPP201::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, OCPP201Type tType, const std::string &tMessage) {
+void OCPP201::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, OCPP201::OCPP201Type tType, const std::string &tMessage) {
     switch (tType) {
-        case OCPP201Type::SetVariables:
+        case OCPP201::OCPP201Type::SetVariables:
             break;
-        case OCPP201Type::SetNetworkProfile:
+        case OCPP201::OCPP201Type::SetNetworkProfile:
 //            SetNetworkProfileRequest request = nlohmann::json::parse(tMessage);
             break;
         default:
@@ -126,12 +130,12 @@ void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tM
     if (auto messageCall = mHelper.checkMessageReq(tMessage.data()); messageCall.has_value())
     {
       auto checkAction =
-          magic_enum::enum_cast<OCPP201Type>(messageCall->getAction());
+          magic_enum::enum_cast<OCPP201::OCPP201Type>(messageCall->getAction());
       if (checkAction.has_value())
       {
         if (auto result = this->mHelper.checkOCPPJsonSchema(
                 checkAction.value(), messageCall->getPayload(),
-                MessageMethod::Request);
+                OCPP201::MessageMethod::Request);
             result.has_value() && result.value().empty())
         {
           {
@@ -160,7 +164,7 @@ void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tM
     {
       if (this->mMessageCallback.contains(messageConf.value().getMessageId()))
       {
-        if (auto result = this->mHelper.checkOCPPJsonSchema(this->mOCPPMessageType[messageConf.value().getMessageId()], messageConf.value().getPayload(), MessageMethod::Response);
+        if (auto result = this->mHelper.checkOCPPJsonSchema(this->mOCPPMessageType[messageConf.value().getMessageId()], messageConf.value().getPayload(), OCPP201::MessageMethod::Response);
             result.has_value() && result.value().empty())
         {
           {
@@ -236,7 +240,7 @@ bool OCPP201::OCPPManager::send(
         if (tMessage.method() == RouterMethods::ROUTER_METHODS_OCPP201)
         {
 //            std::cout << magic_enum::enum_cast<OCPP201Type>(tMessage.ocpp_type()).value() << std::endl << std::endl;
-          this->mOCPPMessageType[tMessage.uuid()] = magic_enum::enum_cast<OCPP201Type>(tMessage.ocpp_type()).value();
+          this->mOCPPMessageType[tMessage.uuid()] = magic_enum::enum_cast<OCPP201::OCPP201Type>(tMessage.ocpp_type()).value();
         }
       }
     }

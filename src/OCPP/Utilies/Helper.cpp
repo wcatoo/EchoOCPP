@@ -1,7 +1,7 @@
 #include "Helper.hpp"
 
 
-namespace OCPP201 {
+namespace OCPP {
 std::optional<OCPP::MessageCallRequest> Helper::checkMessageReq(const std::string &tMessage) {
   std::smatch matches;
   if (std::regex_match(tMessage, matches, this->mPattern)) {
@@ -27,9 +27,9 @@ Helper::checkMessageConf(const std::string &tMessage) {
   return std::nullopt;
 }
 
-std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201Type tType, const std::string &tJson, MessageMethod tMethod) {
+std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201::OCPP201Type tType, const std::string &tJson, OCPP201::MessageMethod tMethod) {
   nlohmann::json_schema::json_validator  jsonValidator;
-  if (tMethod == MessageMethod::Request) {
+  if (tMethod == OCPP201::MessageMethod::Request) {
     bool jsonSchemasExist = true;
     if (! this->mOCPP201JsonSchemasReq.contains(tType)){
       std::stringstream strStream;
@@ -62,7 +62,7 @@ std::optional<std::string> Helper::checkOCPPJsonSchema(OCPP201Type tType, const 
     }
 
 
-  } else if (tMethod == MessageMethod::Response) {
+  } else if (tMethod == OCPP201::MessageMethod::Response) {
     bool jsonSchemasExist = true;
     if (! this->mOCPP201JsonSchemasConf.contains(tType)){
       std::stringstream strStream;

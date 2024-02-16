@@ -18,7 +18,8 @@ add_subdirectory(test)
 add_subdirectory(app)
 
 
-add_executable(client client.cpp)
+add_executable(client client.cpp
+        src/OCPP/201/Message/MessageManager.hpp)
 add_executable(server server.cpp)
 
 

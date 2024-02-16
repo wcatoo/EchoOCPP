@@ -1,5 +1,3 @@
-
-
 #include "ChargePoint.hpp"
 void ChargePoint::init() {
     this->mZMQContext = zmq::context_t(1);
@@ -46,8 +44,6 @@ void ChargePoint::init() {
     this->mOCPPManager = std::make_unique<OCPP201::OCPPManager>(&this->mZMQContext, "inproc://core_router");
     this->mOCPPManager->init();
     this->mOCPPManager->start();
-
-
     // websocket
     this->mWebsocketManager = std::make_unique<Components::WebsocketClientManager>(&this->mZMQContext, "inproc://core_router","websocket");
     this->mWebsocketManager->init();

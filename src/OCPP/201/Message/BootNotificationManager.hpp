@@ -1,6 +1,7 @@
 #ifndef ECHOOCPP_BOOTNOTIFICATIONMANAGER_HPP
 #define ECHOOCPP_BOOTNOTIFICATIONMANAGER_HPP
 #include "../DataType/Datatypes.hpp"
+#include "../Devices/Configure/BaseInfo.hpp"
 #include <atomic>
 
 
@@ -35,6 +36,12 @@ public:
     } else {
       this->mRequest.chargingStation.setModem(std::optional<ModemType>(ModemType((IdentifierString(tIccid)), IdentifierString(tImsi))));
     }
+  }
+
+  void setConfigure(const BaseInfo &tBaseInfo) {
+      this->mRequest.chargingStation.setModel(tBaseInfo.model);
+      this->mRequest.chargingStation.setVendorName(tBaseInfo.vendorName);
+      this->mRequest.chargingStation.setSerialNumber(std::equal(tBaseInfo.serialNumber.begin(), tBaseInfo.serialNumber.end(),"")?std::nullopt:std::optional<std::string>(tBaseInfo.serialNumber));
   }
 
   RouterProtobufMessage getRequestMessage(const std::string &tDest) {

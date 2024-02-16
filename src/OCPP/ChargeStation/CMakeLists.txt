@@ -9,8 +9,9 @@ find_package(Protobuf CONFIG REQUIRED)
 target_include_directories(
         ChargePointOCPP201
         PUBLIC
-        ../201/DataType
-        ../201/Message
+        ../
+#        ../201/DataType
+#        ../201/Message
 )
 target_link_libraries(
         ChargePointOCPP201
