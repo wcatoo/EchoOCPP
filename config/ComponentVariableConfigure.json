@@ -1,0 +1,30 @@
+{
+  "components" : [
+    {
+      "componentName" : "OCPPCommCtrlr",
+      "component" : [
+        {
+          "componentInstance" : null,
+          "evse" : {
+            "id" : 1,
+            "connectorId" : null
+          },
+          "variableName" : "asd",
+          "variable" : [
+            {
+              "variableInstance" : "qwe",
+              "value" : [
+                {
+                  "attributeValue" : "asd123",
+                  "type" : "Actual"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+
+}

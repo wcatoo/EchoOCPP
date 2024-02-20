@@ -1184,7 +1184,7 @@ template <typename Char, typename T, typename... Tail,
           FMT_ENABLE_IF(is_named_arg<T>::value)>
 void init_named_args(named_arg_info<Char>* named_args, int arg_count,
                      int named_arg_count, const T& arg, const Tail&... args) {
-  named_args[named_arg_count++] = {arg.name, arg_count};
+  named_args[named_arg_count++] = {arg.componentName, arg_count};
   init_named_args(named_args, arg_count + 1, named_arg_count, args...);
 }
 

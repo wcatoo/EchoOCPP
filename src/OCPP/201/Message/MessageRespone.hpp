@@ -842,10 +842,8 @@ public:
 };
 
 class SetVariablesResponse {
-private:
-  std::vector<SetVariableResultType> setVariableResult;
-
 public:
+  std::vector<SetVariableResultType> setVariableResult;
   // Getter function
   [[nodiscard]] const std::vector<SetVariableResultType>& getSetVariableResult() const {
     return setVariableResult;

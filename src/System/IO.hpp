@@ -6,7 +6,7 @@
 #include <fstream>
 
 namespace System_IO {
-inline std::optional<std::string> readFromFile(const std::filesystem::path &tPath){
+std::optional<std::string> readFromFile(const std::filesystem::path &tPath){
   std::string fileContent{};
   std::ifstream inputFile{tPath};
   inputFile.seekg(0, std::ios::end);

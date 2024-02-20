@@ -42,10 +42,13 @@ public:
       this->mRequest.chargingStation.setModel(tBaseInfo.model);
       this->mRequest.chargingStation.setVendorName(tBaseInfo.vendorName);
       this->mRequest.chargingStation.setSerialNumber(std::equal(tBaseInfo.serialNumber.begin(), tBaseInfo.serialNumber.end(),"")?std::nullopt:std::optional<std::string>(tBaseInfo.serialNumber));
+      this->mRequest.chargingStation.setFirmwareVersion(std::equal(tBaseInfo.firmwareVersion.begin(), tBaseInfo.firmwareVersion.end(),"")?std::nullopt:std::optional<std::string>(tBaseInfo.firmwareVersion));
+      this->setModem(tBaseInfo.iccid, tBaseInfo.imsi);
   }
 
   RouterProtobufMessage getRequestMessage(const std::string &tDest) {
-  RouterProtobufMessage routerProtobufMessage;
+    RouterProtobufMessage routerProtobufMessage;
+    this->mRequest.build();
     routerProtobufMessage.set_data(this->mRequest.serializeMessage());
     routerProtobufMessage.set_uuid(this->mRequest.getMessageId());
     routerProtobufMessage.set_source("OCPP201");
@@ -53,7 +56,6 @@ public:
     routerProtobufMessage.set_message_type(MessageType::REQUEST);
     routerProtobufMessage.set_dest(tDest);
     routerProtobufMessage.set_ocpp_type(this->mRequest.getAction());
-    std::cout << "serial message: " << routerProtobufMessage.SerializeAsString() <<std::endl;
     return routerProtobufMessage;
   }
 

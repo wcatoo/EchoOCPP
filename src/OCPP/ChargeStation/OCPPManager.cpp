@@ -8,10 +8,10 @@ bool OCPP201::OCPPManager::init()
   this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage &tMessage)
                                          { this->receiveMessageHandler(tMessage); });
 
-  this->mBootNotificationManager = std::make_unique<OCPP201::BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
   // test connectors
   for (auto i = 0; i < 3; i++) {
-      this->mConnectors.emplace_back();
+    this->mEVSEs.emplace_back();
+    this->mEVSEs.at(i).id = i;
   }
   return true;
 }
@@ -37,72 +37,74 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
   case ROUTER_METHODS_GET_REALTIME_DATA:
     break;
   case ROUTER_METHODS_NETWORK_ONLINE:
-    if (this->mBootNotificationManager->isBooting == false)
+    if (this->mOCPP201MessageManager == nullptr) {
+      this->mOCPP201MessageManager = std::make_unique<OCPP201::MessageManager>();
+    }
+    if (!this->mOCPP201MessageManager->mBootNotificationManager.isBooting)
     {
-        if (this->mOCPP201MessageManager == nullptr) {
-            this->mOCPP201MessageManager = std::make_unique<OCPP201::MessageManager>();
-        }
-        this->mBootNotificationManager = std::make_unique<OCPP201::BootNotificationManager>(this->mConfigureManager.getBaseInfo().model, this->mConfigureManager.getBaseInfo().vendorName);
-        this->mOCPP201MessageManager->mBootNotificationManager.setModel(this->mConfigureManager.getBaseInfo().model);
-        this->mOCPP201MessageManager->mBootNotificationManager.setVendorName(this->mConfigureManager.getBaseInfo().vendorName);
-        this->mThreadPoll->enqueue([this, tMessage]()
+      this->mOCPP201MessageManager->mBootNotificationManager.setConfigure(this->mConfigureManager.getBaseInfo());
+      this->mThreadPoll->enqueue([this, tMessage]()
                                  {
-                                   this->mBootNotificationManager->isBooting = true;
-                                   this->mBootNotificationManager->bootFinish = false;
+                                   this->mOCPP201MessageManager->mBootNotificationManager.isBooting = true;
+                                   this->mOCPP201MessageManager->mBootNotificationManager.bootFinish = true;
                                    // set dest
-                                   this->mStatusNotificationManager.mDest = tMessage.source();
-                                    this->mHeartbeatManager.mDest = tMessage.source();
-                                     while (this->mBootNotificationManager->getBootInterval() && this->mBootNotificationManager->isBooting) {
-                                       std::this_thread::sleep_for(std::chrono::seconds(1));
-                                     this->send(this->mBootNotificationManager->getRequestMessage(tMessage.source()), [this](const std::string &tMessageConf)
-                                     {
-                                       OCPP201::BootNotificationResponse bootNotificationResponse = nlohmann::json::parse(tMessageConf);
-                                       this->mBootNotificationManager->setBootInterval(bootNotificationResponse.getInterval());
-                                       switch (bootNotificationResponse.getStatus()) {
-                                       case OCPP201::RegistrationStatusEnumType::Accepted:
-                                         this->mBootNotificationManager->isBooting = false;
-                                         this->mBootNotificationManager->bootFinish = true;
-                                         // init heartbeat Timer
-                                         this->mHeartbeatManager.mInterval = bootNotificationResponse.getInterval();
-                                         this->mThreadPoll->enqueue([this](){
-                                          this->mHeartbeatManager.setHeartbeatHandler([&](){
-                                            this->send(this->mHeartbeatManager.getRequestMessage(), [this](const std::string &tMessageConf) {
-                                              //TODO heartbeat response
+                                   this->mOCPP201MessageManager->mStatusNotificationManager.mDest = tMessage.source();
+                                   this->mOCPP201MessageManager->mHeartBeatManager.mDest = tMessage.source();
+                                   while (this->mOCPP201MessageManager->mBootNotificationManager.getBootInterval() && this->mOCPP201MessageManager->mBootNotificationManager.isBooting) {
+                                     std::this_thread::sleep_for(std::chrono::seconds(1));
+                                     this->send(this->mOCPP201MessageManager->mBootNotificationManager.getRequestMessage(tMessage.source()), [this](const std::string &tMessageConf)
+                                                {
+                                                  OCPP201::BootNotificationResponse bootNotificationResponse = nlohmann::json::parse(tMessageConf);
+                                                  this->mOCPP201MessageManager->mBootNotificationManager.setBootInterval(bootNotificationResponse.getInterval());
+                                                  switch (bootNotificationResponse.getStatus()) {
+                                                  case OCPP201::RegistrationStatusEnumType::Accepted:
+                                                    this->mOCPP201MessageManager->mBootNotificationManager.isBooting = false;
+                                                    this->mOCPP201MessageManager->mBootNotificationManager.bootFinish = true;
+                                                    // init heartbeat Timer
+                                                    this->mOCPP201MessageManager->mHeartBeatManager.mInterval = bootNotificationResponse.getInterval();
+                                                    this->mThreadPoll->enqueue([this](){
+                                                      this->mOCPP201MessageManager->mHeartBeatManager.setHeartbeatHandler([&](){
+                                                        this->send(this->mOCPP201MessageManager->mHeartBeatManager.getRequestMessage(), [this](const std::string &tMessageConf) {
+                                                          //TODO heartbeat response
 
-                                            });
-                                          });
-                                          // start heartbeat timer
-                                          this->mHeartbeatManager.start();
-                                          // send statusnotification for each connector
-                                          std::for_each(this->mConnectors.begin(), this->mConnectors.end(), [this](const OCPP201::Connector &tConnector){
-                                            this->send(this->mStatusNotificationManager.getRequestMessage(tConnector), [](const std::string &tMessageConf){});
-                                          });
+                                                        });
+                                                      });
+                                                      // start heartbeat timer
+                                                      this->mOCPP201MessageManager->mHeartBeatManager.start();
+                                                      // send statusnotification for each connector
+                                                      std::for_each(this->mEVSEs.begin(), this->mEVSEs.end(), [this](const OCPP201::EVSE &tEVSE){
+                                                        if (tEVSE.id!=0) {
+                                                          std::for_each(tEVSE.mConnectors.begin(), tEVSE.mConnectors.end(), [this](const OCPP201::Connector &tConnector){
+                                                            this->send(this->mOCPP201MessageManager->mStatusNotificationManager.getRequestMessage(tConnector), [](const std::string &tMessageConf){});
+                                                          });
+                                                        }
+                                                      });
 
-                                          //TODO offline meesage
+                                                      //TODO offline meesage
 
-                                          });
-                                         break;
-                                         // 1. To inform the Charging Station that it is not yet accepted by the CSMS: Pending status.
-                                         // 2. To give the CSMS a way to retrieve or set certain configuration information.
-                                         // 3. To give the CSMS a way of limiting the load on the CSMS after e.g. a reboot of the CSMS.
-                                       case OCPP201::RegistrationStatusEnumType::Pending:
-                                         this->mBootNotificationManager->isBooting = true;
-                                         this->mBootNotificationManager->bootFinish = false;
-                                         break;
-                                       case OCPP201::RegistrationStatusEnumType::Rejected:
-                                         this->mBootNotificationManager->isBooting = false;
-                                         this->mBootNotificationManager->bootFinish = false;
-                                         break;
-                                       }
-                                     }
+                                                    });
+                                                    break;
+                                                    // 1. To inform the Charging Station that it is not yet accepted by the CSMS: Pending status.
+                                                    // 2. To give the CSMS a way to retrieve or set certain configuration information.
+                                                    // 3. To give the CSMS a way of limiting the load on the CSMS after e.g. a reboot of the CSMS.
+                                                  case OCPP201::RegistrationStatusEnumType::Pending:
+                                                    this->mOCPP201MessageManager->mBootNotificationManager.isBooting = true;
+                                                    this->mOCPP201MessageManager->mBootNotificationManager.bootFinish = false;
+                                                    break;
+                                                  case OCPP201::RegistrationStatusEnumType::Rejected:
+                                                    this->mOCPP201MessageManager->mBootNotificationManager.isBooting = false;
+                                                    this->mOCPP201MessageManager->mBootNotificationManager.bootFinish = false;
+                                                    break;
+                                                  }
+                                                }
                                      );
                                    }
-                                   });
+                                 });
     }
     break;
   case ROUTER_METHODS_NETWORK_OFFLINE:
-    this->mBootNotificationManager.release();
-    this->mHeartbeatManager.stop();
+    this->mOCPP201MessageManager->mBootNotificationManager.release();
+    this->mOCPP201MessageManager->mHeartBeatManager.stop();
     break;
   default:
     break;
@@ -110,15 +112,34 @@ void OCPP201::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tM
 }
 
 void OCPP201::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, OCPP201::OCPP201Type tType, const std::string &tMessage) {
-    switch (tType) {
-        case OCPP201::OCPP201Type::SetVariables:
-            break;
-        case OCPP201::OCPP201Type::SetNetworkProfile:
-//            SetNetworkProfileRequest request = nlohmann::json::parse(tMessage);
-            break;
-        default:
-            break;
+  switch (tType) {
+  case OCPP201::OCPP201Type::GetVariables:
+    try {
+      OCPP201::GetVariablesRequest getVariablesRequest = nlohmann::json::parse(tMessage);
+      for (const auto &request : getVariablesRequest.getVariableData) {
+      }
+    } catch (std::exception &e) {
+
     }
+    break;
+  case OCPP201::OCPP201Type::SetVariables:
+    try {
+      OCPP201::SetVariablesRequest request = nlohmann::json::parse(tMessage);
+//      request.
+//      nlohmann::json tmpConfigJson = this->mConfigureManager.getVariables();
+      for (OCPP201::SetVariableDataType types : request.setVariableData) {
+//        if (tmpConfigJson.contains(types.))
+      }
+    } catch (std::exception &e) {
+      this->sendOCPPError("websocket", OCPP::ProtocolError::InternalError, "Parse set variable failed");
+    }
+    break;
+  case OCPP201::OCPP201Type::SetNetworkProfile:
+//            SetNetworkProfileRequest request = nlohmann::json::parse(tMessage);
+    break;
+  default:
+    break;
+  }
 
 }
 
@@ -134,8 +155,8 @@ void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tM
       if (checkAction.has_value())
       {
         if (auto result = this->mHelper.checkOCPPJsonSchema(
-                checkAction.value(), messageCall->getPayload(),
-                OCPP201::MessageMethod::Request);
+              checkAction.value(), messageCall->getPayload(),
+              OCPP201::MessageMethod::Request);
             result.has_value() && result.value().empty())
         {
           {
@@ -175,7 +196,7 @@ void OCPP201::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tM
               this->mMessageCallback.erase(messageConf->getMessageId());
               this->mOCPPMessageType.erase(messageConf->getMessageId());
               std::for_each(this->mMessageTimeoutTrace.begin(), this->mMessageTimeoutTrace.end(), [&](const auto &entry)
-                            {
+              {
                 if (std::equal(messageConf.value().getMessageId().begin(), messageConf.value().getMessageId().end(), entry.second.begin(), entry.second.end())) {
                   this->mMessageTimeoutTrace.erase(entry.first);
                   return;

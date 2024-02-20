@@ -22,11 +22,11 @@ public:
         iso15118CertificateHashData(iso15118CertificateHashData) {
     mAction = "AuthorizeRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["certificate"] = certificate;
     mPayload["idToken"] = idToken;
     mPayload["iso15118CertificateHashData"] = iso15118CertificateHashData;
@@ -35,20 +35,19 @@ private:
 
 class BootNotificationRequest : public MessageCallRequest {
 public:
-  BootNotificationRequest() = default;
+  BootNotificationRequest() {
+      build();
+  };
   BootNotificationRequest(
       const BootReasonEnumType &bootReason,
       const ChargingStationType &chargingStationInfo)
       : reason(bootReason), chargingStation(chargingStationInfo) {
-    mAction = "BootNotificationRequest";
-    mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
   BootReasonEnumType reason;
   ChargingStationType chargingStation;
-
-private:
-  void buildPayload() {
+  void build() {
+    mAction = "BootNotificationRequest";
     mPayload["reason"] =
         magic_enum::enum_name(this->reason); // Convert enum to int for JSON
     // Build ChargingStationType payload if needed
@@ -65,11 +64,11 @@ public:
       : reservationId(reservationId) {
     mAction = "CancelReservationRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["reservationId"] = reservationId; }
+  void build() { mPayload["reservationId"] = reservationId; }
 };
 
 class CertificateSignedRequest : public MessageCallRequest {
@@ -84,11 +83,11 @@ public:
       : certificateChain(certChain), certificateType(certType) {
     mAction = "CertificateSignedRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["certificateChain"] = certificateChain;
     if (certificateType.has_value()) {
       mPayload["certificateType"] =
@@ -109,11 +108,11 @@ public:
       : operationalStatus(status), evse(evseInfo) {
     mAction = "ChangeAvailabilityRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["operationalStatus"] = magic_enum::enum_name(operationalStatus);
 
     if (evse.has_value()) {
@@ -134,11 +133,11 @@ public:
       : status(clearCacheStatus), statusInfo(info) {
     mAction = "ClearCacheResponse";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["status"] = magic_enum::enum_name(status);
 
     if (statusInfo.has_value()) {
@@ -159,11 +158,11 @@ public:
       : chargingProfileId(profileId), chargingProfileCriteria(criteria) {
     mAction = "ClearChargingProfileRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (chargingProfileId.has_value()) {
       mPayload["chargingProfileId"] = chargingProfileId.value();
     }
@@ -182,11 +181,11 @@ public:
   explicit ClearDisplayMessageRequest(int messageId) : messageId(messageId) {
     mAction = "ClearDisplayMessageRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["id"] = messageId; }
+  void build() { mPayload["id"] = messageId; }
 };
 
 class ClearedChargingLimitRequest : public MessageCallRequest {
@@ -201,11 +200,11 @@ public:
       : chargingLimitSource(limitSource), evseId(identifier) {
     mAction = "ClearedChargingLimitRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["chargingLimitSource"] =
         magic_enum::enum_name(chargingLimitSource);
     if (evseId.has_value()) {
@@ -223,11 +222,11 @@ public:
       : monitorIds(monitorIds) {
     mAction = "ClearVariableMonitoringRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["id"] = monitorIds; }
+  void build() { mPayload["id"] = monitorIds; }
 };
 
 class CostUpdatedRequest : public MessageCallRequest {
@@ -240,11 +239,11 @@ public:
       : totalCost(cost), transactionId(txnId) {
     mAction = "CostUpdatedRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["totalCost"] = totalCost;
     mPayload["transactionId"] = transactionId;
   }
@@ -270,11 +269,11 @@ public:
         customerCertificate(certificate) {
     mAction = "CustomerInformationRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
     mPayload["report"] = report;
     mPayload["clear"] = clear;
@@ -307,11 +306,11 @@ public:
       : messageId(msgId), data(transferData), vendorId(vendor) {
     mAction = "DataTransferRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (messageId.has_value()) {
       mPayload["messageId"] = messageId.value();
     }
@@ -333,11 +332,11 @@ public:
       : certificateHashData(certHashData) {
     mAction = "DeleteCertificateRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["certificateHashData"] = (certificateHashData);
   }
 };
@@ -354,11 +353,11 @@ public:
       : status(firmwareStatus), requestId(updateRequestId) {
     mAction = "FirmwareStatusNotificationRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["status"] = magic_enum::enum_name(status);
 
     if (requestId.has_value()) {
@@ -382,11 +381,11 @@ public:
         exiRequest(base64EncodedRequest) {
     mAction = "Get15118EVCertificateRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["iso15118SchemaVersion"] = iso15118SchemaVersion;
     mPayload["action"] = magic_enum::enum_name(action);
     mPayload["exiRequest"] = exiRequest;
@@ -404,11 +403,11 @@ public:
       : requestId(reqId), reportBase(reportBaseType) {
     mAction = "GetBaseReportRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
     mPayload["reportBase"] = magic_enum::enum_name(reportBase);
   }
@@ -423,11 +422,11 @@ public:
       : ocspRequestData(requestData) {
     mAction = "GetCertificateStatusRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["ocspRequestData"] = (ocspRequestData); }
+  void build() { mPayload["ocspRequestData"] = (ocspRequestData); }
 };
 
 class GetChargingProfilesRequest : public MessageCallRequest {
@@ -443,11 +442,11 @@ public:
       : requestId(reqId), evseId(identifier), chargingProfile(criterion) {
     mAction = "GetChargingProfilesRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
 
     if (evseId.has_value()) {
@@ -471,11 +470,11 @@ public:
       : duration(dur), chargingRateUnit(rateUnit), evseId(identifier) {
     mAction = "GetCompositeScheduleRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["duration"] = duration;
 
     if (chargingRateUnit.has_value()) {
@@ -503,11 +502,11 @@ public:
         state(msgState) {
     mAction = "GetDisplayMessagesRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (!messageIds.empty()) {
       mPayload["id"] = messageIds;
     }
@@ -534,11 +533,11 @@ public:
       : certificateTypes(certTypes) {
     mAction = "GetInstalledCertificateIdsRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (!certificateTypes.empty()) {
       std::vector<std::string> certTypeNames;
       for (const auto &certType : certificateTypes) {
@@ -566,11 +565,11 @@ public:
         retryInterval(retryInt), logParameters(logParams) {
     mAction = "GetLogRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["logType"] = magic_enum::enum_name(logType);
     mPayload["requestId"] = requestId;
 
@@ -600,11 +599,11 @@ public:
         componentVariables(componentVars) {
     mAction = "GetMonitoringReportRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
 
     if (!monitoringCriteria.empty()) {
@@ -635,11 +634,11 @@ public:
         componentVariables(componentVars) {
     mAction = "GetReportRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
 
     if (!componentCriteria.empty()) {
@@ -666,11 +665,11 @@ public:
       : transactionId(transId) {
     mAction = "GetTransactionStatusRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (transactionId.has_value()) {
       mPayload["transactionId"] = transactionId.value();
     }
@@ -686,7 +685,7 @@ public:
       : getVariableData(variableData) {
     mAction = "GetVariablesRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
     friend void from_json(const nlohmann::json& j, GetVariablesRequest& data) {
         std::cout << j.dump() << std::endl;
@@ -698,7 +697,7 @@ public:
     }
 
 private:
-  void buildPayload() { mPayload["getVariableData"] = (getVariableData); }
+  void build() { mPayload["getVariableData"] = (getVariableData); }
 };
 
 class InstallCertificateRequest : public MessageCallRequest {
@@ -712,11 +711,11 @@ public:
       : certificateType(certType), certificate(cert) {
     mAction = "InstallCertificateRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["certificateType"] = magic_enum::enum_name(certificateType);
     mPayload["certificate"] = certificate;
   }
@@ -734,11 +733,11 @@ public:
       : status(logStatus), requestId(reqId) {
     mAction = "LogStatusNotificationRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["status"] = magic_enum::enum_name(status);
 
     if (requestId.has_value()) {
@@ -757,11 +756,11 @@ public:
       : evseId(id), meterValues(values) {
     mAction = "MeterValuesRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["evseId"] = evseId;
     mPayload["meterValue"] = (meterValues);
   }
@@ -780,11 +779,11 @@ public:
       : evseId(id), chargingLimit(limit), chargingSchedule(schedule) {
     mAction = "NotifyChargingLimitRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (evseId.has_value()) {
       mPayload["evseId"] = evseId.value();
     }
@@ -815,11 +814,11 @@ public:
         generatedAt(timestamp), requestId(reqId) {
     mAction = "NotifyCustomerInformationRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["data"] = data;
     mPayload["tbc"] = tbc;
     mPayload["seqNo"] = seqNo;
@@ -840,11 +839,11 @@ public:
       : requestId(displayRequestId), tbc(toBeContinued), messageInfo(info) {
     mAction = "NotifyDisplayMessagesRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
     mPayload["tbc"] = tbc;
     mPayload["messageInfo"] = (messageInfo);
@@ -863,11 +862,11 @@ public:
       : maxScheduleTuples(maxTuples), evseId(stationId), chargingNeeds(needs) {
     mAction = "NotifyEVChargingNeedsRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (maxScheduleTuples.has_value()) {
       mPayload["maxScheduleTuples"] = maxScheduleTuples.value();
     }
@@ -889,11 +888,11 @@ public:
       : timeBase(baseTime), evseId(stationId), chargingSchedule(schedule) {
     mAction = "NotifyEVChargingScheduleRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["timeBase"] = timeBase;
     mPayload["evseId"] = evseId;
     mPayload["chargingSchedule"] = (chargingSchedule);
@@ -914,11 +913,11 @@ public:
         eventData(data) {
     mAction = "NotifyEventRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["generatedAt"] = generatedAt;
     mPayload["tbc"] = tbc;
     mPayload["seqNo"] = seqNo;
@@ -943,11 +942,11 @@ public:
         seqNo(sequenceNumber), generatedAt(timestamp), monitorData(data) {
     mAction = "NotifyMonitoringReportRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
     mPayload["tbc"] = tbc;
     mPayload["seqNo"] = seqNo;
@@ -972,11 +971,11 @@ public:
         seqNo(sequenceNumber), reportData(data) {
     mAction = "NotifyReportRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
     mPayload["generatedAt"] = generatedAt;
     mPayload["tbc"] = tbc;
@@ -1001,11 +1000,11 @@ public:
         requestId(publishRequestId), retryInterval(intervalBetweenRetries) {
     mAction = "PublishFirmwareRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["location"] = location;
     mPayload["retries"] = retries;
     mPayload["checksum"] = checksum;
@@ -1031,11 +1030,11 @@ public:
         requestId(publishRequestId) {
     mAction = "PublishFirmwareStatusNotificationRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["status"] = magic_enum::enum_name(status);
 
     if (!locations.empty()) {
@@ -1065,11 +1064,11 @@ public:
         tbc(toBeContinued), evseId(evseIdentifier), chargingProfiles(profiles) {
     mAction = "ReportChargingProfilesRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestId"] = requestId;
     mPayload["chargingLimitSource"] =
         magic_enum::enum_name(chargingLimitSource);
@@ -1097,11 +1096,11 @@ public:
         chargingProfile(profile), groupIdToken(groupToken) {
     mAction = "RequestStartTransactionRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     if (evseId.has_value()) {
       mPayload["evseId"] = evseId.value();
     }
@@ -1128,11 +1127,11 @@ public:
       : transactionId(transactionIdentifier) {
     mAction = "RequestStopTransactionRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["transactionId"] = transactionId; }
+  void build() { mPayload["transactionId"] = transactionId; }
 };
 
 class ReservationStatusUpdateRequest : public MessageCallRequest {
@@ -1147,11 +1146,11 @@ public:
         reservationUpdateStatus(updateStatus) {
     mAction = "ReservationStatusUpdateRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["reservationId"] = reservationId;
     mPayload["reservationUpdateStatus"] =
         magic_enum::enum_name(reservationUpdateStatus);
@@ -1179,11 +1178,11 @@ public:
         groupIdToken(groupToken) {
     mAction = "ReserveNowRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["id"] = reservationId;
     mPayload["expiryDateTime"] = expiryDateTime;
     if (connectorType.has_value()) {
@@ -1210,11 +1209,11 @@ public:
       : resetType(type), evseId(evseIdentifier) {
     mAction = "ResetRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["type"] = magic_enum::enum_name(resetType);
     if (evseId.has_value()) {
       mPayload["evseId"] = evseId.value();
@@ -1235,11 +1234,11 @@ public:
       : eventType(type), timestamp(eventTimestamp), technicalInfo(techInfo) {
     mAction = "SecurityEventNotificationRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["type"] = eventType;
     mPayload["timestamp"] = timestamp;
     if (technicalInfo.has_value()) {
@@ -1261,11 +1260,11 @@ public:
         localAuthorizationList(authList) {
     mAction = "SendLocalListRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["versionNumber"] = versionNumber;
     mPayload["updateType"] = magic_enum::enum_name(updateType);
 
@@ -1285,11 +1284,11 @@ public:
       : evseId(evse), chargingProfile(profile) {
     mAction = "SetChargingProfileRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["evseId"] = evseId;
     mPayload["chargingProfile"] = chargingProfile;
   }
@@ -1303,11 +1302,11 @@ public:
   SetDisplayMessageRequest(const MessageInfoType &msg) : message(msg) {
     mAction = "SetDisplayMessageRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["message"] = message; }
+  void build() { mPayload["message"] = message; }
 };
 
 class SetMonitoringBaseRequest : public MessageCallRequest {
@@ -1319,11 +1318,11 @@ public:
       : monitoringBase(base) {
     mAction = "SetMonitoringBaseRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["monitoringBase"] = magic_enum::enum_name(monitoringBase);
   }
 };
@@ -1336,11 +1335,11 @@ public:
   SetMonitoringLevelRequest(int severityLevel) : severity(severityLevel) {
     mAction = "SetMonitoringLevelRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["severity"] = severity; }
+  void build() { mPayload["severity"] = severity; }
 };
 
 class SetNetworkProfileRequest : public MessageCallRequest {
@@ -1353,7 +1352,7 @@ public:
       : configurationSlot(slot), connectionData(connectionProfile) {
     mAction = "SetNetworkProfileRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 friend void from_json(const nlohmann::json& j, SetNetworkProfileRequest& data) {
   data.configurationSlot = j.at("configurationSlot").get<int>();
@@ -1361,7 +1360,7 @@ friend void from_json(const nlohmann::json& j, SetNetworkProfileRequest& data) {
 }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["configurationSlot"] = configurationSlot;
     mPayload["connectionData"] = connectionData;
   }
@@ -1377,27 +1376,40 @@ public:
       : setMonitoringData(monitoringData) {
     mAction = "SetVariableMonitoringRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["setMonitoringData"] = setMonitoringData; }
+  void build() { mPayload["setMonitoringData"] = setMonitoringData; }
 };
 
 class SetVariablesRequest : public MessageCallRequest {
-private:
+public:
   std::vector<SetVariableDataType> setVariableData;
 
-public:
+  SetVariablesRequest() {
+    this->build();
+  }
   SetVariablesRequest(const std::vector<SetVariableDataType> &variableData)
       : setVariableData(variableData) {
-    mAction = "SetVariablesRequest";
-    mMessageId = Utility::generateMessageId();
-    buildPayload();
+    this->build();
+  }
+
+  friend void from_json(const nlohmann::json& j, SetVariablesRequest& data) {
+    if (j.contains("setVariableData")) {
+      data.setVariableData = j.at("setVariableData").get<std::vector<SetVariableDataType>>();
+    }
+    data.build();
+  }
+  friend void to_json(nlohmann::json& j, const SetVariablesRequest& data) {
+    j.at("setVariableData") = data.setVariableData;
   }
 
 private:
-  void buildPayload() { mPayload["setVariableData"] = setVariableData; }
+  void build(){
+    this->mAction = "SetVariablesRequest";
+    this->mPayload["setVariableData"] = setVariableData;
+  }
 };
 
 class SignCertificateRequest : public MessageCallRequest {
@@ -1413,11 +1425,11 @@ public:
       : csr(csr), certificateType(certType) {
     mAction = "SignCertificateRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["csr"] = csr;
     mPayload["certificateType"] = magic_enum::enum_name(certificateType);
   }
@@ -1436,10 +1448,10 @@ public:
     this->evseId = 0;
     this->connectorId = 0;
  this->mAction = "StatusNotification";
-      this->buildPayload();
+      this->build();
   }
 
-  void buildPayload() {
+  void build() {
     mPayload["timestamp"] = timestamp.toString();
     mPayload["connectorStatus"] = magic_enum::enum_name(connectorStatus);
     mPayload["evseId"] = evseId;
@@ -1479,11 +1491,11 @@ public:
         meterValues(meterValues) {
     mAction = "TransactionEventRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["eventType"] = magic_enum::enum_name(eventType);
     mPayload["timestamp"] = timestamp;
     mPayload["triggerReason"] = magic_enum::enum_name(triggerReason);
@@ -1511,11 +1523,11 @@ public:
       : requestedMessage(requestedMessage), evse(evse) {
     mAction = "TriggerMessageRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["requestedMessage"] = magic_enum::enum_name(requestedMessage);
     mPayload["evse"] = evse;
   }
@@ -1531,11 +1543,11 @@ public:
       : evseId(evseId), connectorId(connectorId) {
     mAction = "UnlockConnectorRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["evseId"] = evseId;
     mPayload["connectorId"] = connectorId;
   }
@@ -1549,11 +1561,11 @@ public:
   UnpublishFirmwareRequest(const std::string &checksum) : checksum(checksum) {
     mAction = "UnpublishFirmwareRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() { mPayload["checksum"] = checksum; }
+  void build() { mPayload["checksum"] = checksum; }
 };
 
 class UpdateFirmwareRequest : public MessageCallRequest {
@@ -1571,11 +1583,11 @@ public:
         firmware(firmware) {
     mAction = "UpdateFirmwareRequest";
     mMessageId = Utility::generateMessageId();
-    buildPayload();
+    build();
   }
 
 private:
-  void buildPayload() {
+  void build() {
     mPayload["retries"] = retries;
     mPayload["retryInterval"] = retryInterval;
     mPayload["requestId"] = requestId;

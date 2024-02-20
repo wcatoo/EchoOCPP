@@ -26,10 +26,10 @@ enum class ProtocolError {
 
 class MessageCallRequest {
 protected:
-  std::string mMessageId{};
-  std::string mAction{};
-  nlohmann::json mPayload{};
-  std::stringstream stream{};
+  std::string mMessageId;
+  std::string mAction;
+  nlohmann::json mPayload;
+  std::stringstream stream;
 
 public:
   void setMessageId(const std::string & tId) {

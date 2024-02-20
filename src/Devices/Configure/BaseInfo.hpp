@@ -22,13 +22,17 @@ public:
     std::string model;
     std::string vendorName;
     std::string firmwareVersion;
+    std::string iccid;
+    std::string imsi;
     
   friend void to_json(nlohmann::json &json, const BaseInfo &tConfigure) {
     json = nlohmann::json{
         {"serialNumber", tConfigure.serialNumber},
         {"model", tConfigure.model},
         {"vendorName", tConfigure.vendorName},
-        {"firmwareVersion", tConfigure.firmwareVersion}
+        {"firmwareVersion", tConfigure.firmwareVersion},
+        {"iccid", tConfigure.iccid},
+        {"imsi", tConfigure.imsi}
     };
   }
   friend void from_json(const nlohmann::json& j, BaseInfo &tConfigure) {
@@ -43,6 +47,12 @@ public:
     }
     if (j.contains("firmwareVersion")) {
         j.at("firmwareVersion").get_to(tConfigure.firmwareVersion);
+    }
+    if (j.contains("iccid")) {
+      j.at("iccid").get_to(tConfigure.iccid);
+    }
+    if (j.contains("imsi")) {
+      j.at("imsi").get_to(tConfigure.imsi);
     }
   }
 };

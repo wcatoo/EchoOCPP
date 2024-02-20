@@ -1,4 +1,5 @@
-#include "../src/OCPP201/ChargePoint/OCPPManager.hpp"
+#include "../src/OCPP/ChargeStation/OCPPManager.hpp"
+#include "201/Message/MessageRequest.hpp"
 #include <gtest/gtest.h>
 #include <string>
 namespace OCPP201 {
@@ -9,15 +10,49 @@ protected:
   std::unique_ptr<OCPP201::OCPPManager> ocppManager;
 };
 
-TEST_F(OCPP201ChargePoint, GetVariableRequest) {
-    std::vector<GetVariableDataType> data;
-    for (int i =0; i< 10; i++) {
-        data.emplace_back();
+TEST_F(OCPP201ChargePoint, GetVariableRequest) {}
+
+TEST_F(OCPP201ChargePoint, SetVariablesRequest) {
+
+  std::string jsonString = R"(
+{
+  "components" : [
+    {
+      "componentName" : "OCPPCommCtrlr",
+      "component" : [
+        {
+          "componentInstance" : null,
+          "evse" : {
+            "id" : 1
+          },
+          "variableName" : "asd",
+          "variable" : [
+            {
+              "variableInstance" : "qwe",
+              "value" : [
+                {
+                  "attributeValue" : "asd123",
+                  "type" : "Actual"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
-    GetVariablesRequest getVariablesRequest(data);
-//    GetVariablesRequest tmp = nlohmann::json::parse(tt);
-//    EXPECT_EQ(getVariablesRequest.getPayload(), tmp.getPayload());
+  ]
 }
+)";
+  ComponentManager componentManager;
+  componentManager = nlohmann::json::parse(jsonString);
+  nlohmann::json tmp = componentManager;
+  std::cout << tmp.dump() << std::endl;
 
 
+  EVSEType evseType;
+
+  nlohmann::json json = evseType;
+  EVSEType tt = nlohmann::json::parse(json.dump());
+
+}
 }

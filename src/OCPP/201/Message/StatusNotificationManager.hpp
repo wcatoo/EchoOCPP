@@ -18,6 +18,7 @@ class StatusNotificationManager {
         this->mRequest.evseId = tConnector.mEVSEId;
         this->mRequest.connectorStatus = tConnector.mConnectorStatus;
         this->mRequest.timestamp.setDateTime(std::chrono::system_clock::now());
+        this->mRequest.build();
         routerProtobufMessage.set_data(this->mRequest.serializeMessage());
         routerProtobufMessage.set_uuid(this->mRequest.getMessageId());
         routerProtobufMessage.set_source("OCPP201");
@@ -25,7 +26,7 @@ class StatusNotificationManager {
         routerProtobufMessage.set_message_type(MessageType::REQUEST);
         routerProtobufMessage.set_dest(this->mDest);
         routerProtobufMessage.set_ocpp_type(this->mRequest.getAction());
-        std::cout << "serial message: " << routerProtobufMessage.SerializeAsString() <<std::endl;
+//        std::cout << "serial message: " << routerProtobufMessage.SerializeAsString() <<std::endl;
         return routerProtobufMessage;
     }
 

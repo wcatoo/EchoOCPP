@@ -1989,31 +1989,33 @@ public:
   std::optional<int> connectorId;  // Optional connector identifier
 
   // Constructors
-  EVSEType() : id(0), connectorId(std::nullopt) {}
+  EVSEType() = default;
 
   EVSEType(int idParam, const std::optional<int>& connectorIdParam = std::nullopt)
       : id(idParam), connectorId(connectorIdParam) {}
 
   // Getter and setter functions for member variables
-  int getId() const {
-    return id;
-  }
-
-  void setId(int newId) {
-    id = newId;
-  }
-
-  const std::optional<int>& getConnectorId() const {
-    return connectorId;
-  }
-
-  void setConnectorId(const std::optional<int>& newConnectorId) {
-    connectorId = newConnectorId;
-  }
+//  int getId() const {
+//    return id;
+//  }
+//
+//  void setId(int newId) {
+//    id = newId;
+//  }
+//
+//  const std::optional<int>& getConnectorId() const {
+//    return connectorId;
+//  }
+//
+//  void setConnectorId(const std::optional<int>& newConnectorId) {
+//    connectorId = newConnectorId;
+//  }
 
   // JSON serialization functions
   friend void to_json(nlohmann::json& j, const EVSEType& data) {
-    j.emplace("id", data.id);
+    j = nlohmann::json {
+      {"id", data.id}
+    };
     if (data.connectorId.has_value()) {
       j.emplace("connectorId", data.connectorId.value());
     }
@@ -2022,7 +2024,13 @@ public:
   friend void from_json(const nlohmann::json& j, EVSEType& data) {
     j.at("id").get_to(data.id);
     if (j.contains("connectorId")) {
-      j.at("connectorId").get_to(data.connectorId.emplace());
+      try {
+        std::string str = j.at("connectorId");
+        int tmp = std::stoi(str);
+        data.connectorId = std::optional<int>(tmp);
+      } catch (std::exception &e) {
+        data.connectorId = std::nullopt;
+      }
     }
   }
 };
@@ -2033,8 +2041,8 @@ class ComponentType {
 public:
   // Fields
   std::string name;      // Name of the component
-  std::string instance;  // Name of the instance in case the component exists as multiple instances
-  EVSEType evse;         // Specifies the EVSE when the component is located at EVSE level
+  std::optional<std::string> instance;  // Name of the instance in case the component exists as multiple instances
+  std::optional<EVSEType> evse;         // Specifies the EVSE when the component is located at EVSE level
 
   // Constructors
   ComponentType() = default;
@@ -2051,33 +2059,45 @@ public:
     name = newName;
   }
 
-  const std::string& getInstance() const {
-    return instance;
-  }
+//  const std::optional<std::string> getInstance() const {
+//    return this->instance;
+//  }
 
-  void setInstance(const std::string& newInstance) {
-    instance = newInstance;
-  }
-
-  const EVSEType& getEVSE() const {
-    return evse;
-  }
-
-  void setEVSE(const EVSEType& newEVSE) {
-    evse = newEVSE;
-  }
+//  void setInstance(const std::string& newInstance) {
+//    instance = newInstance;
+//  }
+//
+//  const EVSEType& getEVSE() const {
+//    return evse;
+//  }
+//
+//  void setEVSE(const EVSEType& newEVSE) {
+//    evse = newEVSE;
+//  }
 
   // JSON serialization functions (you may need to adjust these based on your implementation)
   friend void to_json(nlohmann::json& j, const ComponentType& data) {
-    j["name"] = data.name;
-    j["instance"] = data.instance;
-    j["evse"] = data.evse;
+    j = nlohmann::json {
+        j["name"] = data.name,
+    };
+    if (data.instance.has_value()) {
+      j["instance"] = data.instance.value();
+    }
+    if (data.instance.has_value()) {
+      j["evse"] = data.evse.value();
+    }
   }
 
   friend void from_json(const nlohmann::json& j, ComponentType& data) {
     j.at("name").get_to(data.name);
-    j.at("instance").get_to(data.instance);
-    j.at("evse").get_to(data.evse);
+    if (j.contains("instance")) {
+      data.instance = std::optional<std::string>(j.at("instance"));
+    }
+    if (j.contains("evse")) {
+      std::string str = j.at("evse");
+      EVSEType evseType = nlohmann::json::parse(str);
+//    data.evse = std::optional<EVSEType>(j.at("evse"));
+    }
   }
 };
 

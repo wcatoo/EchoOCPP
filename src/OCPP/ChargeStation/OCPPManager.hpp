@@ -8,13 +8,14 @@
 #include <unordered_map>
 #include <mutex>
 
-#include "201/Devices/Connector.hpp"
+#include "201/Devices/EVSE.hpp"
 #include "../MessageQueue/MQDealer.hpp"
 #include "201/Message/MessageRequest.hpp"
 #include "201/Message/MessageRespone.hpp"
 #include "Utilies/Helper.hpp"
 #include "Utilies/Utilies.hpp"
 #include "ThreadPool.hpp"
+#include "201/Message/VariableManager.hpp"
 
 
 // message manager
@@ -52,15 +53,15 @@ private:
   std::unordered_map<std::string, std::function<void(const std::string &)>> mMessageCallback;
     // UUID | OCPPType | callback function
     std::unordered_map<std::string, OCPP201::OCPP201Type> mOCPPMessageType;
-  std::vector<OCPP201::Connector> mConnectors;
+  std::vector<OCPP201::EVSE> mEVSEs;
 
   // custome configure
   OCPP201ConfigureManager mConfigureManager;
 
   //Message Manager
-  std::unique_ptr<OCPP201::BootNotificationManager> mBootNotificationManager;
-  OCPP201::HeartBeatManager mHeartbeatManager;
-  OCPP201::StatusNotificationManager mStatusNotificationManager;
+//  std::unique_ptr<OCPP201::BootNotificationManager> mBootNotificationManager;
+//  OCPP201::HeartBeatManager mHeartbeatManager;
+//  OCPP201::StatusNotificationManager mStatusNotificationManager;
 
   std::unique_ptr<OCPP201::MessageManager> mOCPP201MessageManager;
 
