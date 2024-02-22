@@ -151,13 +151,13 @@ public:
   }
 
   // Parse RFC3339 string
-  static RFC3339DateTime fromString(const std::string& str) {
+  static std::optional<RFC3339DateTime> fromString(const std::string& str) {
     //    std::chrono::system_clock::time_point timePoint;
     std::tm tm{};
     std::istringstream ss(str);
     ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%SZ");
     if (ss.fail()) {
-      tm = {};
+      return std::nullopt;
     }
     return RFC3339DateTime(std::mktime(&tm));
   }

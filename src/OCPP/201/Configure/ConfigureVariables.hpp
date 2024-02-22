@@ -8,32 +8,40 @@
 
 namespace OCPP201 {
 
+class AttributeInstance {
+public:
+  VariableAttributeType variableAttribute;
+  VariableCharacteristicsType variableCharacteristics;
+  friend void to_json(nlohmann::json& j, const AttributeInstance& data) {
+    j = nlohmann::json {
+        {"variableAttribute", data.variableAttribute},
+        {"variableCharacteristics", data.variableCharacteristics}
+    };
+  }
+  friend void from_json(const nlohmann::json& j, AttributeInstance& data) {
+    j.at("variableAttribute").get_to(data.variableAttribute);
+    j.at("variableCharacteristics").get_to(data.variableCharacteristics);
+  }
+
+};
+
 class ComponentVariableConfigure {
 public:
-  AttributeEnumType attributeType{AttributeEnumType::Actual};
-  std::string attributeValue;
+  std::vector<AttributeInstance> attribute;
   ComponentType component;
   VariableType variable;
   friend void to_json(nlohmann::json& j, const ComponentVariableConfigure& data) {
     j = nlohmann::json {
-          {"attributeValue", data.attributeValue},
       {"component", data.component},
       {"variable", data.variable},
-      {"attributeType", data.attributeType}
+        {"attribute", data.attribute}
     };
   }
 
   friend void from_json(const nlohmann::json& j, ComponentVariableConfigure& data) {
-    auto tmp = magic_enum::enum_cast<AttributeEnumType>(j.at("attributeType"));
-    if (tmp.has_value()) {
-      data.attributeType = tmp.value();
-    } else {
-      data.attributeType = AttributeEnumType::Actual;
-    }
-
     j.at("component").get_to(data.component);
     j.at("variable").get_to(data.variable);
-    j.at("attributeValue").get_to(data.attributeValue);
+    j.at("attribute").get_to(data.attribute);
   }
 };
 
@@ -42,6 +50,14 @@ class ComponentVariableManager {
 public:
   std::vector<ComponentVariableConfigure> componentVariable;
 
+  friend void to_json(nlohmann::json& j, const ComponentVariableManager& data) {
+    j = nlohmann::json {
+        {"componentVariable", data.componentVariable}
+    };
+  }
+  friend void from_json(const nlohmann::json& j, ComponentVariableManager& data) {
+    j.at("componentVariable").get_to(data.componentVariable);
+  }
 };
 
 }

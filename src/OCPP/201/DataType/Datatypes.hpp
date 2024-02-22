@@ -1994,6 +1994,10 @@ public:
   EVSEType(int idParam, const std::optional<int>& connectorIdParam = std::nullopt)
       : id(idParam), connectorId(connectorIdParam) {}
 
+  bool operator==(const EVSEType& other) const {
+    return this->id == other.id && this->connectorId == other.connectorId;
+  }
+
   // Getter and setter functions for member variables
 //  int getId() const {
 //    return id;
@@ -2058,6 +2062,11 @@ public:
   void setName(const std::string& newName) {
     name = newName;
   }
+  bool operator==(const ComponentType& other) const {
+    return name == other.name &&
+           instance == other.instance &&
+           evse == other.evse;
+  }
 
 //  const std::optional<std::string> getInstance() const {
 //    return this->instance;
@@ -2112,25 +2121,14 @@ public:
   VariableType(const std::string& nameParam, const std::optional<std::string>& instanceParam = std::nullopt)
       : name(nameParam), instance(instanceParam) {}
 
-  const std::string& getName() const {
-    return name;
+  bool operator==(const VariableType& other) const {
+    return this->name==other.name && this->instance == other.instance;
   }
-
-  void setName(const std::string& newName) {
-    name = newName;
-  }
-
-  const std::optional<std::string>& getInstance() const {
-    return instance;
-  }
-
-  void setInstance(const std::optional<std::string>& newInstance) {
-    instance = newInstance;
-  }
-
   // JSON serialization functions
   friend void to_json(nlohmann::json& j, const VariableType& data) {
-    j.emplace("name", data.name);
+    j = nlohmann::json {
+      {"name", data.name}
+    };
     if (data.instance.has_value()) {
       j.emplace("instance", data.instance.value());
     }
@@ -3706,13 +3704,12 @@ public:
 };
 
 class SetVariableDataType {
-private:
+
+public:
   std::optional<AttributeEnumType> attributeType;
   std::string attributeValue;
   ComponentType component;
   VariableType variable;
-
-public:
   SetVariableDataType() = default;
 
   SetVariableDataType(
@@ -3725,11 +3722,11 @@ public:
         attributeType(attributeTypeParam),
         attributeValue(attributeValueParam) {}
 
-  // Getter functions
-  [[nodiscard]] std::optional<AttributeEnumType> getAttributeType() const { return attributeType; }
-  [[nodiscard]] std::string getAttributeValue() const { return attributeValue; }
-  [[nodiscard]] ComponentType getComponent() const { return component; }
-  [[nodiscard]] VariableType getVariable() const { return variable; }
+//  // Getter functions
+//  std::optional<AttributeEnumType> getAttributeType() { return attributeType; }
+//  std::string getAttributeValue() { return attributeValue; }
+//  ComponentType getComponent() { return component; }
+//  VariableType getVariable() { return variable; }
 
   // Setter functions
   void setAttributeType(const std::optional<AttributeEnumType>& newAttributeType) { attributeType = newAttributeType; }
@@ -3739,12 +3736,12 @@ public:
 
   friend void to_json(nlohmann::json& j, const SetVariableDataType& data) {
     j = nlohmann::json{
-        {"attributeValue", data.getAttributeValue()},
-        {"component", data.getComponent()},
-        {"variable", data.getVariable()}
+        {"attributeValue", data.attributeValue},
+        {"component", data.component},
+        {"variable", data.variable}
     };
     if (data.attributeType.has_value()) {
-      j.emplace("attributeType", magic_enum::enum_name(data.getAttributeType().value()));
+      j.emplace("attributeType", magic_enum::enum_name(data.attributeType.value()));
     }
   }
 
@@ -3753,7 +3750,11 @@ public:
       auto tmp = magic_enum::enum_cast<AttributeEnumType>(j.at("attributeType").get<std::string>());
       if (tmp.has_value()) {
         data.attributeType = tmp.value();
+      } else {
+        data.attributeType = AttributeEnumType::Actual;
       }
+    } else {
+      data.attributeType = AttributeEnumType::Actual;
     }
     if (j.contains("attributeValue")) {
       data.setAttributeValue(j.at("attributeValue").get<std::string>());
@@ -4005,7 +4006,6 @@ public:
         j = nlohmann::json{
             {"dataType", magic_enum::enum_name(data.getDataType())},
             {"supportsMonitoring", data.getSupportsMonitoring()}
-            // Include other fields here
         };
         if (data.getUnit().has_value()) {
             j["unit"] = data.getUnit().value();
