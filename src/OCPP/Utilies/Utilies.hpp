@@ -1,11 +1,24 @@
-#ifndef ECHOOCPP_UTILIES_HPP
-#define ECHOOCPP_UTILIES_HPP
-
+//#ifndef ECHOOCPP_UTILIES_HPP
+//#define ECHOOCPP_UTILIES_HPP
+//
+#pragma once
 #include "uuid.h"
+#include <nlohmann/json.hpp>
 
 namespace Utility {
 
 
+template <typename T>
+inline std::string toJsonString(const T& data) {
+  std::string result;
+  try {
+    nlohmann::json tmp = data;
+    result = tmp.dump();
+  } catch (std::exception &e) {
+    result = "";
+  }
+  return result;
+}
 /**
  * @brief Generates a random message ID using the stduuid library.
  *
@@ -39,4 +52,4 @@ static inline std::string generateMessageId()
 
 
 }
-#endif // ECHOOCPP_UTILIES_HPP
+//#endif // ECHOOCPP_UTILIES_HPP

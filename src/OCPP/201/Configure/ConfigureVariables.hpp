@@ -1,47 +1,41 @@
-#ifndef ECHOOCPP_CONFIGUREKEYGENERAL_HPP
-#define ECHOOCPP_CONFIGUREKEYGENERAL_HPP
-#include <iostream>
+//#ifndef ECHOOCPP_CONFIGUREKEYGENERAL_HPP
+//#define ECHOOCPP_CONFIGUREKEYGENERAL_HPP
+#pragma once
 #include <fstream>
+#include <iostream>
 #include <nlohmann/json.hpp>
-#include "../DataType/PrimitiveDatatypes.hpp"
-
-
+#include "201/DataType/PrimitiveDatatypes.hpp"
+#include "201/DataType/Datatypes.hpp"
 namespace OCPP201 {
-
-class AttributeInstance {
-public:
-  VariableAttributeType variableAttribute;
-  VariableCharacteristicsType variableCharacteristics;
-  friend void to_json(nlohmann::json& j, const AttributeInstance& data) {
-    j = nlohmann::json {
-        {"variableAttribute", data.variableAttribute},
-        {"variableCharacteristics", data.variableCharacteristics}
-    };
-  }
-  friend void from_json(const nlohmann::json& j, AttributeInstance& data) {
-    j.at("variableAttribute").get_to(data.variableAttribute);
-    j.at("variableCharacteristics").get_to(data.variableCharacteristics);
-  }
-
-};
 
 class ComponentVariableConfigure {
 public:
-  std::vector<AttributeInstance> attribute;
+  std::vector<VariableAttributeType> variableAttribute;
+  VariableCharacteristicsType variableCharacteristics;
   ComponentType component;
   VariableType variable;
   friend void to_json(nlohmann::json& j, const ComponentVariableConfigure& data) {
     j = nlohmann::json {
       {"component", data.component},
       {"variable", data.variable},
-        {"attribute", data.attribute}
+      {"variableAttribute", data.variableAttribute},
+      {"variableCharacteristics", data.variableCharacteristics}
     };
   }
 
   friend void from_json(const nlohmann::json& j, ComponentVariableConfigure& data) {
     j.at("component").get_to(data.component);
     j.at("variable").get_to(data.variable);
-    j.at("attribute").get_to(data.attribute);
+    if (j.contains("variableAttribute") && j.at("variableAttribute").is_array()) {
+      data.variableAttribute = j.at("variableAttribute").get<std::vector<VariableAttributeType>>();
+    } else {
+      data.variableAttribute = std::vector<VariableAttributeType>();
+    }
+    if (j.contains("variableCharacteristics") && j.at("variableCharacteristics").is_array()) {
+      j.at("variableCharacteristics").get_to(data.variableCharacteristics);
+    } else {
+      data.variableCharacteristics = VariableCharacteristicsType();
+    }
   }
 };
 
@@ -62,5 +56,5 @@ public:
 
 }
 
-#endif
+//#endif
 

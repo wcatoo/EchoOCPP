@@ -20,13 +20,16 @@ include_directories(${GTEST_INCLUDE_DIRS})
 #
 #
 #
-#target_include_directories(DatatypesTest PRIVATE ${CMAKE_SOURCE_DIR}/src)
-#target_link_libraries(
-#        DatatypesTest
-#        GTest::gtest_main
-#        nlohmann_json::nlohmann_json
-#        magic_enum::magic_enum
-#)
+add_executable(OCPP201DatatypesTest
+        OCPP201DatatypesTest.cpp
+        ../src/OCPP/201/DataType/Datatypes.hpp)
+target_link_libraries(
+        OCPP201DatatypesTest
+        PRIVATE
+        GTest::gtest_main
+        ChargePointOCPP201
+#        OCPP201Utilies
+)
 
 
 add_executable(OCPP201ChargePointTest OCPP201ChargePointTest.cpp
@@ -36,7 +39,7 @@ target_link_libraries(
         PRIVATE
         GTest::gtest_main
         ChargePointOCPP201
-        OCPP201Utilies
+#        OCPP201Utilies
 
 
 )

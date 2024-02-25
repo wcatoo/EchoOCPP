@@ -1,7 +1,3 @@
-//
-// Created by 杨帆 on 2023/12/3.
-//
-
 #ifndef ECHOOCPP_MESSAGEREQUEST_HPP
 #define ECHOOCPP_MESSAGEREQUEST_HPP
 #include "../DataType/Datatypes.hpp"
@@ -49,8 +45,7 @@ public:
   void build() {
     mAction = "BootNotificationRequest";
     mPayload["reason"] =
-        magic_enum::enum_name(this->reason); // Convert enum to int for JSON
-    // Build ChargingStationType payload if needed
+        magic_enum::enum_name(this->reason);
     mPayload["chargingStation"] = chargingStation;
   }
 };
@@ -398,12 +393,41 @@ private:
   ReportBaseEnumType reportBase;
 
 public:
+  [[nodiscard]] inline int getRequestId() {
+      return this->requestId;
+  }
+  [[nodiscard]] inline ReportBaseEnumType getReportBase() {
+      return this->reportBase;
+  }
+  inline void setRequestId(int id) {
+    this->requestId = id;
+  }
+  inline void setReportBase(ReportBaseEnumType tType) {
+    this->reportBase = tType;
+  }
+  GetBaseReportRequest() = default;
   explicit GetBaseReportRequest(int reqId,
                                 const ReportBaseEnumType &reportBaseType)
       : requestId(reqId), reportBase(reportBaseType) {
     mAction = "GetBaseReportRequest";
     mMessageId = Utility::generateMessageId();
     build();
+  }
+  friend void from_json(const nlohmann::json &json, GetBaseReportRequest &data) {
+    if (json.contains("requestId") && json.at("requestId").is_number_integer()) {
+      json.at("requestId").get_to(data.requestId);
+    } else {
+      data.requestId = 0;
+    }
+
+    if (json.contains("reportBase") && json.at("reportBase").is_string()) {
+      auto tmp = magic_enum::enum_cast<ReportBaseEnumType>(json.at("reportBase"));
+      if (tmp.has_value()) {
+        data.reportBase = tmp.value();
+      } else {
+        data.reportBase = ReportBaseEnumType::ConfigurationInventory;
+      }
+    }
   }
 
 private:
@@ -956,14 +980,9 @@ private:
 };
 
 class NotifyReportRequest : public MessageCallRequest {
-private:
-  int requestId;
-  std::string generatedAt;
-  bool tbc;
-  int seqNo;
-  std::vector<ReportDataType> reportData;
 
 public:
+  NotifyReportRequest() = default;
   NotifyReportRequest(int reportRequestId, const std::string &timestamp,
                       bool toBeContinued, int sequenceNumber,
                       const std::vector<ReportDataType> &data)
@@ -973,6 +992,11 @@ public:
     mMessageId = Utility::generateMessageId();
     build();
   }
+  int requestId;
+  std::string generatedAt;
+  bool tbc;
+  int seqNo;
+  std::vector<ReportDataType> reportData;
 
 private:
   void build() {

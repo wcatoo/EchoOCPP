@@ -1,21 +1,21 @@
-#include "../src/OCPP/ChargeStation/OCPPManager.hpp"
-#include "201/Message/MessageRequest.hpp"
+//
+// Created by 杨帆 on 2023/11/20.
+//
+
+
+#include "../src/OCPP/201/DataType/Datatypes.hpp"
+
 #include <gtest/gtest.h>
-#include <string>
+#include <memory>
+
 namespace OCPP201 {
 
-class OCPP201ChargePoint : public ::testing::Test {
+class OCPP201DatatypesTest : public ::testing::Test {
 protected:
-  void SetUp() override {}
-  std::unique_ptr<OCPP201::OCPPManager> ocppManager;
+  void SetUp() override{
+  }
 };
-
-TEST_F(OCPP201ChargePoint, GetVariableRequest) {}
-
-TEST_F(OCPP201ChargePoint, SetVariablesRequest) {
-}
-
-TEST_F(OCPP201ChargePoint, ACChargingParametersType) {
+TEST_F(OCPP201DatatypesTest, ACChargingParametersType) {
   ACChargingParametersType acChargingParametersType1;
   nlohmann::json j1 = acChargingParametersType1;
   EXPECT_EQ(j1.dump(), "{\"energyAmount\":0,\"evMaxCurrent\":0,\"evMaxVoltage\":0,\"evMinCurrent\":0}");
@@ -36,14 +36,31 @@ TEST_F(OCPP201ChargePoint, ACChargingParametersType) {
   EXPECT_NO_THROW(acChargingParametersType1 = nlohmann::json::parse(meg));
 }
 
-TEST_F(OCPP201ChargePoint, AdditionalInfoType) {
+TEST_F(OCPP201DatatypesTest, AdditionalInfoType) {
   AdditionalInfoType additionalInfoType1;
   nlohmann::json json1 = additionalInfoType1;
   EXPECT_EQ(json1.dump(), R"({"additionalIdToken":"","type":""})");
   AdditionalInfoType additionalInfoType2 = json1;
   EXPECT_EQ(additionalInfoType1, additionalInfoType2);
+  std::string meg{R"({"additionalIdToken":"","type":""})"};
+  EXPECT_NO_THROW(additionalInfoType1 = nlohmann::json::parse(meg));
+  meg = R"({"additionalIdToken":""})";
+  additionalInfoType1 = nlohmann::json::parse(meg);
+  EXPECT_EQ(additionalInfoType1, additionalInfoType2);
+}
 
+TEST_F(OCPP201DatatypesTest, ModemType) {
+  ModemType modemType(std::optional<IdentifierString>("a"),std::optional<IdentifierString>("b") );
+  nlohmann::json j = modemType;
+  modemType = nlohmann::json::parse(j.dump());
+  if (j.contains("imsi")) {
+    j.erase("imsi");
+  }
+  std::cout << j.dump() << std::endl;
 
 }
+
+
+
 
 }

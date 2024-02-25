@@ -1,8 +1,9 @@
-#ifndef ECHOOCPP_CONFIGURE_BASE_INFO_HPP
-#define ECHOOCPP_CONFIGURE_BASE_INFO_HPP
+//#ifndef ECHOOCPP_CONFIGURE_BASE_INFO_HPP
+//#define ECHOOCPP_CONFIGURE_BASE_INFO_HPP
+#pragma once
 #include <string>
 #include <nlohmann/json.hpp>
-#include "../../System/IO.hpp"
+//#include "../../System/IO.hpp"
 
 
 enum class BaseInfoType {
@@ -57,4 +58,4 @@ public:
   }
 };
 
-#endif
+//#endif

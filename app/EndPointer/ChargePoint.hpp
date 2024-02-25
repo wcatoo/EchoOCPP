@@ -1,6 +1,6 @@
-#ifndef ECHOOCPP_CHARGEPOINT_HPP
-#define ECHOOCPP_CHARGEPOINT_HPP
-#include "../../src/OCPP/201/Devices/Connector.hpp"
+//#ifndef ECHOOCPP_CHARGEPOINT_HPP
+//#define ECHOOCPP_CHARGEPOINT_HPP
+#pragma once
 #include "../../src/OCPP/ChargeStation/OCPPManager.hpp"
 #include "WebsocketClientManager.hpp"
 #include "../../src/MessageQueue/MQRouter.hpp"
@@ -20,4 +20,4 @@ private:
 
 };
 
-#endif // ECHOOCPP_CHARGEPOINT_HPP
+//#endif // ECHOOCPP_CHARGEPOINT_HPP

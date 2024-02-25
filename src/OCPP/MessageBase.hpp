@@ -1,6 +1,7 @@
-
-#ifndef MESSAGECALLBASE_HPP
-#define MESSAGECALLBASE_HPP
+//
+//#ifndef MESSAGECALLBASE_HPP
+//#define MESSAGECALLBASE_HPP
+#pragma once
 #include "Utilies/Utilies.hpp"
 #include <nlohmann/json.hpp>
 #include <sstream>
@@ -65,6 +66,7 @@ protected:
   nlohmann::json mPayload{};
   std::stringstream stream{};
 public:
+
   void setMessageId(const std::string & tId) {
     this->mMessageId = tId;
   }
@@ -120,4 +122,4 @@ protected:
 };
 
 } // namespace OCPP201
-#endif
+//#endif

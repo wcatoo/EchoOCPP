@@ -4,6 +4,7 @@
 namespace OCPP201 {
 #include "../DataType/Datatypes.hpp"
 
+
 class AuthorizeResponse {
 private:
   AuthorizeCertificateStatusEnumType certificateStatus;
@@ -289,20 +290,31 @@ public:
   }
 };
 
-class GetBaseReportResponse {
-private:
+class GetBaseReportResponse : public MessageCallResponse {
+public:
   GenericDeviceModelStatusEnumType status;
   std::optional<StatusInfoType> statusInfo;
-
-public:
+  GetBaseReportResponse() = default;
   [[nodiscard]] GenericDeviceModelStatusEnumType getStatus() const { return status; }
   [[nodiscard]] std::optional<StatusInfoType> getStatusInfo() const { return statusInfo; }
 
   friend void from_json(const nlohmann::json& j, GetBaseReportResponse& data) {
-    data.status = j.at("status").get<GenericDeviceModelStatusEnumType>();
+    data.status = (j.contains("status") && j.at("status").is_string()) ?
+                                                                       (magic_enum::enum_cast<GenericDeviceModelStatusEnumType>(j.at("status")).value_or(GenericDeviceModelStatusEnumType::NotSupported)) :
+                                                                       GenericDeviceModelStatusEnumType::NotSupported;
 
-    if (j.contains("statusInfo")) {
-      data.statusInfo = j.at("statusInfo").get<StatusInfoType>();
+    data.statusInfo = (j.contains("statusInfo") && j.at("statusInfo").is_object()) ?
+                                                                                   std::optional<StatusInfoType>(j.at("statusInfo").get<StatusInfoType>()) :
+                                                                                   std::nullopt;
+  }
+  friend void to_json(nlohmann::json& j, const GetBaseReportResponse& data) {
+    if (j.is_null()) {
+      j = nlohmann::json {
+        {"status", magic_enum::enum_name(data.status)},
+      };
+    }
+    if (data.statusInfo.has_value()) {
+      j.emplace("statusInfo", data.statusInfo.value());
     }
   }
 };
@@ -515,16 +527,26 @@ public:
     data.messagesInQueue = j.at("messagesInQueue").get<bool>();
   }
 };
-class GetVariablesResponse {
-private:
-  GetVariableResultType getVariableResult;
+class GetVariablesResponse : public MessageCallResponse {
 public:
-  // Getter functions
-  [[nodiscard]] GetVariableResultType getGetVariableResult() const { return getVariableResult; }
-
+  GetVariablesResponse() = default;
+  std::vector<GetVariableResultType> getVariableResult;
   // JSON serialization functions
   friend void from_json(const nlohmann::json& j, GetVariablesResponse& data) {
-    data.getVariableResult = j.at("getVariableResult");
+    if (j.contains("getVariableResult") && j.at("getVariableResult").is_array()) {
+
+      data.getVariableResult = nlohmann::json::parse(j.at("getVariableResult").get<std::string>());
+    }
+  }
+
+  friend void to_json(nlohmann::json& j, const GetVariablesResponse& data) {
+    if (j.is_null()) {
+      j = nlohmann::json {
+        {"getVariableResult", data.getVariableResult}
+      };
+    } else {
+      j.emplace("getVariableResult",data.getVariableResult);
+    }
   }
 };
 

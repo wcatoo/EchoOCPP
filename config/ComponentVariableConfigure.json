@@ -1,72 +1,153 @@
 {
-  "components" : [
+  "componentVariable" : [
     {
-      "componentName" : "OCPPCommCtrlr",
-      "component" : [
+      "component" : {
+        "name" : "OCPPCommCtrlr"
+      },
+      "variable" : {
+        "name" : "ActiveNetworkProfile"
+      },
+      "attribute" : [
         {
-          "componentInstance" : null,
-          "evse" : {
-            "id" : 1,
-            "connectorId" : null
+          "variableAttribute" : {
+            "type" : "Actual",
+            "value" : "",
+            "mutability" : "ReadWrite"
           },
-          "variableName" : "asd",
-          "variable" : [
-            {
-              "variableInstance" : "qwe",
-              "value" : [
-                {
-                  "attributeValue" : "asd123",
-                  "type" : "Actual"
-                }
-              ]
-            },
-            {
-              "variableInstance" : "qwet",
-              "value" : [
-                {
-                  "attributeValue" : "asd123",
-                  "type" : "Actual"
-                }
-              ]
-            }
-          ]
+          "variableCharacteristics" : {
+            "dataType" : "IntegerType"
+          }
         }
       ]
     },
     {
-      "componentName" : "OCPPCommCtrlr",
-      "component" : [
+      "component" : {
+        "name" : "ChargingStation"
+      },
+      "variable" : {
+        "name" : "AllowNewSessionsPendingFirmwareUpdate"
+      },
+      "attribute" : [
         {
-          "componentInstance" : null,
-          "evse" : {
-            "id" : 1,
-            "connectorId" : null
+          "variableAttribute" : {
+            "type" : "Actual",
+            "value" : "",
+            "mutability" : "ReadWrite"
           },
-          "variableName" : "asd",
-          "variable" : [
-            {
-              "variableInstance" : "qwe",
-              "value" : [
-                {
-                  "attributeValue" : "asd123",
-                  "type" : "Actual"
-                }
-              ]
-            },
-            {
-              "variableInstance" : "qwet",
-              "value" : [
-                {
-                  "attributeValue" : "asd123",
-                  "type" : "Actual"
-                }
-              ]
-            }
-          ]
+          "variableCharacteristics" : {
+            "dataType" : "BooleanType"
+          }
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "OCPPCommCtrlr"
+      },
+      "variable" : {
+        "name" : "MessageTimeout",
+        "instance" : "instance"
+      },
+      "attribute" : [
+        {
+          "variableAttribute" : {
+            "type" : "Actual",
+            "value" : "",
+            "mutability" : "ReadOnly"
+          },
+          "variableCharacteristics" : {
+            "dataType" : "IntegerType"
+          }
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "OCPPCommCtrlr"
+      },
+      "variable" : {
+        "name" : "MessageTimeout",
+        "instance" : "instance"
+      },
+      "attribute" : [
+        {
+          "variableAttribute" : {
+            "type" : "Actual",
+            "value" : "",
+            "mutability" : "ReadOnly"
+          },
+          "variableCharacteristics" : {
+            "dataType" : "IntegerType"
+          }
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "OCPPCommCtrlr"
+      },
+      "variable" : {
+        "name" : "FileTransferProtocols"
+      },
+      "variableAttribute" : [
+        {
+          "type" : "Actual",
+          "value" : "",
+          "mutability" : "ReadOnly"
+        }
+      ],
+      "variableCharacteristics" :
+      {
+        "dataType" : "MemberListType",
+        "valuesList" : "FTP,FTPS,HTTP,HTTPS,SFTP"
+      }
+    },
+    {
+      "component" : {
+        "name" : "OCPPCommCtrlr"
+      },
+      "variable" : {
+        "name" : "HeartbeatInterval"
+      },
+      "attribute" : [
+        {
+          "variableAttribute" : {
+            "type" : "Actual",
+            "value" : "",
+            "mutability" : "ReadWrite"
+          },
+          "variableCharacteristics" : {
+            "dataType" : "IntegerType",
+            "minLimit" : 1.0,
+            "unit" : "seconds"
+          }
+        }
+      ]
+    },
+    {
+      "component": {
+        "name": "OCPPCommCtrlr"
+      },
+      "variable": {
+        "name": "HeartbeatInterval"
+      },
+      "attribute": [
+        {
+          "variableAttribute": {
+            "type": "Actual",
+            "value": "",
+            "mutability": "ReadWrite"
+          },
+          "variableCharacteristics": {
+            "dataType": "IntegerType",
+            "minLimit": 1.0,
+            "unit": "seconds"
+          }
         }
       ]
     }
   ]
+
 
 
 }

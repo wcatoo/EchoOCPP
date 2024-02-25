@@ -1,7 +1,3 @@
-//
-// Created by 杨帆 on 2023/12/2.
-//
-
 #ifndef ECHOOCPP_PRIMITIVEDATATYPES_HPP
 #define ECHOOCPP_PRIMITIVEDATATYPES_HPP
 
@@ -116,6 +112,11 @@ private:
 public:
   RFC3339DateTime() = default;
 
+  std::string nowString() {
+    this->dateTime = std::chrono::system_clock::now();
+    return toString();
+  }
+
   explicit RFC3339DateTime(std::time_t dateTimeParam){
     this->setDateTime(dateTimeParam);
   }
@@ -166,9 +167,13 @@ public:
     j = dateTimeObj.toString();
   }
 
-  // Parse from JSON
   friend void from_json(const nlohmann::json& j, RFC3339DateTime& dateTimeObj) {
-    dateTimeObj = RFC3339DateTime::fromString(j.get<std::string>());
+    auto tmp =  RFC3339DateTime::fromString(j.get<std::string>());
+    if (tmp.has_value()) {
+      dateTimeObj = tmp.value();
+    } else {
+      dateTimeObj = RFC3339DateTime(0);
+    }
   }
 };
 #endif // ECHOOCPP_PRIMITIVEDATATYPES_HPP

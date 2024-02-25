@@ -1,7 +1,3 @@
-//
-// Created by 杨帆 on 2023/11/20.
-//
-
 #ifndef ECHOOCPP_DATATYPES_HPP
 #define ECHOOCPP_DATATYPES_HPP
 
@@ -29,13 +25,13 @@ class ACChargingParametersType {
 
 private:
   // Required. Amount of energy requested (in Wh). This includes energy required for preconditioning.
-  int energyAmount;
+  int energyAmount{0};
   // Required. Minimum current (amps) supported by the electric vehicle (per phase).
-  int evMinCurrent;
+  int evMinCurrent{0};
   // Required. Maximum current (amps) supported by the electric vehicle (per phase). Includes cable capacity.
-  int evMaxCurrent;
+  int evMaxCurrent{0};
   // Required. Maximum voltage supported by the electric vehicle
-  int evMaxVoltage;
+  int evMaxVoltage{0};
 public:
   ACChargingParametersType() = default;
 
@@ -50,61 +46,82 @@ public:
         evMaxVoltage(evMaxVoltageParam) {}
 
   // Getter and setter methods for `energyAmount`
-  [[nodiscard]] int getEnergyAmount() const {
+  [[nodiscard]] inline int getEnergyAmount() const {
     return energyAmount;
   }
 
-  void setEnergyAmount(int newEnergyAmount) {
+  inline void setEnergyAmount(int newEnergyAmount) {
     energyAmount = newEnergyAmount;
   }
 
   // Getter and setter methods for `evMinCurrent`
-  [[nodiscard]] int getEvMinCurrent() const {
+  [[nodiscard]] inline int getEvMinCurrent() const {
     return evMinCurrent;
   }
 
-  void setEvMinCurrent(int newEvMinCurrent) {
+  inline void setEvMinCurrent(int newEvMinCurrent) {
     evMinCurrent = newEvMinCurrent;
   }
 
   // Getter and setter methods for `evMaxCurrent`
-  [[nodiscard]] int getEvMaxCurrent() const {
+  [[nodiscard]] inline int getEvMaxCurrent() const {
     return evMaxCurrent;
   }
 
-  void setEvMaxCurrent(int newEvMaxCurrent) {
+  inline void setEvMaxCurrent(int newEvMaxCurrent) {
     evMaxCurrent = newEvMaxCurrent;
   }
 
   // Getter and setter methods for `evMaxVoltage`
-  [[nodiscard]] int getEvMaxVoltage() const {
+  [[nodiscard]] inline int getEvMaxVoltage() const {
     return evMaxVoltage;
   }
 
-  void setEvMaxVoltage(int newEvMaxVoltage) {
+  inline void setEvMaxVoltage(int newEvMaxVoltage) {
     evMaxVoltage = newEvMaxVoltage;
   }
   friend void from_json(const nlohmann::json &json, ACChargingParametersType& tData) {
-    if (json.contains("energyAmount")) {
+    if (json.contains("energyAmount") && json.at("energyAmount").is_number_integer()) {
       json.at("energyAmount").get_to(tData.energyAmount);
+    } else {
+      tData.energyAmount = 0;
     }
-    if (json.contains("evMinCurrent")) {
+    if (json.contains("evMinCurrent") && json.at("evMinCurrent").is_number_integer()) {
       json.at("evMinCurrent").get_to(tData.evMinCurrent);
+    } else {
+      tData.evMinCurrent = 0;
     }
-    if (json.contains("evMaxCurrent")) {
+    if (json.contains("evMaxCurrent") && json.at("evMaxCurrent").is_number_integer()) {
       json.at("evMaxCurrent").get_to(tData.evMaxCurrent);
+    } else {
+      tData.evMaxCurrent = 0;
     }
-    if (json.contains("evMaxVoltage")) {
+    if (json.contains("evMaxVoltage") && json.at("evMaxVoltage").is_number_integer()) {
       json.at("evMaxVoltage").get_to(tData.evMaxVoltage);
+    } else {
+      tData.evMaxVoltage = 0;
     }
   }
 
-  friend void to_json(nlohmann::json& json, const ACChargingParametersType &type) {
-    json = nlohmann::json{
-        {"energyAmount", type.energyAmount},
-        {"evMinCurrent", type.evMinCurrent},
-        {"evMaxCurrent", type.evMaxCurrent},
-        {"evMaxVoltage", type.evMaxVoltage}};
+  friend void to_json(nlohmann::json& json, const ACChargingParametersType &data) {
+    if (json.is_null()) {
+      json = nlohmann::json{
+          {"energyAmount", data.energyAmount},
+          {"evMinCurrent", data.evMinCurrent},
+          {"evMaxCurrent", data.evMaxCurrent},
+          {"evMaxVoltage", data.evMaxVoltage}};
+    } else {
+      json.emplace("energyAmount", data.energyAmount);
+      json.emplace("evMinCurrent", data.evMinCurrent);
+      json.emplace("evMaxCurrent", data.evMaxCurrent);
+      json.emplace("evMaxVoltage", data.evMaxVoltage);
+    }
+  }
+  bool operator==(const ACChargingParametersType& rhs) const {
+    return this->getEnergyAmount() == rhs.getEnergyAmount()
+           && this->getEvMaxCurrent() == rhs.getEvMaxCurrent()
+           && this->getEvMaxVoltage() == rhs.getEvMaxVoltage()
+           && this->getEvMinCurrent() == rhs.getEvMinCurrent();
   }
 };
 
@@ -130,35 +147,48 @@ public:
   AdditionalInfoType(const std::string& additionalIdToken, const std::string& type)
       : additionalIdToken(additionalIdToken), type(type) {}
 
-  [[nodiscard]]std::string getAdditionalIdToken() const {
+  [[nodiscard]] inline const std::string& getAdditionalIdToken() const {
     return additionalIdToken;
   }
 
-  void setAdditionalIdToken(const std::string& newAdditionalIdToken) {
+  inline void setAdditionalIdToken(const std::string& newAdditionalIdToken) {
     additionalIdToken = newAdditionalIdToken;
   }
 
   // Getter and setter methods for `type`
-  [[nodiscard]]std::string getType() const {
+  [[nodiscard]] inline const std::string& getType() const {
     return type;
   }
 
-  void setType(const std::string& newType) {
+  inline void setType(const std::string& newType) {
     type = newType;
+  }
+
+  bool operator==(const AdditionalInfoType &other) const {
+    return this->type == other.type && this->additionalIdToken == other.additionalIdToken;
   }
 
   // Function to convert AdditionalInfoType object to JSON
   friend void to_json(nlohmann::json &tJson, const AdditionalInfoType &tData) {
-    tJson = nlohmann::json { {"additionalIdToken", tData.additionalIdToken}, {"type", tData.type} };
+    if (tJson.is_null()) {
+      tJson = nlohmann::json { {"additionalIdToken", tData.additionalIdToken}, {"type", tData.type} };
+    } else {
+      tJson.emplace("additionalIdToken", tData.additionalIdToken);
+      tJson.emplace("type", tData.type);
+    }
   }
 
   friend void from_json(const nlohmann::json &tJson, AdditionalInfoType &tData) {
-    if (tJson.contains("additionalIdToken")) {
+    if (tJson.contains("additionalIdToken") && tJson.at("additionalIdToken").is_string()) {
       tData.additionalIdToken = tJson.at("additionalIdToken").get<std::string>();
+    } else {
+      tData.additionalIdToken = "";
     }
 
-    if (tJson.contains("type")) {
+    if (tJson.contains("type") && tJson.at("type").is_string()) {
       tData.type = tJson.at("type").get<std::string>();
+    } else {
+      tData.type = "";
     }
   }
 
@@ -1506,7 +1536,13 @@ public:
   }
 
   friend void to_json(nlohmann::json& j, const ChargingScheduleType& data) {
-    j.emplace("id", data.id);
+    if (j.is_null()) {
+      j = nlohmann::json {
+        {"id", data.id}
+      };
+    } else {
+      j.emplace("id", data.id);
+    }
     if (data.startSchedule.has_value()) {
       j.emplace("startSchedule", data.startSchedule.value().toString());
     }
@@ -1521,13 +1557,18 @@ public:
     if (data.salesTariff.has_value()) {
       j.emplace("salesTariff", data.salesTariff.value());
     }
-
   }
 
   friend void from_json(const nlohmann::json& j, ChargingScheduleType& data) {
     j.at("id").get_to(data.id);
-    if (j.contains("startSchedule"))
-      data.startSchedule.emplace(RFC3339DateTime::fromString(j.at("startSchedule")));
+    if (j.contains("startSchedule")) {
+      auto tmp = RFC3339DateTime::fromString(j.at("startSchedule"));
+      if (tmp.has_value()) {
+        data.startSchedule.emplace(tmp.value());
+      } else {
+        data.startSchedule.emplace(0);
+      }
+    }
     if (j.contains("duration"))
       j.at("duration").get_to(data.duration.emplace());
     j.at("chargingRateUnit").get_to(data.chargingRateUnit);
@@ -1700,7 +1741,7 @@ private:
   std::optional<IdentifierString> imsi;
 
 public:
-  ModemType() = default;
+//  ModemType() = default;
 
   explicit ModemType(const std::optional<IdentifierString>& iccidParam = std::nullopt,
                      const std::optional<IdentifierString>& imsiParam = std::nullopt)
@@ -1727,27 +1768,33 @@ public:
     if (data.iccid.has_value())
       j["iccid"] = data.iccid.value();
 
-    if (data.imsi.has_value())
+    if (data.imsi.has_value()) {
       j["imsi"] = data.imsi.value();
+    } else {
+      if (j.contains("imsi")) {
+        j.erase("imsi");
+      }
+    }
   }
 
   friend void from_json(const nlohmann::json& j, ModemType& data) {
-    if (j.contains("iccid"))
-      j.at("iccid").get_to(data.iccid.emplace());
-
-    if (j.contains("imsi"))
-      j.at("imsi").get_to(data.imsi.emplace());
+    data.iccid = (j.contains("iccid") && j.at("iccid").is_string())
+                     ? decltype(data.iccid)(j.at("iccid"))
+                     : std::nullopt;
+    data.imsi = (j.contains("imsi") && j.at("imsi").is_string()
+                     ? decltype(data.imsi)(j.at("imsi"))
+                     : std::nullopt);
   }
 };
 
 
 class ChargingStationType {
 private:
-  std::optional<std::string> serialNumber;
+  std::optional<std::string> serialNumber{std::nullopt};
   std::string model;
   std::string vendorName;
-  std::optional<std::string> firmwareVersion;
-  std::optional<ModemType> modem;
+  std::optional<std::string> firmwareVersion{std::nullopt};
+  std::optional<ModemType> modem{std::nullopt};
 
 public:
   ChargingStationType() = default;
@@ -1763,73 +1810,101 @@ public:
         firmwareVersion(firmwareVersionParam),
         modem(modemParam) { }
 
-  std::optional<std::string> getSerialNumber() const {
+  [[nodiscard]]inline std::optional<std::string> getSerialNumber() const {
     return serialNumber;
   }
 
-  void setSerialNumber(const std::optional<std::string>& newSerialNumber) {
+  inline void setSerialNumber(const std::optional<std::string>& newSerialNumber) {
     serialNumber = newSerialNumber;
   }
 
-  std::string getModel() const {
+  [[nodiscard]] inline const std::string& getModel() const {
     return model;
   }
 
-  void setModel(const std::string& newModel) {
+  inline void setModel(const std::string& newModel) {
     model = newModel;
   }
 
-  std::string getVendorName() const {
+  [[nodiscard]] inline const std::string& getVendorName() const {
     return vendorName;
   }
 
-  void setVendorName(const std::string& newVendorName) {
+  inline void setVendorName(const std::string& newVendorName) {
     vendorName = newVendorName;
   }
 
-  std::optional<std::string> getFirmwareVersion() const {
+  [[nodiscard]] inline std::optional<std::string> getFirmwareVersion() const {
     return firmwareVersion;
   }
 
-  void setFirmwareVersion(const std::optional<std::string>& newFirmwareVersion) {
+  inline void setFirmwareVersion(const std::optional<std::string>& newFirmwareVersion) {
     firmwareVersion = newFirmwareVersion;
   }
 
-  std::optional<ModemType> getModem() const {
+  [[nodiscard]] inline std::optional<ModemType> getModem() const {
     return modem;
   }
 
-  void setModem(const std::optional<ModemType>& newModem) {
+  inline void setModem(const std::optional<ModemType>& newModem) {
     modem = newModem;
   }
 
 
   friend void to_json(nlohmann::json &j, const ChargingStationType &data) {
-    if(data.serialNumber.has_value())
+    if (j.is_null()) {
+      j = nlohmann::json {
+        {"model", data.model},
+        {"vendorName", data.vendorName}
+      };
+    } else {
+      j["model"] = data.model;
+      j["vendorName"] = data.vendorName;
+    }
+    if(data.serialNumber.has_value()) {
       j["serialNumber"] = data.serialNumber.value();
+    } else {
+      if (j.contains("serialNumber")) {
+        j.erase("serialNumber");
+      }
+    }
 
-    j["model"] = data.model;
-    j["vendorName"] = data.vendorName;
-
-    if(data.firmwareVersion.has_value())
+    if(data.firmwareVersion.has_value()) {
       j["firmwareVersion"] = data.firmwareVersion.value();
+    } else {
+      if (j.contains("firmwareVersion")) {
+        j.erase("firmwareVersion");
+      }
+    }
 
-    if(data.modem.has_value())
+    if(data.modem.has_value()) {
       j["modem"] = data.modem.value();
+    } else {
+      if (j.contains("modem")) {
+        j.erase("modem");
+      }
+    }
   }
 
   friend void from_json(const nlohmann::json &j, ChargingStationType &data) {
-    if(j.contains("serialNumber"))
-      j.at("serialNumber").get_to(data.serialNumber.emplace());
-
-    j.at("model").get_to(data.model);
-    j.at("vendorName").get_to(data.vendorName);
-
-    if(j.contains("firmwareVersion"))
-      j.at("firmwareVersion").get_to(data.firmwareVersion.emplace());
-
-    if(j.contains("modem"))
-      data.modem.emplace(j.at("modem"));
+    data.serialNumber =
+        (j.contains("serialNumber") && j.at("serialNumber").is_string())
+            ? decltype(data.serialNumber)(j.at("serialNumber"))
+            : std::nullopt;
+    data.model =
+        (j.contains("model") && j.at("model").is_string()) ? j.at("model") : "";
+    data.vendorName =
+        (j.contains("vendorName") && j.at("vendorName").is_string())
+            ? j.at("vendorName")
+            : "";
+    data.firmwareVersion =
+        (j.contains("firmwareVersion") && j.at("firmwareVersion").is_string())
+            ? decltype(data.firmwareVersion)(j.at("firmwareVersion"))
+            : std::nullopt;
+    data.modem =
+        (j.contains("modem") && j.at("modem").is_object())
+            ? decltype(data.modem)(nlohmann::json::parse(j.at("modem").get<std::string>()))
+            : std::nullopt;
   }
 };
 
@@ -2669,18 +2744,18 @@ public:
   // Constructors
   GetVariableResultType() = default;
 
-  GetVariableResultType(const GetVariableStatusEnumType& attributeStatusParam,
-                        const ComponentType& componentParam,
-                        const VariableType& variableParam,
-                        const std::optional<AttributeEnumType>& attributeTypeParam = std::nullopt,
-                        const std::optional<std::string>& attributeValueParam = std::nullopt,
-                        const std::optional<StatusInfoType>& attributeStatusInfoParam = std::nullopt)
-      : attributeStatus(attributeStatusParam),
-        component(componentParam),
-        variable(variableParam),
-        attributeType(attributeTypeParam),
-        attributeValue(attributeValueParam),
-        attributeStatusInfo(attributeStatusInfoParam) {}
+//  GetVariableResultType(const GetVariableStatusEnumType& attributeStatusParam,
+//                        const ComponentType& componentParam,
+//                        const VariableType& variableParam,
+//                        const std::optional<AttributeEnumType>& attributeTypeParam = std::nullopt,
+//                        const std::optional<std::string>& attributeValueParam = std::nullopt,
+//                        const std::optional<StatusInfoType>& attributeStatusInfoParam = std::nullopt)
+//      : attributeStatus(attributeStatusParam),
+//        component(componentParam),
+//        variable(variableParam),
+//        attributeType(attributeTypeParam),
+//        attributeValue(attributeValueParam),
+//        attributeStatusInfo(attributeStatusInfoParam) {}
 
   // Getter and setter functions for member variables
   GetVariableStatusEnumType getAttributeStatus() const {
@@ -3975,23 +4050,22 @@ public:
 
 class VariableCharacteristicsType {
 private:
-    std::optional<std::string> unit;
-    DataEnumType dataType;
-    std::optional<double> minLimit;
-    std::optional<double> maxLimit;
-    std::optional<std::string> valuesList;
-    bool supportsMonitoring;
-
+    std::optional<std::string> unit{std::nullopt};
+    DataEnumType dataType{DataEnumType::StringType};
+    std::optional<double> minLimit{std::nullopt};
+    std::optional<double> maxLimit{std::nullopt};
+    std::optional<std::string> valuesList{std::nullopt};
+    bool supportsMonitoring{false};
 public:
     VariableCharacteristicsType() = default;
 
     // Getter functions
-    const std::optional<std::string>& getUnit() const { return unit; }
-    DataEnumType getDataType() const { return dataType; }
-    const std::optional<double>& getMinLimit() const { return minLimit; }
-    const std::optional<double>& getMaxLimit() const { return maxLimit; }
-    const std::optional<std::string>& getValuesList() const { return valuesList; }
-    bool getSupportsMonitoring() const { return supportsMonitoring; }
+    [[nodiscard]] const std::optional<std::string>& getUnit() const { return unit; }
+    [[nodiscard]] DataEnumType getDataType() const { return dataType; }
+    [[nodiscard]] const std::optional<double>& getMinLimit() const { return minLimit; }
+    [[nodiscard]] const std::optional<double>& getMaxLimit() const { return maxLimit; }
+    [[nodiscard]] const std::optional<std::string>& getValuesList() const { return valuesList; }
+    [[nodiscard]] bool getSupportsMonitoring() const { return supportsMonitoring; }
 
     // Setter functions
     void setUnit(const std::optional<std::string>& newUnit) { unit = newUnit; }
@@ -4041,13 +4115,8 @@ public:
 
 
 class ReportDataType {
-private:
-  ComponentType component;
-  VariableType variable;
-  std::vector<VariableAttributeType> variableAttributes;
-  std::optional<VariableCharacteristicsType> variableCharacteristics;
-
 public:
+  ReportDataType() = default;
   ReportDataType(
       const ComponentType& componentParam,
       const VariableType& variableParam,
@@ -4057,6 +4126,13 @@ public:
         variable(variableParam),
         variableAttributes(variableAttributesParam),
         variableCharacteristics(variableCharacteristicsParam) {}
+
+
+
+  ComponentType component;
+  VariableType variable;
+  std::vector<VariableAttributeType> variableAttributes;
+  std::optional<VariableCharacteristicsType> variableCharacteristics;
 
   // Getter functions
   [[nodiscard]] ComponentType getComponent() const { return component; }

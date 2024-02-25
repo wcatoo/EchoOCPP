@@ -1,10 +1,9 @@
-
-#ifndef ECHOOCPP_HELPER_HPP
-#define ECHOOCPP_HELPER_HPP
+//
+//#ifndef ECHOOCPP_HELPER_HPP
+//#define ECHOOCPP_HELPER_HPP
+#pragma once
 #include <regex>
 #include <string_view>
-#include <optional>
-#include <fstream>
 
 #include <nlohmann/json-schema.hpp>
 #include <magic_enum.hpp>
@@ -34,4 +33,4 @@ private:
 
 } // namespace OCPP201
 
-#endif // ECHOOCPP_HELPER_HPP
+//#endif // ECHOOCPP_HELPER_HPP

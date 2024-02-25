@@ -1,12 +1,13 @@
-#ifndef ECHOOCPP_IO_HPP
-#define ECHOOCPP_IO_HPP
+//#ifndef ECHOOCPP_IO_HPP
+//#define ECHOOCPP_IO_HPP
+#pragma once
 #include <optional>
 #include <string>
 #include <filesystem>
 #include <fstream>
 
 namespace System_IO {
-std::optional<std::string> readFromFile(const std::filesystem::path &tPath){
+inline std::optional<std::string> readFromFile(const std::filesystem::path &tPath){
   std::string fileContent{};
   std::ifstream inputFile{tPath};
   inputFile.seekg(0, std::ios::end);
@@ -31,4 +32,4 @@ inline void writeToFile(const std::string &fileContext,
 }
 
 }
-#endif
+//#endif
