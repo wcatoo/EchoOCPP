@@ -9,8 +9,8 @@ namespace OCPP201 {
 class VariableManager {
 private:
   std::filesystem::path mConfigurePath;
-  OCPP201::ComponentVariableManager mComponentManager;
 public:
+  OCPP201::ComponentVariableManager mComponentManager;
   inline void setFilePath(const std::string &tPath) {
     this->mConfigurePath = tPath;
   }
@@ -28,19 +28,38 @@ public:
     System_IO::writeToFile(tmp.dump(), mConfigurePath);
   }
 
-  NotifyReportRequest getNotifyRequestConfigurationInventory(int tRequestId) {
+  NotifyReportRequest getNotifyRequestInventory(int tRequestId, int tSeqNo, bool tbc, ReportBaseEnumType tType) {
     NotifyReportRequest request;
     request.requestId = tRequestId;
-    request.seqNo = 0;
-    request.tbc = false;
+    request.seqNo = tSeqNo;
+    request.tbc = tbc;
     request.generatedAt = RFC3339DateTime().nowString();
-
+    auto seqEndNo = (tSeqNo+4) >= this->mComponentManager.componentVariable.size()? this->mComponentManager.componentVariable.size()-1 : tSeqNo+4;
     ReportDataType reportDataType;
-    for (auto component : this->mComponentManager.componentVariable) {
-
+    for (auto i = tSeqNo; i < seqEndNo; i++) {
+      try {
+        ComponentVariableConfigure config = this->mComponentManager.componentVariable.at(i);
+        reportDataType.setComponent(config.component);
+        reportDataType.setVariable(config.variable);
+        reportDataType.setVariableCharacteristics(config.variableCharacteristics);
+        if (tType == ReportBaseEnumType::ConfigurationInventory) {
+          std::vector<VariableAttributeType> tmp;
+          for (const auto& attribute : config.variableAttribute) {
+            if (attribute.getMutability().has_value()
+                && (attribute.getMutability().value() == MutabilityEnumType::ReadWrite
+                    || attribute.getMutability().value() == MutabilityEnumType::WriteOnly))
+            {
+              tmp.emplace_back(attribute);
+            }
+          }
+        } else if (tType == ReportBaseEnumType::FullInventory) {
+          reportDataType.variableAttributes = config.variableAttribute;
+        }
+        request.reportData.emplace_back(reportDataType);
+      } catch (std::exception &e) {
+        return request;
+      }
     }
-
-
     return request;
   }
 

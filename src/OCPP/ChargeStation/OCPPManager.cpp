@@ -134,6 +134,24 @@ void OCPP201::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, const
         //TODO summary reject
         response.status = OCPP201::GenericDeviceModelStatusEnumType::Rejected;
       } else {
+        this->mThreadPoll->enqueue([this,tSource,&getBaseReportRequest]() {
+          auto configNum = this->mConfigureManager.getVariableManager().mComponentManager.componentVariable.size();
+          int seqBegin = 0;
+          RouterProtobufMessage routerProtobufMessage;
+          routerProtobufMessage.set_source("OCPP201");
+          routerProtobufMessage.set_dest(tSource);
+          routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
+          routerProtobufMessage.set_message_type(MessageType::REQUEST);
+          routerProtobufMessage.set_ocpp_type("NotifyReport");
+          while (seqBegin < configNum) {
+            auto result = this->mConfigureManager.getVariableManager().getNotifyRequestInventory(getBaseReportRequest.getRequestId(), seqBegin,
+                                  seqBegin + 4 >= configNum, getBaseReportRequest.getReportBase());
+            routerProtobufMessage.set_data(result.serializeMessage());
+            routerProtobufMessage.set_uuid(result.getMessageId());
+            this->send(routerProtobufMessage);
+            seqBegin += 4;
+          }
+                         });
         response.status = OCPP201::GenericDeviceModelStatusEnumType::Accepted;
       }
       response.setMessageId(tUUID);
@@ -146,9 +164,6 @@ void OCPP201::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, const
       routerProtobufMessage.set_dest(tSource);
       routerProtobufMessage.set_data(response.serializeMessage());
       this->send(routerProtobufMessage, [](const std::string &t){}, true);
-      this->mThreadPoll->enqueue([](){});
-
-
     } catch (std::exception &e) {
       this->sendOCPPError(tUUID, tSource, ProtocolError::InternalError,"GetBaseReportRequest parse failed");
     }
