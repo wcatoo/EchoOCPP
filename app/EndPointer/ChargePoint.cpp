@@ -41,7 +41,7 @@ void ChargePoint::init() {
     });
     this->mCoreRouter->run();
     //OCPP201
-    this->mOCPPManager = std::make_unique<OCPP201::OCPPManager>(&this->mZMQContext, "inproc://core_router");
+    this->mOCPPManager = std::make_unique<OCPP::OCPPManager>(&this->mZMQContext, "inproc://core_router");
     this->mOCPPManager->init();
     this->mOCPPManager->start();
     // websocket

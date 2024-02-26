@@ -13,7 +13,7 @@ public:
   std::vector<OCPP201::Connector> mConnectors;
 private:
 
-  std::unique_ptr<OCPP201::OCPPManager> mOCPPManager{nullptr};
+  std::unique_ptr<OCPP::OCPPManager> mOCPPManager{nullptr};
   std::unique_ptr<Components::WebsocketClientManager> mWebsocketManager;
   zmq::context_t mZMQContext;
   std::unique_ptr<MQRouter> mCoreRouter{nullptr};

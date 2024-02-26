@@ -50,6 +50,7 @@ namespace OCPP201
         }
         std::string mDest;
         std::atomic_int mInterval{10};
+
     private:
         std::unique_ptr<std::thread> mTimer{nullptr};
         bool isRunning{false};

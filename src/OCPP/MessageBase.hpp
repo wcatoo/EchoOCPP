@@ -1,6 +1,3 @@
-//
-//#ifndef MESSAGECALLBASE_HPP
-//#define MESSAGECALLBASE_HPP
 #pragma once
 #include "Utilies/Utilies.hpp"
 #include <nlohmann/json.hpp>
@@ -121,5 +118,4 @@ protected:
   std::stringstream stream{};
 };
 
-} // namespace OCPP201
-//#endif
+}

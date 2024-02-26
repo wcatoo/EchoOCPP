@@ -28,7 +28,7 @@ public:
   OCPPManager(zmq::context_t *tContext, const std::string &tAddress);
 private:
   void setBaseInfo(BaseInfoType tType, const std::string &tValue);
-  bool send(const RouterProtobufMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr, bool isResponse = false);
+  bool send(const RouterProtobufMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr);
   bool sendOCPPError(const std::string &UUID, const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
   void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
@@ -40,14 +40,11 @@ private:
 
 
   Helper mHelper{};
-  std::unique_ptr<ThreadPool> mThreadPoll;
+  std::shared_ptr<ThreadPool> mThreadPoll;
   std::unordered_map<std::string, std::function<void(const std::string &)>> mMessageCallback;
   // UUID | OCPPType | callback function
   std::unordered_map<std::string, OCPP201::OCPP201Type> mOCPPMessageType;
   std::vector<OCPP201::EVSE> mEVSEs;
-
-  // custome configure
-  OCPP201ConfigureManager mConfigureManager;
 
   //Message Manager
   std::unique_ptr<OCPP201::MessageManager> mOCPP201MessageManager;

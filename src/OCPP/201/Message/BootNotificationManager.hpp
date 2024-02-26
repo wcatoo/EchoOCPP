@@ -46,6 +46,8 @@ public:
       this->setModem(tBaseInfo.iccid, tBaseInfo.imsi);
   }
 
+
+
   RouterProtobufMessage getRequestMessage(const std::string &tDest) {
     RouterProtobufMessage routerProtobufMessage;
     this->mRequest.build();
@@ -82,6 +84,7 @@ public:
 private:
   BootNotificationRequest mRequest;
   int mBootInterval = 3;
+
 
 };
 
