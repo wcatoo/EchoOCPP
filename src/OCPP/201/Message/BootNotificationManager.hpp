@@ -1,6 +1,8 @@
 #ifndef ECHOOCPP_BOOTNOTIFICATIONMANAGER_HPP
 #define ECHOOCPP_BOOTNOTIFICATIONMANAGER_HPP
-#include "../DataType/Datatypes.hpp"
+#include "201/DataType/Datatypes.hpp"
+#include "../../../MessageQueue/protobufMessage.pb.h"
+#include "201/Message/MessageRequest.hpp"
 #include "../Devices/Configure/BaseInfo.hpp"
 #include <atomic>
 

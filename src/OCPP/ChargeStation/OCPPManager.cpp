@@ -13,12 +13,6 @@ bool OCPP::OCPPManager::init()
   this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage &tMessage)
                                          { this->receiveMessageHandler(tMessage); });
 
-  // test connectors
-  for (auto i = 0; i < 3; i++) {
-    this->mEVSEs.emplace_back();
-    this->mEVSEs.at(i).id = i;
-  }
-
   // shared interface
   this->mOCPP201MessageManager->setSendMessage([this](const RouterProtobufMessage& message, std::function<void(const std::string&)> callback) {
     this->send(message,callback);
@@ -220,29 +214,28 @@ void OCPP::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tMess
   }
   if (!errorInfo.empty())
   {
-    this->sendOCPPError(tMessage.uuid(), tMessage.source(), ProtocolError::FormatViolation, errorInfo);
+    MessageErrorResponse messageErrorResponse;
+    messageErrorResponse.setMessageId(tMessage.uuid());
+    messageErrorResponse.setErrorDetails(nlohmann::json::object());
+    messageErrorResponse.setErrorDescription(errorInfo);
+    messageErrorResponse.setErrorCode(ProtocolError::FormatViolation);
+    this->sendOCPPError(messageErrorResponse, tMessage.source());
   }
 }
 
-bool OCPP::OCPPManager::sendOCPPError(const std::string &tUUID, const std::string &tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback)
+bool OCPP::OCPPManager::sendOCPPError(MessageErrorResponse &tErrorResponse, const std::string &tDest)
 {
   RouterProtobufMessage routerProtobufMessage;
-  routerProtobufMessage.set_uuid(tUUID);
-  routerProtobufMessage.set_source(tResource);
+  routerProtobufMessage.set_uuid(tErrorResponse.getMessageId());
+  routerProtobufMessage.set_source("OCPP");
   routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-  routerProtobufMessage.set_dest(tResource);
-  routerProtobufMessage.set_message_type(::MessageType::REQUEST);
-  MessageErrorResponse messageErrorResponse;
-  messageErrorResponse.setErrorCode(ProtocolError::FormatViolation);
-  messageErrorResponse.setErrorDescription(tDetail);
-  nlohmann::json j = nlohmann::json::object();
-  messageErrorResponse.setErrorDetails(j);
-  routerProtobufMessage.set_uuid(messageErrorResponse.getMessageId());
-  routerProtobufMessage.set_data(messageErrorResponse.serializeMessage());
+  routerProtobufMessage.set_dest(tDest);
+  routerProtobufMessage.set_message_type(::MessageType::RESPONSE);
+  routerProtobufMessage.set_data(tErrorResponse.serializeMessage());
+
   this->mMQRouterPtr->send(routerProtobufMessage);
   return true;
 }
-
 bool OCPP::OCPPManager::send(
     const RouterProtobufMessage &tMessage,
     std::function<void(const std::string &)> tCallback)

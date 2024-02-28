@@ -2,6 +2,7 @@ add_library(
         ChargePointOCPP201
         STATIC
         OCPPManager.cpp
+        ../201/Message/MessageManager.cpp
 )
 find_package(cppzmq CONFIG REQUIRED)
 find_package(Protobuf CONFIG REQUIRED)

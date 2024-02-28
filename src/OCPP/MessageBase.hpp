@@ -89,15 +89,16 @@ class MessageErrorResponse {
 public:
   std::string serializeMessage() {
     stream.str("");
-    this->mMessageId = Utility::generateMessageId();
     stream << '[' << 4 << ",\"" <<  this->mMessageId << "\",\"" << magic_enum::enum_name<ProtocolError>(this->mErrorCode) << "\",\"" << this->mErrorDescription << "\"," << this->mErrorDetails << "]";
     return stream.str();
   }
-
+  void buildMessageId() {
+    this->mMessageId = Utility::generateMessageId();
+  }
   void setErrorCode(ProtocolError tErrorCode) {
     this->mErrorCode = tErrorCode;
   }
-  void setErrorDetails(nlohmann::json &tJson) {
+  void setErrorDetails(nlohmann::json &&tJson) {
     this->mErrorDetails = tJson;
   }
   void setErrorDescription(const std::string & tErrorDescription) {
@@ -106,7 +107,7 @@ public:
   void setMessageId(const std::string &tMessageId) {
     this->mMessageId = tMessageId;
   }
-  inline std::string getMessageId() {
+  std::string getMessageId() const {
     return this->mMessageId;
   }
 

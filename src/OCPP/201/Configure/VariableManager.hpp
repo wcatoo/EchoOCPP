@@ -4,6 +4,7 @@
 #include "201/Configure/ConfigureVariables.hpp"
 #include "201/Message/MessageRequest.hpp"
 #include "201/Message/MessageRespone.hpp"
+#include "../System/IO.hpp"
 
 namespace OCPP201 {
 class VariableManager {

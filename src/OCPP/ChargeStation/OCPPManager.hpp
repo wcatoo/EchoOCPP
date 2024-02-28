@@ -6,7 +6,7 @@
 
 #include "../MessageQueue/MQDealer.hpp"
 #include "201/Devices/EVSE.hpp"
-#include "ThreadPool.hpp"
+#include "Utilies/ThreadPool.hpp"
 #include "Utilies/Utilies.hpp"
 #include "Utilies/Helper.hpp"
 
@@ -29,7 +29,8 @@ public:
 private:
   void setBaseInfo(BaseInfoType tType, const std::string &tValue);
   bool send(const RouterProtobufMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr);
-  bool sendOCPPError(const std::string &UUID, const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
+//  bool sendOCPPError(const std::string &UUID, const std::string & tResource, ProtocolError tError, const std::string &tDetail, std::function<void()> tCallback = nullptr);
+  bool sendOCPPError(MessageErrorResponse &errorResponse, const std::string &tSource);
   void receiveMessageHandler(const RouterProtobufMessage & tMessage);
   void OCPP201MessageHandler(const RouterProtobufMessage & tMessage);
   void OCPP201RequestHandler(const std::string &tUUID, const std::string &tSource, OCPP201::OCPP201Type tType, const std::string &tMessage);
@@ -44,7 +45,6 @@ private:
   std::unordered_map<std::string, std::function<void(const std::string &)>> mMessageCallback;
   // UUID | OCPPType | callback function
   std::unordered_map<std::string, OCPP201::OCPP201Type> mOCPPMessageType;
-  std::vector<OCPP201::EVSE> mEVSEs;
 
   //Message Manager
   std::unique_ptr<OCPP201::MessageManager> mOCPP201MessageManager;

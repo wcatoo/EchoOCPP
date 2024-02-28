@@ -1,6 +1,7 @@
 #ifndef ECHOOCPP_STATUSNOTIFICATION_HPP
 #define ECHOOCPP_STATUSNOTIFICATION_HPP
 #include "../DataType/Datatypes.hpp"
+#include "201/Devices/Connector.hpp"
 #include <functional>
 
 namespace OCPP201 {
