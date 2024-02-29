@@ -52,8 +52,7 @@ public:
 
   RouterProtobufMessage getRequestMessage(const std::string &tDest) {
     RouterProtobufMessage routerProtobufMessage;
-    this->mRequest.build();
-    routerProtobufMessage.set_data(this->mRequest.serializeMessage());
+    routerProtobufMessage.set_data(this->mRequest.toString());
     routerProtobufMessage.set_uuid(this->mRequest.getMessageId());
     routerProtobufMessage.set_source("OCPP201");
     routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);

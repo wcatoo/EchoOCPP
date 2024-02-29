@@ -30,6 +30,9 @@ protected:
   std::stringstream stream;
 
 public:
+  virtual std::string toString(){
+      return this->build();
+  };
   void setMessageId(const std::string & tId) {
     this->mMessageId = tId;
   }
@@ -49,7 +52,7 @@ public:
   std::string getPayload() {
       return to_string(this->mPayload);
   }
-  [[nodiscard]]std::string serializeMessage() {
+  [[nodiscard]]std::string build() {
     stream.str("");
     this->mMessageId = Utility::generateMessageId();
     stream << '[' << 2 << ",\"" <<  this->mMessageId << "\",\"" << this->mAction << "\"," << this->mPayload << "]";
@@ -63,6 +66,7 @@ protected:
   nlohmann::json mPayload{};
   std::stringstream stream{};
 public:
+  virtual std::string toString(){return this->build();};
 
   void setMessageId(const std::string & tId) {
     this->mMessageId = tId;
@@ -78,7 +82,7 @@ public:
   std::string getMessageId() {
     return this->mMessageId;
   }
-  std::string serializeMessage() {
+  std::string build() {
     stream.str("");
     stream << '[' << 3 << ",\"" << this->mMessageId << "\",\"" << this->mPayload << ']' << std::endl;
     return stream.str();

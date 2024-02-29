@@ -40,7 +40,7 @@ namespace OCPP201
         }
         RouterProtobufMessage getRequestMessage() {
             RouterProtobufMessage routerProtobufMessage;
-            routerProtobufMessage.set_data(this->mHeartbeatRequest.serializeMessage());
+            routerProtobufMessage.set_data(this->mHeartbeatRequest.build());
             routerProtobufMessage.set_uuid(this->mHeartbeatRequest.getMessageId());
             routerProtobufMessage.set_source("OCPP201");
             routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);

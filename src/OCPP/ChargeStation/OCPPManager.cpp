@@ -17,6 +17,9 @@ bool OCPP::OCPPManager::init()
   this->mOCPP201MessageManager->setSendMessage([this](const RouterProtobufMessage& message, std::function<void(const std::string&)> callback) {
     this->send(message,callback);
   });
+  this->mOCPP201MessageManager->setSendOCPPError([this](MessageErrorResponse &errorResponse, const std::string &tSource){
+    this->sendOCPPError(errorResponse, tSource);
+  });
   this->mOCPP201MessageManager->setThreadPoolRef(this->mThreadPoll);
 
   return true;
@@ -49,8 +52,8 @@ void OCPP::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tMess
     this->mOCPP201MessageManager->bootHandler(tMessage);
     break;
   case ROUTER_METHODS_NETWORK_OFFLINE:
-    this->mOCPP201MessageManager->mBootNotificationManager.release();
-    this->mOCPP201MessageManager->mHeartbeatManager.stop();
+//    this->mOCPP201MessageManager->mBootNotificationManager.release();
+//    this->mOCPP201MessageManager->mHeartbeatManager.stop();
     break;
   default:
     break;
@@ -60,89 +63,13 @@ void OCPP::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tMess
 void OCPP::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, const std::string &tSource, OCPP201::OCPP201Type tType, const std::string &tMessage ) {
   switch (tType) {
   case OCPP201::OCPP201Type::GetBaseReport:
-//    try {
-//      OCPP201::GetBaseReportRequest getBaseReportRequest = nlohmann::json::parse(tMessage);
-//      OCPP201::GetBaseReportResponse response;
-//      if (getBaseReportRequest.getReportBase() == OCPP201::ReportBaseEnumType::SummaryInventory) {
-//        //TODO summary reject
-//        response.status = OCPP201::GenericDeviceModelStatusEnumType::Rejected;
-//      } else {
-//        this->mThreadPoll->enqueue([this,tSource,&getBaseReportRequest]() {
-//          auto configNum = this->mConfigureManager.getVariableManager().mComponentManager.componentVariable.size();
-//          int seqBegin = 0;
-//          RouterProtobufMessage routerProtobufMessage;
-//          routerProtobufMessage.set_source("OCPP201");
-//          routerProtobufMessage.set_dest(tSource);
-//          routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-//          routerProtobufMessage.set_message_type(MessageType::REQUEST);
-//          routerProtobufMessage.set_ocpp_type("NotifyReport");
-//          while (seqBegin < configNum) {
-//            auto result = this->mConfigureManager.getVariableManager().getNotifyRequestInventory(getBaseReportRequest.getRequestId(), seqBegin,
-//                                                                                                 seqBegin + 4 >= configNum, getBaseReportRequest.getReportBase());
-//            routerProtobufMessage.set_data(result.serializeMessage());
-//            routerProtobufMessage.set_uuid(result.getMessageId());
-//            this->send(routerProtobufMessage);
-//            seqBegin += 4;
-//          }
-//        });
-//        response.status = OCPP201::GenericDeviceModelStatusEnumType::Accepted;
-//      }
-//      response.setMessageId(tUUID);
-//      response.setPayload(Utility::toJsonString<OCPP201::GetBaseReportResponse>(response));
-//      RouterProtobufMessage routerProtobufMessage;
-//      routerProtobufMessage.set_uuid(tUUID);
-//      routerProtobufMessage.set_source("OCPP201");
-//      routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-//      routerProtobufMessage.set_ocpp_type("GetBaseReport");
-//      routerProtobufMessage.set_dest(tSource);
-//      routerProtobufMessage.set_data(response.serializeMessage());
-//      this->send(routerProtobufMessage, [](const std::string &t){});
-//    } catch (std::exception &e) {
-//      this->sendOCPPError(tUUID, tSource, ProtocolError::InternalError,"GetBaseReportRequest parse failed");
-//    }
+    this->mOCPP201MessageManager->getBaseReportHandler(tUUID,tSource,tMessage);
     break;
   case OCPP201::OCPP201Type::GetVariables:
-//    try {
-//      OCPP201::GetVariablesRequest getVariablesRequest = nlohmann::json::parse(tMessage);
-//      OCPP201::ComponentType componentType("DeviceDataCtrlr");
-//      OCPP201::VariableType variableType("ItemsPerMessage", "GetVariables");
-//      int numMessageGetVariable;
-//      std::string numMessageGetVariableStr;
-//      try {
-//        numMessageGetVariableStr = this->mConfigureManager.getVariableManager().getVariableAttributeValue(componentType, variableType, OCPP201::AttributeEnumType::Actual);
-//        numMessageGetVariable = std::stoi(numMessageGetVariableStr);
-//      } catch (std::exception &e) {
-//        numMessageGetVariable = 0;
-//      }
-//      if (getVariablesRequest.getVariableData.size() > numMessageGetVariable) {
-//        this->sendOCPPError(tUUID, tSource, ProtocolError::OccurrenceConstraintViolation,"The number should be less than " + numMessageGetVariableStr + "; The number of requesting is " + std::to_string(getVariablesRequest.getVariableData.size()));
-//        return;
-//      } else if (numMessageGetVariable == 0) {
-//        this->sendOCPPError(tUUID, tSource, ProtocolError::InternalError,"ItemsPerMessageNumber should not equal to 0");
-//        return;
-//      }
-//      auto result = this->mConfigureManager.getVariableManager().getVariableRequestHandler(getVariablesRequest);
-//      result.setMessageId(tUUID);
-//      result.setPayload(Utility::toJsonString<OCPP201::GetVariablesResponse>(result));
-//      RouterProtobufMessage routerProtobufMessage;
-//      routerProtobufMessage.set_uuid(tUUID) ;
-//      routerProtobufMessage.set_dest(tSource);
-//      routerProtobufMessage.set_message_type(MessageType::RESPONSE);
-//      routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-//      routerProtobufMessage.set_data(result.serializeMessage());
-//      routerProtobufMessage.set_ocpp_type("GetVariable");
-//      this->send(routerProtobufMessage,[](const std::string &t){});
-//    } catch (std::exception &e) {
-//      this->sendOCPPError(tUUID, tSource, ProtocolError::InternalError,"ItemsPerMessageNumber is loss or parse failed");
-//    }
+    this->mOCPP201MessageManager->getVariableHandler(tUUID,tSource,tMessage);
     break;
   case OCPP201::OCPP201Type::SetVariables:
-    try {
-//      auto result = this->
-
-    } catch (std::exception &e) {
-//      this->sendOCPPError(tUUID, OCPP::ProtocolError::InternalError, "Parse set variable failed");
-    }
+    this->mOCPP201MessageManager->setVariableHandler(tUUID, tSource,tMessage);
     break;
   case OCPP201::OCPP201Type::SetNetworkProfile:
 //            SetNetworkProfileRequest request = nlohmann::json::parse(tMessage);

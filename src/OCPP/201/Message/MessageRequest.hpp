@@ -18,35 +18,35 @@ public:
         iso15118CertificateHashData(iso15118CertificateHashData) {
     mAction = "AuthorizeRequest";
     mMessageId = Utility::generateMessageId();
-    build();
   }
 
 private:
-  void build() {
+  std::string toString() {
     mPayload["certificate"] = certificate;
     mPayload["idToken"] = idToken;
     mPayload["iso15118CertificateHashData"] = iso15118CertificateHashData;
+    return this->build();
   }
 };
 
 class BootNotificationRequest : public MessageCallRequest {
 public:
-  BootNotificationRequest() {
-      build();
-  };
+  BootReasonEnumType reason;
+  ChargingStationType chargingStation;
+
+  BootNotificationRequest() = default;
   BootNotificationRequest(
       const BootReasonEnumType &bootReason,
       const ChargingStationType &chargingStationInfo)
       : reason(bootReason), chargingStation(chargingStationInfo) {
-    build();
   }
-  BootReasonEnumType reason;
-  ChargingStationType chargingStation;
-  void build() {
+
+  std::string toString() override{
     mAction = "BootNotificationRequest";
     mPayload["reason"] =
         magic_enum::enum_name(this->reason);
     mPayload["chargingStation"] = chargingStation;
+    return this->build();
   }
 };
 
@@ -59,11 +59,13 @@ public:
       : reservationId(reservationId) {
     mAction = "CancelReservationRequest";
     mMessageId = Utility::generateMessageId();
-    build();
   }
 
+  std::string toString() override {
+    mPayload["reservationId"] = reservationId;
+    return this->build();
+  }
 private:
-  void build() { mPayload["reservationId"] = reservationId; }
 };
 
 class CertificateSignedRequest : public MessageCallRequest {
@@ -78,17 +80,17 @@ public:
       : certificateChain(certChain), certificateType(certType) {
     mAction = "CertificateSignedRequest";
     mMessageId = Utility::generateMessageId();
-    build();
   }
 
-private:
-  void build() {
+  std::string toString() {
     mPayload["certificateChain"] = certificateChain;
     if (certificateType.has_value()) {
       mPayload["certificateType"] =
           magic_enum::enum_name(certificateType.value());
     }
+    return this->build();
   }
+private:
 };
 
 class ChangeAvailabilityRequest : public MessageCallRequest {
@@ -103,17 +105,17 @@ public:
       : operationalStatus(status), evse(evseInfo) {
     mAction = "ChangeAvailabilityRequest";
     mMessageId = Utility::generateMessageId();
-    build();
   }
-
-private:
-  void build() {
+  std::string toString() override{
     mPayload["operationalStatus"] = magic_enum::enum_name(operationalStatus);
 
     if (evse.has_value()) {
       mPayload["evse"] = evse.value();
     }
+    return this->build();
   }
+
+private:
 };
 
 class ClearCacheResponse : public MessageCallRequest {
@@ -1471,15 +1473,15 @@ public:
     this->connectorStatus = ConnectorStatusEnumType::Unavailable;
     this->evseId = 0;
     this->connectorId = 0;
- this->mAction = "StatusNotification";
-      this->build();
+     this->mAction = "StatusNotification";
   }
 
-  void build() {
+  std::string toString() override{
     mPayload["timestamp"] = timestamp.toString();
     mPayload["connectorStatus"] = magic_enum::enum_name(connectorStatus);
     mPayload["evseId"] = evseId;
     mPayload["connectorId"] = connectorId;
+    return this->build();
   }
 };
 

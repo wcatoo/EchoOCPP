@@ -863,7 +863,7 @@ public:
   }
 };
 
-class SetVariablesResponse {
+class SetVariablesResponse : MessageCallResponse {
 public:
   std::vector<SetVariableResultType> setVariableResult;
   // Getter function
@@ -871,10 +871,31 @@ public:
     return setVariableResult;
   }
 
+  std::string toString() override{
+    this->mPayload = nlohmann::json{
+      {"setVariableResult", this->setVariableResult}
+    };
+    return this->build();
+  }
   // JSON serialization functions
   friend void from_json(const nlohmann::json& j, SetVariablesResponse& data) {
-    data.setVariableResult = j.at("setVariableResult").get<std::vector<SetVariableResultType>>();
+    if (j.contains("setVariableResult") && j.at("setVariableResult").is_array()) {
+      data.setVariableResult = j.at("setVariableResult").get<std::vector<SetVariableResultType>>();
+    } else {
+      data.setVariableResult = std::vector<SetVariableResultType>();
+    }
   }
+  friend void to_json(nlohmann::json& j, const SetVariablesResponse& data) {
+    if (j.is_null()) {
+      j = nlohmann::json {
+        {"setVariableResult", data.setVariableResult}
+      };
+    } else {
+      j.emplace("setVariableResult", data.setVariableResult);
+    }
+
+  }
+
 };
 
 class SignCertificateResponse {
