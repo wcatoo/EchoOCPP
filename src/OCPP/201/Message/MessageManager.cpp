@@ -342,6 +342,8 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
                                      std::string_view tMessage) {
   ResetRequest request = nlohmann::json::parse(tMessage);
 
+  // TODO Firmware updating should be reject
+  // TODO AllowReset an EVSE can be reset individually.
   if (request.resetType == ResetEnumType::Immediate) {
       InternalRouterMessage resetMessage;
       resetMessage.set_method(RouterMethods::ROUTER_METHODS_NOTIFICATION_OCPP_2_EVSE);
