@@ -5,6 +5,7 @@
 #include "201/Message/MessageRequest.hpp"
 #include "201/Message/MessageRespone.hpp"
 #include "../System/IO.hpp"
+#include <ranges>
 
 namespace OCPP201 {
 class VariableManager {
@@ -74,42 +75,38 @@ public:
   }
 
   std::optional<VariableAttributeType> getVariableAttribute(const ComponentType &tComponentType, const VariableType &tVariableType, AttributeEnumType tType) const {
-    auto hasComponentVariable = std::find_if(this->mComponentManager.componentVariable.begin(),
-                              this->mComponentManager.componentVariable.end(),
-                              [&](const ComponentVariableConfigure &config){
-                                return config.component == tComponentType && config.variable == tVariableType;
-                              });
-    if (hasComponentVariable != this->mComponentManager.componentVariable.end()) {
-      auto hasAttributeType = std::find_if(hasComponentVariable->variableAttribute.begin(), hasComponentVariable->variableAttribute.end(),
-                                           [tType](const VariableAttributeType &config){
-                                             return config.getType() == tType;
-                                           });
-      if (hasAttributeType != hasComponentVariable->variableAttribute.end()) {
-        return *hasAttributeType;
-      } else {
-        return std::nullopt;
-      }
+    auto hasComponentVariable = std::ranges::find_if(mComponentManager.componentVariable,
+                                                     [&](const ComponentVariableConfigure &config) {
+                                                       return config.component == tComponentType && config.variable == tVariableType;
+                                                     });
+
+    if (hasComponentVariable == mComponentManager.componentVariable.end()) {
+      return std::nullopt;
     }
-    return std::nullopt;
+
+    auto& variableAttribute = hasComponentVariable->variableAttribute;
+    auto hasAttributeType = std::ranges::find_if(variableAttribute,
+                                                 [tType](const VariableAttributeType &config) {
+                                                   return config.getType() == tType;
+                                                 });
+
+    return hasAttributeType != variableAttribute.end() ? std::make_optional(*hasAttributeType) : std::nullopt;
   }
 
   bool setVariableAttributeValue (ComponentType &tComponentType, const VariableType &tVariableType, AttributeEnumType tType, const std::string &tValue) {
-    auto hasComponentVariable =
-        std::find_if(this->mComponentManager.componentVariable.begin(),
-                     this->mComponentManager.componentVariable.end(),
-                     [&](const ComponentVariableConfigure &config) {
-                       return config.component == tComponentType &&
-                              config.variable == tVariableType;
-                     });
-    if (hasComponentVariable !=
-        this->mComponentManager.componentVariable.end()) {
-      auto hasAttributeType =
-          std::find_if(hasComponentVariable->variableAttribute.begin(),
-                       hasComponentVariable->variableAttribute.end(),
-                       [tType](const VariableAttributeType &config) {
-                         return config.getType() == tType;
-                       });
-      if (hasAttributeType != hasComponentVariable->variableAttribute.end()) {
+    auto hasComponentVariable = std::ranges::find_if(mComponentManager.componentVariable,
+                                                     [&](const ComponentVariableConfigure &config) {
+                                                       return config.component == tComponentType && config.variable == tVariableType;
+                                                     });
+
+    if (hasComponentVariable != mComponentManager.componentVariable.end()) {
+      auto& variableAttribute = hasComponentVariable->variableAttribute;
+      auto hasAttributeType = std::ranges::find_if(variableAttribute,
+                                                   [tType](const VariableAttributeType &config) {
+                                                     return config.getType() == tType;
+                                                   });
+
+      if (hasAttributeType != variableAttribute.end()) {
         hasAttributeType->setValue(tValue);
         return true;
       }

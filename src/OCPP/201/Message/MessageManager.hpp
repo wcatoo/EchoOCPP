@@ -1,24 +1,26 @@
 #ifndef ECHOOCPP_MESSAGEMANAGER_HPP
 #define ECHOOCPP_MESSAGEMANAGER_HPP
 
+#include "../Devices/Configure/OCPP201ConfigureManager.hpp"
 #include "BootNotificationManager.hpp"
+#include "ComponentVariableManager.hpp"
+#include "Devices/EVSE.hpp"
 #include "HeartBeatManager.hpp"
 #include "StatusNotificationManager.hpp"
-#include "ComponentVariableManager.hpp"
 #include "Utilies/ThreadPool.hpp"
-#include "../Devices/Configure/OCPP201ConfigureManager.hpp"
-#include "201/Devices/EVSE.hpp"
-
-
-
+#include "../Devices/RealTimeData.hpp"
+#include "../MessageQueue/MQStatus.hpp"
+#include "../DataInterface/InterfaceType.hpp"
 namespace OCPP201 {
 class MessageManager {
 private:
-  std::function<void(const RouterProtobufMessage&, std::function<void(const std::string &)>)> send;
+  std::function<bool(const std::string &)> isUUIDExist;
+  std::function<void(RouterPackage &&)> send;
   std::shared_ptr<ThreadPool> mThreadPool;
   OCPP201ConfigureManager mConfigureManager;
-  std::vector<OCPP201::EVSE> mEVSEs;
-  std::function<void (MessageErrorResponse &errorResponse, const std::string &tSource)> sendOCPPErrorMessage;
+  std::vector<EVSE> mEVSEs;
+  RealTimeDataManager mRealTimeDataManager;
+  std::function<void (MessageErrorResponse &errorResponse, const ZMQIdentify &tDest)> sendOCPPErrorMessage;
   BootNotificationManager mBootNotificationManager;
   HeartBeatManager mHeartbeatManager;
   StatusNotificationManager mStatusNotificationManager;
@@ -27,10 +29,19 @@ public:
   void init() {
     this->mConfigureManager.init();
   }
-  void setSendMessage(std::function<void(const RouterProtobufMessage&, std::function<void(const std::string &)>)> callback) {
+  void setIsUUIDExist(std::function<bool(const std::string&)> tCallback) {
+    this->isUUIDExist = tCallback;
+  }
+  void setSendMessage(std::function<void(RouterPackage &&)> callback) {
     this->send = callback;
   }
-  void setSendOCPPError(std::function<void(MessageErrorResponse &, const std::string &)> tCallback) {
+
+  void sendOCPPMessage(const std::string &tUUID, ZMQIdentify tDest, std::string_view tMessage,
+                       MessageType messageType, OCPP201Type ocpp201Type,
+                       std::function<void(const std::string&)> tSuccessCallback = nullptr,
+                       std::function<void()> tFailedCallback = nullptr
+                       );
+  void setSendOCPPError(std::function<void(MessageErrorResponse &, const ZMQIdentify)> tCallback) {
     this->sendOCPPErrorMessage = tCallback;
 
   }
@@ -38,11 +49,20 @@ public:
     this->mThreadPool = threadPool;
   }
 
-  void bootHandler(const RouterProtobufMessage &tMessage);
+  void bootHandler(const InternalRouterMessage &tMessage);
 
-  void getBaseReportHandler(const std::string &tUUID, const std::string &tSource, const std::string  &tMessage);
-  void getVariableHandler(const std::string &tUUID, const std::string &tSource, const std::string &tMessage);
-  void setVariableHandler(const std::string &tUUID, const std::string &tSource, const std::string &tMessage);
+  void getBaseReportHandler(std::string_view tUUID, const ZMQIdentify tSource,
+                            std::string_view tMessage);
+  void getVariableHandler(std::string_view tUUID, const ZMQIdentify tSource,
+                          std::string_view tMessage);
+  void setVariableHandler(std::string_view tUUID, const ZMQIdentify tSource,
+                          std::string_view tMessage);
+
+  void setNetworkProfileReqHandler(std::string_view tUUID, const ZMQIdentify tDest,
+                                   std::string_view tMessage);
+
+  void resetReqHandler(std::string_view tUUID, const ZMQIdentify tDest,
+                       std::string_view tMessage);
 
 
 };

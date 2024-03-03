@@ -1,35 +1,38 @@
-#include "OCPPManager.hpp"
+#include "OCPPCore.hpp"
 
-OCPP::OCPPManager::OCPPManager(zmq::context_t *tContext,
+OCPP::OCPPCore::OCPPCore(zmq::context_t *tContext,
                                const std::string &tAddress)
 {
-  this->mMQRouterPtr = std::make_unique<MQDealer>(tContext, tAddress, "OCPP201");
+  this->mMQRouterPtr = std::make_unique<MQDealer>(tContext, tAddress, "OCPP");
 }
 
-bool OCPP::OCPPManager::init()
+bool OCPP::OCPPCore::init()
 {
   this->mMQRouterPtr->init();
   this->mThreadPoll = std::make_shared<ThreadPool>(5);
-  this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage &tMessage)
+  this->mMQRouterPtr->setReceiveCallBack([this](const InternalRouterMessage &tMessage)
                                          { this->receiveMessageHandler(tMessage); });
 
   // shared interface
-  this->mOCPP201MessageManager->setSendMessage([this](const RouterProtobufMessage& message, std::function<void(const std::string&)> callback) {
-    this->send(message,callback);
+  this->mOCPP201MessageManager->setSendMessage([this](RouterPackage &&tPackage) {
+    this->send(tPackage);
   });
-  this->mOCPP201MessageManager->setSendOCPPError([this](MessageErrorResponse &errorResponse, const std::string &tSource){
+  this->mOCPP201MessageManager->setSendOCPPError([this](MessageErrorResponse &errorResponse, const ZMQIdentify &tSource){
     this->sendOCPPError(errorResponse, tSource);
   });
+  this->mOCPP201MessageManager->setIsUUIDExist([this](const std::string &tUUID) -> bool {
+    return this->isUUIDExist(tUUID);
+                              });
   this->mOCPP201MessageManager->setThreadPoolRef(this->mThreadPoll);
 
   return true;
 }
 
-void OCPP::OCPPManager::start()
+void OCPP::OCPPCore::start()
 {
   this->mMQRouterPtr->start();
 }
-void OCPP::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tMessage)
+void OCPP::OCPPCore::receiveMessageHandler(const InternalRouterMessage &tMessage)
 {
   switch (tMessage.method())
   {
@@ -40,10 +43,6 @@ void OCPP::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tMess
   case ROUTER_METHODS_WRITE_DATABASE:
     break;
   case ROUTER_METHODS_READ_DATABASE:
-    break;
-  case ROUTER_METHODS_NOTIFY_REALTIME_DATA:
-    break;
-  case ROUTER_METHODS_GET_REALTIME_DATA:
     break;
   case ROUTER_METHODS_NETWORK_ONLINE:
     if (this->mOCPP201MessageManager == nullptr) {
@@ -60,7 +59,7 @@ void OCPP::OCPPManager::receiveMessageHandler(const RouterProtobufMessage &tMess
   }
 }
 
-void OCPP::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, const std::string &tSource, OCPP201::OCPP201Type tType, const std::string &tMessage ) {
+void OCPP::OCPPCore::OCPP201RequestHandler(const std::string &tUUID, const ZMQIdentify tSource, OCPP201::OCPP201Type tType, const std::string &tMessage ) {
   switch (tType) {
   case OCPP201::OCPP201Type::GetBaseReport:
     this->mOCPP201MessageManager->getBaseReportHandler(tUUID,tSource,tMessage);
@@ -80,12 +79,12 @@ void OCPP::OCPPManager::OCPP201RequestHandler(const std::string &tUUID, const st
 
 }
 
-void OCPP::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tMessage)
+void OCPP::OCPPCore::OCPP201MessageHandler(const InternalRouterMessage &tMessage)
 {
   std::string errorInfo;
   if (tMessage.message_type() == ::MessageType::REQUEST)
   {
-    if (auto messageCall = mHelper.checkMessageReq(tMessage.data()); messageCall.has_value())
+    if (auto messageCall = mHelper.checkMessageReq(tMessage.ocpp_data().data()); messageCall.has_value())
     {
       auto checkAction =
           magic_enum::enum_cast<OCPP201::OCPP201Type>(messageCall->getAction());
@@ -116,14 +115,14 @@ void OCPP::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tMess
   }
   else if (tMessage.message_type() == ::MessageType::RESPONSE)
   {
-    if (auto messageConf = this->mHelper.checkMessageConf(tMessage.data()); messageConf.has_value())
+    if (auto messageConf = this->mHelper.checkMessageConf(tMessage.ocpp_data().data()); messageConf.has_value())
     {
-      if (this->mMessageCallback.contains(messageConf.value().getMessageId()))
+      if (this->mRouterPackagesTrace.contains(messageConf.value().getMessageId()))
       {
         if (auto result = this->mHelper.checkOCPPJsonSchema(this->mOCPPMessageType[messageConf.value().getMessageId()], messageConf.value().getPayload(), OCPP201::MessageMethod::Response);
             result.has_value() && result.value().empty())
         {
-          auto callback = this->mMessageCallback[messageConf->getMessageId()];
+          auto callback = this->mRouterPackagesTrace[messageConf->getMessageId()].tGetReturnSuccessCallback;
 
           if (callback)
             callback(messageConf->getPayload());
@@ -150,52 +149,87 @@ void OCPP::OCPPManager::OCPP201MessageHandler(const RouterProtobufMessage &tMess
   }
 }
 
-bool OCPP::OCPPManager::sendOCPPError(MessageErrorResponse &tErrorResponse, const std::string &tDest)
+bool OCPP::OCPPCore::sendOCPPError(MessageErrorResponse &tErrorResponse, const ZMQIdentify tDest)
 {
-  RouterProtobufMessage routerProtobufMessage;
+  InternalRouterMessage routerProtobufMessage;
   routerProtobufMessage.set_uuid(tErrorResponse.getMessageId());
-  routerProtobufMessage.set_source("OCPP");
+  routerProtobufMessage.set_source(ZMQIdentify::ocpp);
   routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
   routerProtobufMessage.set_dest(tDest);
   routerProtobufMessage.set_message_type(::MessageType::RESPONSE);
-  routerProtobufMessage.set_data(tErrorResponse.serializeMessage());
+  routerProtobufMessage.mutable_ocpp_data()->set_data(tErrorResponse.serializeMessage());
 
   this->mMQRouterPtr->send(routerProtobufMessage);
   return true;
 }
-bool OCPP::OCPPManager::send(
-    const RouterProtobufMessage &tMessage,
-    std::function<void(const std::string &)> tCallback)
-{
-  if (!this->mMessageCallback.contains(tMessage.uuid()))
-  {
+void OCPP::OCPPCore::send(RouterPackage &&tPackage) {
+  if (!this->mRouterPackagesTrace.contains(tPackage.message.uuid())) {
     {
       std::lock_guard<std::mutex> lock(this->mMessageTimeoutTraceMutex);
-      this->mMessageCallback[tMessage.uuid()] = tCallback;
-      this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tMessage.uuid();
-      if (tMessage.method() == RouterMethods::ROUTER_METHODS_OCPP201)
+      if (tPackage.message.method() == RouterMethods::ROUTER_METHODS_OCPP201)
       {
-        this->mOCPPMessageType[tMessage.uuid()] = magic_enum::enum_cast<OCPP201::OCPP201Type>(tMessage.ocpp_type()).value();
+        this->mOCPPMessageType[tPackage.message.uuid()] = magic_enum::enum_cast<OCPP201::OCPP201Type>(tPackage.message.ocpp_data().ocpp_type()).value();
       }
+      this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tPackage.message.uuid();
+      this->mRouterPackagesTrace[tPackage.message.uuid()] = std::move(tPackage);
     }
   } else {
     {
+      // response message
       std::lock_guard<std::mutex> lock(this->mMessageTimeoutTraceMutex);
       // clear trace record
-      this->mMessageCallback.erase(tMessage.uuid());
-      this->mOCPPMessageType.erase(tMessage.uuid());
+      this->mRouterPackagesTrace.erase(tPackage.message.uuid());
+      if (tPackage.message.method() == RouterMethods::ROUTER_METHODS_OCPP201) {
+        this->mOCPPMessageType.erase(tPackage.message.uuid());
+      }
       std::for_each(this->mMessageTimeoutTrace.begin(), this->mMessageTimeoutTrace.end(), [&](const auto &entry)
       {
-        if (std::equal(tMessage.uuid().begin(), tMessage.uuid().end(), entry.second.begin(), entry.second.end())) {
+        if (std::equal(tPackage.message.uuid().begin(), tPackage.message.uuid().end(), entry.second.begin(), entry.second.end())) {
           this->mMessageTimeoutTrace.erase(entry.first);
         } });
     }
   }
-  this->mMQRouterPtr->send(tMessage);
-  return false;
-}
+  this->mMQRouterPtr->send(tPackage.message);
 
-void OCPP::OCPPManager::setBaseInfo(BaseInfoType tType, const std::string &tValue)
+}
+void OCPP::OCPPCore::send(RouterPackage &tPackage) {
+  this->send(std::move(tPackage));
+}
+//bool OCPP::OCPPCore::send(
+//    const InternalRouterMessage &tMessage,
+//    std::function<void(const std::string &)> tCallback)
+//{
+//  // request message
+//  if (!this->mMessageCallback.contains(tMessage.uuid()))
+//  {
+//    {
+//      std::lock_guard<std::mutex> lock(this->mMessageTimeoutTraceMutex);
+//      this->mMessageCallback[tMessage.uuid()] = tCallback;
+//      this->mMessageTimeoutTrace[std::chrono::system_clock::now()] = tMessage.uuid();
+//      if (tMessage.method() == RouterMethods::ROUTER_METHODS_OCPP201)
+//      {
+//        this->mOCPPMessageType[tMessage.uuid()] = magic_enum::enum_cast<OCPP201::OCPP201Type>(tMessage.ocpp_data().ocpp_type()).value();
+//      }
+//    }
+//  } else {
+//    {
+//      // response message
+//      std::lock_guard<std::mutex> lock(this->mMessageTimeoutTraceMutex);
+//      // clear trace record
+//      this->mMessageCallback.erase(tMessage.uuid());
+//      this->mOCPPMessageType.erase(tMessage.uuid());
+//      std::for_each(this->mMessageTimeoutTrace.begin(), this->mMessageTimeoutTrace.end(), [&](const auto &entry)
+//      {
+//        if (std::equal(tMessage.uuid().begin(), tMessage.uuid().end(), entry.second.begin(), entry.second.end())) {
+//          this->mMessageTimeoutTrace.erase(entry.first);
+//        } });
+//    }
+//  }
+//  this->mMQRouterPtr->send(tMessage);
+//  return false;
+//}
+
+void OCPP::OCPPCore::setBaseInfo(BaseInfoType tType, const std::string &tValue)
 {
   switch (tType)
   {
@@ -219,4 +253,7 @@ void OCPP::OCPPManager::setBaseInfo(BaseInfoType tType, const std::string &tValu
                              {
                                // this->mHelper->writeToFile()
                              });
+}
+bool OCPP::OCPPCore::isUUIDExist(const std::string & tUUID) {
+  return this->mRouterPackagesTrace.contains(tUUID);
 }

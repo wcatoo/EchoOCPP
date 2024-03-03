@@ -12,7 +12,8 @@ void ChargePoint::init() {
         while (true) {
             id.rebuild();
             request.rebuild();
-            zmq::poll(items, 1, std::chrono::milliseconds(-1));
+            zmq::poll(items, 1, std::chrono::milliseconds(100));
+            std::cout << "router loop" << std::endl;
             if (items[0].revents & ZMQ_POLLIN) {
                 bool isFrameBroken = false;
                 auto idReturn = this->mCoreRouter->mDealerSocket.recv(id, zmq::recv_flags::none);
@@ -29,11 +30,9 @@ void ChargePoint::init() {
                 if (!dataFrame.has_value()) {
                     isFrameBroken = true;
                 }
-                RouterProtobufMessage routerMessage;
+                InternalRouterMessage routerMessage;
                 if (routerMessage.ParseFromArray(request.data(), static_cast<int>(request.size())) && !isFrameBroken) {
-                    std::cout << "router rcv data: " << routerMessage.data() << std::endl;
                     this->mCoreRouter->mDealerSocket.send(zmq::message_t(routerMessage.dest()), zmq::send_flags::sndmore);
-                    std::cout << "router rcv dest: " << routerMessage.dest() << std::endl;
                     this->mCoreRouter->mDealerSocket.send(request, zmq::send_flags::none);
                 }
             }
@@ -41,9 +40,9 @@ void ChargePoint::init() {
     });
     this->mCoreRouter->run();
     //OCPP201
-    this->mOCPPManager = std::make_unique<OCPP::OCPPManager>(&this->mZMQContext, "inproc://core_router");
-    this->mOCPPManager->init();
-    this->mOCPPManager->start();
+//    this->mOCPPManager = std::make_unique<OCPP::OCPPCore>(&this->mZMQContext, "inproc://core_router");
+//    this->mOCPPManager->init();
+//    this->mOCPPManager->start();
     // websocket
     this->mWebsocketManager = std::make_unique<Components::WebsocketClientManager>(&this->mZMQContext, "inproc://core_router","websocket");
     this->mWebsocketManager->init();

@@ -48,17 +48,15 @@ public:
       this->setModem(tBaseInfo.iccid, tBaseInfo.imsi);
   }
 
-
-
-  RouterProtobufMessage getRequestMessage(const std::string &tDest) {
-    RouterProtobufMessage routerProtobufMessage;
-    routerProtobufMessage.set_data(this->mRequest.toString());
+  InternalRouterMessage getRequestMessage(const ZMQIdentify tDest) {
+    InternalRouterMessage routerProtobufMessage;
+    routerProtobufMessage.mutable_ocpp_data()->set_data(this->mRequest.toString());
+    routerProtobufMessage.mutable_ocpp_data()->set_ocpp_type(this->mRequest.getAction());
     routerProtobufMessage.set_uuid(this->mRequest.getMessageId());
-    routerProtobufMessage.set_source("OCPP201");
+    routerProtobufMessage.set_source(ZMQIdentify::ocpp);
     routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
     routerProtobufMessage.set_message_type(MessageType::REQUEST);
     routerProtobufMessage.set_dest(tDest);
-    routerProtobufMessage.set_ocpp_type(this->mRequest.getAction());
     return routerProtobufMessage;
   }
 

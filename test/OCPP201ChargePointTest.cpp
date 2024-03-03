@@ -1,5 +1,6 @@
-#include "../src/OCPP/ChargeStation/OCPPManager.hpp"
+#include "../src/OCPP/ChargeStation/OCPPCore.hpp"
 #include "201/Message/MessageRequest.hpp"
+#include "../src/Devices/RealTimeData.hpp"
 #include <gtest/gtest.h>
 #include <string>
 namespace OCPP201 {
@@ -7,7 +8,7 @@ namespace OCPP201 {
 class OCPP201ChargePoint : public ::testing::Test {
 protected:
   void SetUp() override {}
-  std::unique_ptr<OCPP201::OCPPManager> ocppManager;
+  std::unique_ptr<OCPP201::OCPPCore> ocppManager;
 };
 
 TEST_F(OCPP201ChargePoint, GetVariableRequest) {}
@@ -44,6 +45,12 @@ TEST_F(OCPP201ChargePoint, AdditionalInfoType) {
   EXPECT_EQ(additionalInfoType1, additionalInfoType2);
 
 
+  std::cout << Utility::generateMessageId() << std::endl;
+
 }
+
+
+
+
 
 }

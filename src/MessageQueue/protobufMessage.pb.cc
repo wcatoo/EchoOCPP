@@ -20,82 +20,355 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
-PROTOBUF_CONSTEXPR RouterProtobufMessage::RouterProtobufMessage(
+PROTOBUF_CONSTEXPR InternalRouterConnectorData::InternalRouterConnectorData(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.connector_id_)*/0u
+  , /*decltype(_impl_.energy_)*/0
+  , /*decltype(_impl_.l1_watt_w_)*/0
+  , /*decltype(_impl_.l2_watt_w_)*/0
+  , /*decltype(_impl_.l3_watt_w_)*/0
+  , /*decltype(_impl_.l1_l2_watt_w_)*/0
+  , /*decltype(_impl_.l2_l3_watt_w_)*/0
+  , /*decltype(_impl_.l3_l1_watt_w_)*/0
+  , /*decltype(_impl_.l1_n_watt_w_)*/0
+  , /*decltype(_impl_.l2_n_watt_w_)*/0
+  , /*decltype(_impl_.l3_n_watt_w_)*/0
+  , /*decltype(_impl_.neutral_watt_w_)*/0
+  , /*decltype(_impl_.l1_ampere_a_)*/0
+  , /*decltype(_impl_.l2_ampere_a_)*/0
+  , /*decltype(_impl_.l3_ampere_a_)*/0
+  , /*decltype(_impl_.l1_l2_ampere_a_)*/0
+  , /*decltype(_impl_.l2_l3_ampere_a_)*/0
+  , /*decltype(_impl_.l3_l1_ampere_a_)*/0
+  , /*decltype(_impl_.l1_n_ampere_a_)*/0
+  , /*decltype(_impl_.l2_n_ampere_a_)*/0
+  , /*decltype(_impl_.l3_n_ampere_a_)*/0
+  , /*decltype(_impl_.neutral_ampere_a_)*/0
+  , /*decltype(_impl_.evse_id_)*/0u} {}
+struct InternalRouterConnectorDataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InternalRouterConnectorDataDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InternalRouterConnectorDataDefaultTypeInternal() {}
+  union {
+    InternalRouterConnectorData _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InternalRouterConnectorDataDefaultTypeInternal _InternalRouterConnectorData_default_instance_;
+PROTOBUF_CONSTEXPR InternalRouterConnectorNotification::InternalRouterConnectorNotification(
+    ::_pbi::ConstantInitialized) {}
+struct InternalRouterConnectorNotificationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InternalRouterConnectorNotificationDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InternalRouterConnectorNotificationDefaultTypeInternal() {}
+  union {
+    InternalRouterConnectorNotification _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InternalRouterConnectorNotificationDefaultTypeInternal _InternalRouterConnectorNotification_default_instance_;
+PROTOBUF_CONSTEXPR InternalRouterEVSEData::InternalRouterEVSEData(
+    ::_pbi::ConstantInitialized) {}
+struct InternalRouterEVSEDataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InternalRouterEVSEDataDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InternalRouterEVSEDataDefaultTypeInternal() {}
+  union {
+    InternalRouterEVSEData _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InternalRouterEVSEDataDefaultTypeInternal _InternalRouterEVSEData_default_instance_;
+PROTOBUF_CONSTEXPR InternalRouterEVSENotification::InternalRouterEVSENotification(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.notification_method_)*/0
+  , /*decltype(_impl_.id_)*/0u
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct InternalRouterEVSENotificationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InternalRouterEVSENotificationDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InternalRouterEVSENotificationDefaultTypeInternal() {}
+  union {
+    InternalRouterEVSENotification _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InternalRouterEVSENotificationDefaultTypeInternal _InternalRouterEVSENotification_default_instance_;
+PROTOBUF_CONSTEXPR InternalRouterChargerStationNotification::InternalRouterChargerStationNotification(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.notification_method_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct InternalRouterChargerStationNotificationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InternalRouterChargerStationNotificationDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InternalRouterChargerStationNotificationDefaultTypeInternal() {}
+  union {
+    InternalRouterChargerStationNotification _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InternalRouterChargerStationNotificationDefaultTypeInternal _InternalRouterChargerStationNotification_default_instance_;
+PROTOBUF_CONSTEXPR InternalRouterOCPPData::InternalRouterOCPPData(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.data_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ocpp_type_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+struct InternalRouterOCPPDataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InternalRouterOCPPDataDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InternalRouterOCPPDataDefaultTypeInternal() {}
+  union {
+    InternalRouterOCPPData _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InternalRouterOCPPDataDefaultTypeInternal _InternalRouterOCPPData_default_instance_;
+PROTOBUF_CONSTEXPR InternalRouterMessage::InternalRouterMessage(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_.uuid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.source_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.dest_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.data_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.ocpp_type_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ocpp_data_)*/nullptr
+  , /*decltype(_impl_.connector_data_)*/nullptr
+  , /*decltype(_impl_.connector_status_notification_)*/nullptr
+  , /*decltype(_impl_.evse_data_)*/nullptr
+  , /*decltype(_impl_.evse_status_notification_)*/nullptr
+  , /*decltype(_impl_.charger_station_notification_)*/nullptr
   , /*decltype(_impl_.method_)*/0
-  , /*decltype(_impl_.message_type_)*/0} {}
-struct RouterProtobufMessageDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR RouterProtobufMessageDefaultTypeInternal()
+  , /*decltype(_impl_.message_type_)*/0
+  , /*decltype(_impl_.source_)*/0
+  , /*decltype(_impl_.dest_)*/0} {}
+struct InternalRouterMessageDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InternalRouterMessageDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~RouterProtobufMessageDefaultTypeInternal() {}
+  ~InternalRouterMessageDefaultTypeInternal() {}
   union {
-    RouterProtobufMessage _instance;
+    InternalRouterMessage _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RouterProtobufMessageDefaultTypeInternal _RouterProtobufMessage_default_instance_;
-static ::_pb::Metadata file_level_metadata_protobufMessage_2eproto[1];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_protobufMessage_2eproto[2];
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InternalRouterMessageDefaultTypeInternal _InternalRouterMessage_default_instance_;
+static ::_pb::Metadata file_level_metadata_protobufMessage_2eproto[7];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_protobufMessage_2eproto[5];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_protobufMessage_2eproto = nullptr;
 
 const uint32_t TableStruct_protobufMessage_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_._has_bits_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.uuid_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.method_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.message_type_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.source_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.dest_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.data_),
-  PROTOBUF_FIELD_OFFSET(::RouterProtobufMessage, _impl_.ocpp_type_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.connector_id_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.energy_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l1_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l2_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l3_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l1_l2_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l2_l3_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l3_l1_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l1_n_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l2_n_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l3_n_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.neutral_watt_w_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l1_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l2_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l3_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l1_l2_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l2_l3_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l3_l1_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l1_n_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l2_n_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.l3_n_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.neutral_ampere_a_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorData, _impl_.evse_id_),
   ~0u,
+  ~0u,
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterConnectorNotification, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterEVSEData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterEVSENotification, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterEVSENotification, _impl_.notification_method_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterEVSENotification, _impl_.id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterChargerStationNotification, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterChargerStationNotification, _impl_.notification_method_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterOCPPData, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterOCPPData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterOCPPData, _impl_.data_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterOCPPData, _impl_.ocpp_type_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.uuid_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.method_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.message_type_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.source_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.dest_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.ocpp_data_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.connector_data_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.connector_status_notification_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.evse_data_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.evse_status_notification_),
+  PROTOBUF_FIELD_OFFSET(::InternalRouterMessage, _impl_.charger_station_notification_),
   ~0u,
   ~0u,
   ~0u,
   ~0u,
   ~0u,
   0,
+  1,
+  2,
+  3,
+  4,
+  5,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 13, -1, sizeof(::RouterProtobufMessage)},
+  { 0, 29, -1, sizeof(::InternalRouterConnectorData)},
+  { 52, -1, -1, sizeof(::InternalRouterConnectorNotification)},
+  { 58, -1, -1, sizeof(::InternalRouterEVSEData)},
+  { 64, -1, -1, sizeof(::InternalRouterEVSENotification)},
+  { 72, -1, -1, sizeof(::InternalRouterChargerStationNotification)},
+  { 79, 87, -1, sizeof(::InternalRouterOCPPData)},
+  { 89, 106, -1, sizeof(::InternalRouterMessage)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::_RouterProtobufMessage_default_instance_._instance,
+  &::_InternalRouterConnectorData_default_instance_._instance,
+  &::_InternalRouterConnectorNotification_default_instance_._instance,
+  &::_InternalRouterEVSEData_default_instance_._instance,
+  &::_InternalRouterEVSENotification_default_instance_._instance,
+  &::_InternalRouterChargerStationNotification_default_instance_._instance,
+  &::_InternalRouterOCPPData_default_instance_._instance,
+  &::_InternalRouterMessage_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_protobufMessage_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\025protobufMessage.proto\"\273\001\n\025RouterProtob"
-  "ufMessage\022\014\n\004uuid\030\001 \001(\t\022\036\n\006method\030\002 \001(\0162"
-  "\016.RouterMethods\022\"\n\014message_type\030\003 \001(\0162\014."
-  "MessageType\022\016\n\006source\030\004 \001(\t\022\014\n\004dest\030\005 \001("
-  "\t\022\014\n\004data\030\006 \001(\t\022\026\n\tocpp_type\030\007 \001(\tH\000\210\001\001B"
-  "\014\n\n_ocpp_type*\206\002\n\rRouterMethods\022\032\n\026ROUTE"
-  "R_METHODS_OCPP201\020\000\022!\n\035ROUTER_METHODS_WR"
-  "ITE_DATABASE\020\001\022 \n\034ROUTER_METHODS_READ_DA"
-  "TABASE\020\002\022\'\n#ROUTER_METHODS_NOTIFY_REALTI"
-  "ME_DATA\020\003\022$\n ROUTER_METHODS_GET_REALTIME"
-  "_DATA\020\004\022!\n\035ROUTER_METHODS_NETWORK_ONLINE"
-  "\020\005\022\"\n\036ROUTER_METHODS_NETWORK_OFFLINE\020\006*Q"
-  "\n\013MessageType\022\013\n\007REQUEST\020\000\022\014\n\010RESPONSE\020\001"
-  "\022\022\n\016NETWORK_ONLINE\020\002\022\023\n\017NETWORK_OFFLINE\020"
-  "\003b\006proto3"
+  "\n\025protobufMessage.proto\"\325\007\n\033InternalRout"
+  "erConnectorData\022\024\n\014connector_id\030\001 \001(\r\022\016\n"
+  "\006energy\030\002 \001(\002\022\026\n\tl1_watt_w\030\003 \001(\002H\000\210\001\001\022\026\n"
+  "\tl2_watt_w\030\004 \001(\002H\001\210\001\001\022\026\n\tl3_watt_w\030\005 \001(\002"
+  "H\002\210\001\001\022\031\n\014l1_l2_watt_w\030\006 \001(\002H\003\210\001\001\022\031\n\014l2_l"
+  "3_watt_w\030\007 \001(\002H\004\210\001\001\022\031\n\014l3_l1_watt_w\030\010 \001("
+  "\002H\005\210\001\001\022\030\n\013l1_n_watt_w\030\t \001(\002H\006\210\001\001\022\030\n\013l2_n"
+  "_watt_w\030\n \001(\002H\007\210\001\001\022\030\n\013l3_n_watt_w\030\013 \001(\002H"
+  "\010\210\001\001\022\033\n\016neutral_watt_w\030\014 \001(\002H\t\210\001\001\022\030\n\013l1_"
+  "ampere_a\030\r \001(\002H\n\210\001\001\022\030\n\013l2_ampere_a\030\016 \001(\002"
+  "H\013\210\001\001\022\030\n\013l3_ampere_a\030\017 \001(\002H\014\210\001\001\022\033\n\016l1_l2"
+  "_ampere_a\030\020 \001(\002H\r\210\001\001\022\033\n\016l2_l3_ampere_a\030\021"
+  " \001(\002H\016\210\001\001\022\033\n\016l3_l1_ampere_a\030\022 \001(\002H\017\210\001\001\022\032"
+  "\n\rl1_n_ampere_a\030\023 \001(\002H\020\210\001\001\022\032\n\rl2_n_amper"
+  "e_a\030\024 \001(\002H\021\210\001\001\022\032\n\rl3_n_ampere_a\030\025 \001(\002H\022\210"
+  "\001\001\022\035\n\020neutral_ampere_a\030\026 \001(\002H\023\210\001\001\022\024\n\007evs"
+  "e_id\030\027 \001(\rH\024\210\001\001B\014\n\n_l1_watt_wB\014\n\n_l2_wat"
+  "t_wB\014\n\n_l3_watt_wB\017\n\r_l1_l2_watt_wB\017\n\r_l"
+  "2_l3_watt_wB\017\n\r_l3_l1_watt_wB\016\n\014_l1_n_wa"
+  "tt_wB\016\n\014_l2_n_watt_wB\016\n\014_l3_n_watt_wB\021\n\017"
+  "_neutral_watt_wB\016\n\014_l1_ampere_aB\016\n\014_l2_a"
+  "mpere_aB\016\n\014_l3_ampere_aB\021\n\017_l1_l2_ampere"
+  "_aB\021\n\017_l2_l3_ampere_aB\021\n\017_l3_l1_ampere_a"
+  "B\020\n\016_l1_n_ampere_aB\020\n\016_l2_n_ampere_aB\020\n\016"
+  "_l3_n_ampere_aB\023\n\021_neutral_ampere_aB\n\n\010_"
+  "evse_id\"%\n#InternalRouterConnectorNotifi"
+  "cation\"\030\n\026InternalRouterEVSEData\"d\n\036Inte"
+  "rnalRouterEVSENotification\0226\n\023notificati"
+  "on_method\030\001 \001(\0162\031.RouterNotificationMeth"
+  "od\022\n\n\002id\030\002 \001(\r\"b\n(InternalRouterChargerS"
+  "tationNotification\0226\n\023notification_metho"
+  "d\030\001 \001(\0162\031.RouterNotificationMethod\"L\n\026In"
+  "ternalRouterOCPPData\022\014\n\004data\030\001 \001(\t\022\026\n\toc"
+  "pp_type\030\002 \001(\tH\000\210\001\001B\014\n\n_ocpp_type\"\277\005\n\025Int"
+  "ernalRouterMessage\022\014\n\004uuid\030\001 \001(\t\022\036\n\006meth"
+  "od\030\002 \001(\0162\016.RouterMethods\022\"\n\014message_type"
+  "\030\003 \001(\0162\014.MessageType\022\034\n\006source\030\004 \001(\0162\014.Z"
+  "MQIdentify\022\032\n\004dest\030\005 \001(\0162\014.ZMQIdentify\022/"
+  "\n\tocpp_data\030\006 \001(\0132\027.InternalRouterOCPPDa"
+  "taH\000\210\001\001\0229\n\016connector_data\030\010 \001(\0132\034.Intern"
+  "alRouterConnectorDataH\001\210\001\001\022P\n\035connector_"
+  "status_notification\030\t \001(\0132$.InternalRout"
+  "erConnectorNotificationH\002\210\001\001\022/\n\tevse_dat"
+  "a\030\n \001(\0132\027.InternalRouterEVSEDataH\003\210\001\001\022F\n"
+  "\030evse_status_notification\030\013 \001(\0132\037.Intern"
+  "alRouterEVSENotificationH\004\210\001\001\022T\n\034charger"
+  "_station_notification\030\014 \001(\0132).InternalRo"
+  "uterChargerStationNotificationH\005\210\001\001B\014\n\n_"
+  "ocpp_dataB\021\n\017_connector_dataB \n\036_connect"
+  "or_status_notificationB\014\n\n_evse_dataB\033\n\031"
+  "_evse_status_notificationB\037\n\035_charger_st"
+  "ation_notification*C\n\013ZMQIdentify\022\010\n\004ocp"
+  "p\020\000\022\r\n\tinterface\020\001\022\014\n\010database\020\002\022\r\n\twebs"
+  "ocket\020\n*\215\002\n\030RouterNotificationMethod\022\020\n\014"
+  "RESET_DEVICE\020\000\022\030\n\024REMOTE_START_CHARING\020\002"
+  "\022\027\n\023REMOTE_STOP_CHARING\020\003\022\027\n\023LOCAL_START"
+  "_CHARING\020\004\022\026\n\022LOCAL_STOP_CHARING\020\005\022\025\n\021CO"
+  "NNECTOR_PLUG_IN\020\006\022\025\n\021CONNECTOR_CHARING\020\007"
+  "\022\016\n\nEVSE_FAULT\020\010\022\020\n\014STOPED_BY_EV\020\t\022\033\n\027SO"
+  "C_LIMIT_REACHED_BY_EV\020\n\022\016\n\nEV_TIMEOUT\020\013*"
+  "c\n\017RouterEVSEFault\022\022\n\016EMERGENCY_STOP\020\000\022\023"
+  "\n\017EV_DISCONNECTED\020\001\022\020\n\014GROUND_FAULT\020\002\022\025\n"
+  "\021OVERCURRENT_FAULT\020\003*\216\003\n\rRouterMethods\022\032"
+  "\n\026ROUTER_METHODS_OCPP201\020\000\022!\n\035ROUTER_MET"
+  "HODS_WRITE_DATABASE\020\001\022 \n\034ROUTER_METHODS_"
+  "READ_DATABASE\020\002\022+\n\'ROUTER_METHODS_DATATR"
+  "ANSFER_OCPP_2_EVSE\020\003\022+\n\'ROUTER_METHODS_N"
+  "OTIFICATION_OCPP_2_EVSE\020\004\022!\n\035ROUTER_METH"
+  "ODS_NETWORK_ONLINE\020\005\022\"\n\036ROUTER_METHODS_N"
+  "ETWORK_OFFLINE\020\006\022!\n\035ROUTER_METHODS_CONNE"
+  "CTOR_DATA\020\007\022+\n\'ROUTER_METHODS_DATATRANSF"
+  "ER_EVSE_2_OCPP\020\010\022+\n\'ROUTER_METHODS_NOTIF"
+  "ICATION_EVSE_2_OCPP\020\t*Q\n\013MessageType\022\013\n\007"
+  "REQUEST\020\000\022\014\n\010RESPONSE\020\001\022\022\n\016NETWORK_ONLIN"
+  "E\020\002\022\023\n\017NETWORK_OFFLINE\020\003b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_protobufMessage_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_protobufMessage_2eproto = {
-    false, false, 569, descriptor_table_protodef_protobufMessage_2eproto,
+    false, false, 2992, descriptor_table_protodef_protobufMessage_2eproto,
     "protobufMessage.proto",
-    &descriptor_table_protobufMessage_2eproto_once, nullptr, 0, 1,
+    &descriptor_table_protobufMessage_2eproto_once, nullptr, 0, 7,
     schemas, file_default_instances, TableStruct_protobufMessage_2eproto::offsets,
     file_level_metadata_protobufMessage_2eproto, file_level_enum_descriptors_protobufMessage_2eproto,
     file_level_service_descriptors_protobufMessage_2eproto,
@@ -106,9 +379,64 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_protobuf
 
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_protobufMessage_2eproto(&descriptor_table_protobufMessage_2eproto);
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RouterMethods_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ZMQIdentify_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_protobufMessage_2eproto);
   return file_level_enum_descriptors_protobufMessage_2eproto[0];
+}
+bool ZMQIdentify_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 10:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RouterNotificationMethod_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_protobufMessage_2eproto);
+  return file_level_enum_descriptors_protobufMessage_2eproto[1];
+}
+bool RouterNotificationMethod_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RouterEVSEFault_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_protobufMessage_2eproto);
+  return file_level_enum_descriptors_protobufMessage_2eproto[2];
+}
+bool RouterEVSEFault_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* RouterMethods_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_protobufMessage_2eproto);
+  return file_level_enum_descriptors_protobufMessage_2eproto[3];
 }
 bool RouterMethods_IsValid(int value) {
   switch (value) {
@@ -119,6 +447,9 @@ bool RouterMethods_IsValid(int value) {
     case 4:
     case 5:
     case 6:
+    case 7:
+    case 8:
+    case 9:
       return true;
     default:
       return false;
@@ -127,7 +458,7 @@ bool RouterMethods_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MessageType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_protobufMessage_2eproto);
-  return file_level_enum_descriptors_protobufMessage_2eproto[1];
+  return file_level_enum_descriptors_protobufMessage_2eproto[4];
 }
 bool MessageType_IsValid(int value) {
   switch (value) {
@@ -144,120 +475,152 @@ bool MessageType_IsValid(int value) {
 
 // ===================================================================
 
-class RouterProtobufMessage::_Internal {
+class InternalRouterConnectorData::_Internal {
  public:
-  using HasBits = decltype(std::declval<RouterProtobufMessage>()._impl_._has_bits_);
-  static void set_has_ocpp_type(HasBits* has_bits) {
+  using HasBits = decltype(std::declval<InternalRouterConnectorData>()._impl_._has_bits_);
+  static void set_has_l1_watt_w(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
+  }
+  static void set_has_l2_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_l3_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_l1_l2_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static void set_has_l2_l3_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+  static void set_has_l3_l1_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+  static void set_has_l1_n_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
+  static void set_has_l2_n_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 128u;
+  }
+  static void set_has_l3_n_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 256u;
+  }
+  static void set_has_neutral_watt_w(HasBits* has_bits) {
+    (*has_bits)[0] |= 512u;
+  }
+  static void set_has_l1_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 1024u;
+  }
+  static void set_has_l2_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 2048u;
+  }
+  static void set_has_l3_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 4096u;
+  }
+  static void set_has_l1_l2_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 8192u;
+  }
+  static void set_has_l2_l3_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 16384u;
+  }
+  static void set_has_l3_l1_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 32768u;
+  }
+  static void set_has_l1_n_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 65536u;
+  }
+  static void set_has_l2_n_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 131072u;
+  }
+  static void set_has_l3_n_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 262144u;
+  }
+  static void set_has_neutral_ampere_a(HasBits* has_bits) {
+    (*has_bits)[0] |= 524288u;
+  }
+  static void set_has_evse_id(HasBits* has_bits) {
+    (*has_bits)[0] |= 1048576u;
   }
 };
 
-RouterProtobufMessage::RouterProtobufMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+InternalRouterConnectorData::InternalRouterConnectorData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:RouterProtobufMessage)
+  // @@protoc_insertion_point(arena_constructor:InternalRouterConnectorData)
 }
-RouterProtobufMessage::RouterProtobufMessage(const RouterProtobufMessage& from)
+InternalRouterConnectorData::InternalRouterConnectorData(const InternalRouterConnectorData& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  RouterProtobufMessage* const _this = this; (void)_this;
+  InternalRouterConnectorData* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.uuid_){}
-    , decltype(_impl_.source_){}
-    , decltype(_impl_.dest_){}
-    , decltype(_impl_.data_){}
-    , decltype(_impl_.ocpp_type_){}
-    , decltype(_impl_.method_){}
-    , decltype(_impl_.message_type_){}};
+    , decltype(_impl_.connector_id_){}
+    , decltype(_impl_.energy_){}
+    , decltype(_impl_.l1_watt_w_){}
+    , decltype(_impl_.l2_watt_w_){}
+    , decltype(_impl_.l3_watt_w_){}
+    , decltype(_impl_.l1_l2_watt_w_){}
+    , decltype(_impl_.l2_l3_watt_w_){}
+    , decltype(_impl_.l3_l1_watt_w_){}
+    , decltype(_impl_.l1_n_watt_w_){}
+    , decltype(_impl_.l2_n_watt_w_){}
+    , decltype(_impl_.l3_n_watt_w_){}
+    , decltype(_impl_.neutral_watt_w_){}
+    , decltype(_impl_.l1_ampere_a_){}
+    , decltype(_impl_.l2_ampere_a_){}
+    , decltype(_impl_.l3_ampere_a_){}
+    , decltype(_impl_.l1_l2_ampere_a_){}
+    , decltype(_impl_.l2_l3_ampere_a_){}
+    , decltype(_impl_.l3_l1_ampere_a_){}
+    , decltype(_impl_.l1_n_ampere_a_){}
+    , decltype(_impl_.l2_n_ampere_a_){}
+    , decltype(_impl_.l3_n_ampere_a_){}
+    , decltype(_impl_.neutral_ampere_a_){}
+    , decltype(_impl_.evse_id_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.uuid_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.uuid_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_uuid().empty()) {
-    _this->_impl_.uuid_.Set(from._internal_uuid(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.source_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.source_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_source().empty()) {
-    _this->_impl_.source_.Set(from._internal_source(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.dest_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.dest_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_dest().empty()) {
-    _this->_impl_.dest_.Set(from._internal_dest(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.data_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.data_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_data().empty()) {
-    _this->_impl_.data_.Set(from._internal_data(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.ocpp_type_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ocpp_type_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_ocpp_type()) {
-    _this->_impl_.ocpp_type_.Set(from._internal_ocpp_type(), 
-      _this->GetArenaForAllocation());
-  }
-  ::memcpy(&_impl_.method_, &from._impl_.method_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.message_type_) -
-    reinterpret_cast<char*>(&_impl_.method_)) + sizeof(_impl_.message_type_));
-  // @@protoc_insertion_point(copy_constructor:RouterProtobufMessage)
+  ::memcpy(&_impl_.connector_id_, &from._impl_.connector_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.evse_id_) -
+    reinterpret_cast<char*>(&_impl_.connector_id_)) + sizeof(_impl_.evse_id_));
+  // @@protoc_insertion_point(copy_constructor:InternalRouterConnectorData)
 }
 
-inline void RouterProtobufMessage::SharedCtor(
+inline void InternalRouterConnectorData::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.uuid_){}
-    , decltype(_impl_.source_){}
-    , decltype(_impl_.dest_){}
-    , decltype(_impl_.data_){}
-    , decltype(_impl_.ocpp_type_){}
-    , decltype(_impl_.method_){0}
-    , decltype(_impl_.message_type_){0}
+    , decltype(_impl_.connector_id_){0u}
+    , decltype(_impl_.energy_){0}
+    , decltype(_impl_.l1_watt_w_){0}
+    , decltype(_impl_.l2_watt_w_){0}
+    , decltype(_impl_.l3_watt_w_){0}
+    , decltype(_impl_.l1_l2_watt_w_){0}
+    , decltype(_impl_.l2_l3_watt_w_){0}
+    , decltype(_impl_.l3_l1_watt_w_){0}
+    , decltype(_impl_.l1_n_watt_w_){0}
+    , decltype(_impl_.l2_n_watt_w_){0}
+    , decltype(_impl_.l3_n_watt_w_){0}
+    , decltype(_impl_.neutral_watt_w_){0}
+    , decltype(_impl_.l1_ampere_a_){0}
+    , decltype(_impl_.l2_ampere_a_){0}
+    , decltype(_impl_.l3_ampere_a_){0}
+    , decltype(_impl_.l1_l2_ampere_a_){0}
+    , decltype(_impl_.l2_l3_ampere_a_){0}
+    , decltype(_impl_.l3_l1_ampere_a_){0}
+    , decltype(_impl_.l1_n_ampere_a_){0}
+    , decltype(_impl_.l2_n_ampere_a_){0}
+    , decltype(_impl_.l3_n_ampere_a_){0}
+    , decltype(_impl_.neutral_ampere_a_){0}
+    , decltype(_impl_.evse_id_){0u}
   };
-  _impl_.uuid_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.uuid_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.source_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.source_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.dest_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.dest_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.data_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.data_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.ocpp_type_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.ocpp_type_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
-RouterProtobufMessage::~RouterProtobufMessage() {
-  // @@protoc_insertion_point(destructor:RouterProtobufMessage)
+InternalRouterConnectorData::~InternalRouterConnectorData() {
+  // @@protoc_insertion_point(destructor:InternalRouterConnectorData)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -265,112 +628,252 @@ RouterProtobufMessage::~RouterProtobufMessage() {
   SharedDtor();
 }
 
-inline void RouterProtobufMessage::SharedDtor() {
+inline void InternalRouterConnectorData::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.uuid_.Destroy();
-  _impl_.source_.Destroy();
-  _impl_.dest_.Destroy();
-  _impl_.data_.Destroy();
-  _impl_.ocpp_type_.Destroy();
 }
 
-void RouterProtobufMessage::SetCachedSize(int size) const {
+void InternalRouterConnectorData::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void RouterProtobufMessage::Clear() {
-// @@protoc_insertion_point(message_clear_start:RouterProtobufMessage)
+void InternalRouterConnectorData::Clear() {
+// @@protoc_insertion_point(message_clear_start:InternalRouterConnectorData)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.uuid_.ClearToEmpty();
-  _impl_.source_.ClearToEmpty();
-  _impl_.dest_.ClearToEmpty();
-  _impl_.data_.ClearToEmpty();
+  ::memset(&_impl_.connector_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.energy_) -
+      reinterpret_cast<char*>(&_impl_.connector_id_)) + sizeof(_impl_.energy_));
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    _impl_.ocpp_type_.ClearNonDefaultToEmpty();
+  if (cached_has_bits & 0x000000ffu) {
+    ::memset(&_impl_.l1_watt_w_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.l2_n_watt_w_) -
+        reinterpret_cast<char*>(&_impl_.l1_watt_w_)) + sizeof(_impl_.l2_n_watt_w_));
   }
-  ::memset(&_impl_.method_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.message_type_) -
-      reinterpret_cast<char*>(&_impl_.method_)) + sizeof(_impl_.message_type_));
+  if (cached_has_bits & 0x0000ff00u) {
+    ::memset(&_impl_.l3_n_watt_w_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.l3_l1_ampere_a_) -
+        reinterpret_cast<char*>(&_impl_.l3_n_watt_w_)) + sizeof(_impl_.l3_l1_ampere_a_));
+  }
+  if (cached_has_bits & 0x001f0000u) {
+    ::memset(&_impl_.l1_n_ampere_a_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.evse_id_) -
+        reinterpret_cast<char*>(&_impl_.l1_n_ampere_a_)) + sizeof(_impl_.evse_id_));
+  }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* RouterProtobufMessage::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* InternalRouterConnectorData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string uuid = 1;
+      // uint32 connector_id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_uuid();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.connector_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.uuid"));
         } else
           goto handle_unusual;
         continue;
-      // .RouterMethods method = 2;
+      // float energy = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_method(static_cast<::RouterMethods>(val));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _impl_.energy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // .MessageType message_type = 3;
+      // optional float l1_watt_w = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_message_type(static_cast<::MessageType>(val));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+          _Internal::set_has_l1_watt_w(&has_bits);
+          _impl_.l1_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // string source = 4;
+      // optional float l2_watt_w = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          auto str = _internal_mutable_source();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.source"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+          _Internal::set_has_l2_watt_w(&has_bits);
+          _impl_.l2_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // string dest = 5;
+      // optional float l3_watt_w = 5;
       case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
-          auto str = _internal_mutable_dest();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.dest"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _Internal::set_has_l3_watt_w(&has_bits);
+          _impl_.l3_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // string data = 6;
+      // optional float l1_l2_watt_w = 6;
       case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
-          auto str = _internal_mutable_data();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.data"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 53)) {
+          _Internal::set_has_l1_l2_watt_w(&has_bits);
+          _impl_.l1_l2_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
-      // optional string ocpp_type = 7;
+      // optional float l2_l3_watt_w = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
-          auto str = _internal_mutable_ocpp_type();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 61)) {
+          _Internal::set_has_l2_l3_watt_w(&has_bits);
+          _impl_.l2_l3_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l3_l1_watt_w = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 69)) {
+          _Internal::set_has_l3_l1_watt_w(&has_bits);
+          _impl_.l3_l1_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l1_n_watt_w = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 77)) {
+          _Internal::set_has_l1_n_watt_w(&has_bits);
+          _impl_.l1_n_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l2_n_watt_w = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 85)) {
+          _Internal::set_has_l2_n_watt_w(&has_bits);
+          _impl_.l2_n_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l3_n_watt_w = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 93)) {
+          _Internal::set_has_l3_n_watt_w(&has_bits);
+          _impl_.l3_n_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float neutral_watt_w = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 101)) {
+          _Internal::set_has_neutral_watt_w(&has_bits);
+          _impl_.neutral_watt_w_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l1_ampere_a = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 109)) {
+          _Internal::set_has_l1_ampere_a(&has_bits);
+          _impl_.l1_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l2_ampere_a = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 117)) {
+          _Internal::set_has_l2_ampere_a(&has_bits);
+          _impl_.l2_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l3_ampere_a = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 125)) {
+          _Internal::set_has_l3_ampere_a(&has_bits);
+          _impl_.l3_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l1_l2_ampere_a = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 133)) {
+          _Internal::set_has_l1_l2_ampere_a(&has_bits);
+          _impl_.l1_l2_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l2_l3_ampere_a = 17;
+      case 17:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 141)) {
+          _Internal::set_has_l2_l3_ampere_a(&has_bits);
+          _impl_.l2_l3_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l3_l1_ampere_a = 18;
+      case 18:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 149)) {
+          _Internal::set_has_l3_l1_ampere_a(&has_bits);
+          _impl_.l3_l1_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l1_n_ampere_a = 19;
+      case 19:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 157)) {
+          _Internal::set_has_l1_n_ampere_a(&has_bits);
+          _impl_.l1_n_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l2_n_ampere_a = 20;
+      case 20:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 165)) {
+          _Internal::set_has_l2_n_ampere_a(&has_bits);
+          _impl_.l2_n_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float l3_n_ampere_a = 21;
+      case 21:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 173)) {
+          _Internal::set_has_l3_n_ampere_a(&has_bits);
+          _impl_.l3_n_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float neutral_ampere_a = 22;
+      case 22:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 181)) {
+          _Internal::set_has_neutral_ampere_a(&has_bits);
+          _impl_.neutral_ampere_a_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 evse_id = 23;
+      case 23:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 184)) {
+          _Internal::set_has_evse_id(&has_bits);
+          _impl_.evse_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "RouterProtobufMessage.ocpp_type"));
         } else
           goto handle_unusual;
         continue;
@@ -398,9 +901,1503 @@ failure:
 #undef CHK_
 }
 
-uint8_t* RouterProtobufMessage::_InternalSerialize(
+uint8_t* InternalRouterConnectorData::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:RouterProtobufMessage)
+  // @@protoc_insertion_point(serialize_to_array_start:InternalRouterConnectorData)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 connector_id = 1;
+  if (this->_internal_connector_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_connector_id(), target);
+  }
+
+  // float energy = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_energy = this->_internal_energy();
+  uint32_t raw_energy;
+  memcpy(&raw_energy, &tmp_energy, sizeof(tmp_energy));
+  if (raw_energy != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_energy(), target);
+  }
+
+  // optional float l1_watt_w = 3;
+  if (_internal_has_l1_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_l1_watt_w(), target);
+  }
+
+  // optional float l2_watt_w = 4;
+  if (_internal_has_l2_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_l2_watt_w(), target);
+  }
+
+  // optional float l3_watt_w = 5;
+  if (_internal_has_l3_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_l3_watt_w(), target);
+  }
+
+  // optional float l1_l2_watt_w = 6;
+  if (_internal_has_l1_l2_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(6, this->_internal_l1_l2_watt_w(), target);
+  }
+
+  // optional float l2_l3_watt_w = 7;
+  if (_internal_has_l2_l3_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(7, this->_internal_l2_l3_watt_w(), target);
+  }
+
+  // optional float l3_l1_watt_w = 8;
+  if (_internal_has_l3_l1_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(8, this->_internal_l3_l1_watt_w(), target);
+  }
+
+  // optional float l1_n_watt_w = 9;
+  if (_internal_has_l1_n_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(9, this->_internal_l1_n_watt_w(), target);
+  }
+
+  // optional float l2_n_watt_w = 10;
+  if (_internal_has_l2_n_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(10, this->_internal_l2_n_watt_w(), target);
+  }
+
+  // optional float l3_n_watt_w = 11;
+  if (_internal_has_l3_n_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(11, this->_internal_l3_n_watt_w(), target);
+  }
+
+  // optional float neutral_watt_w = 12;
+  if (_internal_has_neutral_watt_w()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(12, this->_internal_neutral_watt_w(), target);
+  }
+
+  // optional float l1_ampere_a = 13;
+  if (_internal_has_l1_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(13, this->_internal_l1_ampere_a(), target);
+  }
+
+  // optional float l2_ampere_a = 14;
+  if (_internal_has_l2_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(14, this->_internal_l2_ampere_a(), target);
+  }
+
+  // optional float l3_ampere_a = 15;
+  if (_internal_has_l3_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(15, this->_internal_l3_ampere_a(), target);
+  }
+
+  // optional float l1_l2_ampere_a = 16;
+  if (_internal_has_l1_l2_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(16, this->_internal_l1_l2_ampere_a(), target);
+  }
+
+  // optional float l2_l3_ampere_a = 17;
+  if (_internal_has_l2_l3_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(17, this->_internal_l2_l3_ampere_a(), target);
+  }
+
+  // optional float l3_l1_ampere_a = 18;
+  if (_internal_has_l3_l1_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(18, this->_internal_l3_l1_ampere_a(), target);
+  }
+
+  // optional float l1_n_ampere_a = 19;
+  if (_internal_has_l1_n_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(19, this->_internal_l1_n_ampere_a(), target);
+  }
+
+  // optional float l2_n_ampere_a = 20;
+  if (_internal_has_l2_n_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(20, this->_internal_l2_n_ampere_a(), target);
+  }
+
+  // optional float l3_n_ampere_a = 21;
+  if (_internal_has_l3_n_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(21, this->_internal_l3_n_ampere_a(), target);
+  }
+
+  // optional float neutral_ampere_a = 22;
+  if (_internal_has_neutral_ampere_a()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(22, this->_internal_neutral_ampere_a(), target);
+  }
+
+  // optional uint32 evse_id = 23;
+  if (_internal_has_evse_id()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(23, this->_internal_evse_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:InternalRouterConnectorData)
+  return target;
+}
+
+size_t InternalRouterConnectorData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:InternalRouterConnectorData)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint32 connector_id = 1;
+  if (this->_internal_connector_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_connector_id());
+  }
+
+  // float energy = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_energy = this->_internal_energy();
+  uint32_t raw_energy;
+  memcpy(&raw_energy, &tmp_energy, sizeof(tmp_energy));
+  if (raw_energy != 0) {
+    total_size += 1 + 4;
+  }
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x000000ffu) {
+    // optional float l1_watt_w = 3;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l2_watt_w = 4;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l3_watt_w = 5;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l1_l2_watt_w = 6;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l2_l3_watt_w = 7;
+    if (cached_has_bits & 0x00000010u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l3_l1_watt_w = 8;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l1_n_watt_w = 9;
+    if (cached_has_bits & 0x00000040u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l2_n_watt_w = 10;
+    if (cached_has_bits & 0x00000080u) {
+      total_size += 1 + 4;
+    }
+
+  }
+  if (cached_has_bits & 0x0000ff00u) {
+    // optional float l3_n_watt_w = 11;
+    if (cached_has_bits & 0x00000100u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float neutral_watt_w = 12;
+    if (cached_has_bits & 0x00000200u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l1_ampere_a = 13;
+    if (cached_has_bits & 0x00000400u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l2_ampere_a = 14;
+    if (cached_has_bits & 0x00000800u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l3_ampere_a = 15;
+    if (cached_has_bits & 0x00001000u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float l1_l2_ampere_a = 16;
+    if (cached_has_bits & 0x00002000u) {
+      total_size += 2 + 4;
+    }
+
+    // optional float l2_l3_ampere_a = 17;
+    if (cached_has_bits & 0x00004000u) {
+      total_size += 2 + 4;
+    }
+
+    // optional float l3_l1_ampere_a = 18;
+    if (cached_has_bits & 0x00008000u) {
+      total_size += 2 + 4;
+    }
+
+  }
+  if (cached_has_bits & 0x001f0000u) {
+    // optional float l1_n_ampere_a = 19;
+    if (cached_has_bits & 0x00010000u) {
+      total_size += 2 + 4;
+    }
+
+    // optional float l2_n_ampere_a = 20;
+    if (cached_has_bits & 0x00020000u) {
+      total_size += 2 + 4;
+    }
+
+    // optional float l3_n_ampere_a = 21;
+    if (cached_has_bits & 0x00040000u) {
+      total_size += 2 + 4;
+    }
+
+    // optional float neutral_ampere_a = 22;
+    if (cached_has_bits & 0x00080000u) {
+      total_size += 2 + 4;
+    }
+
+    // optional uint32 evse_id = 23;
+    if (cached_has_bits & 0x00100000u) {
+      total_size += 2 +
+        ::_pbi::WireFormatLite::UInt32Size(
+          this->_internal_evse_id());
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData InternalRouterConnectorData::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    InternalRouterConnectorData::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*InternalRouterConnectorData::GetClassData() const { return &_class_data_; }
+
+
+void InternalRouterConnectorData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<InternalRouterConnectorData*>(&to_msg);
+  auto& from = static_cast<const InternalRouterConnectorData&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:InternalRouterConnectorData)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_connector_id() != 0) {
+    _this->_internal_set_connector_id(from._internal_connector_id());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_energy = from._internal_energy();
+  uint32_t raw_energy;
+  memcpy(&raw_energy, &tmp_energy, sizeof(tmp_energy));
+  if (raw_energy != 0) {
+    _this->_internal_set_energy(from._internal_energy());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x000000ffu) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_impl_.l1_watt_w_ = from._impl_.l1_watt_w_;
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.l2_watt_w_ = from._impl_.l2_watt_w_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.l3_watt_w_ = from._impl_.l3_watt_w_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      _this->_impl_.l1_l2_watt_w_ = from._impl_.l1_l2_watt_w_;
+    }
+    if (cached_has_bits & 0x00000010u) {
+      _this->_impl_.l2_l3_watt_w_ = from._impl_.l2_l3_watt_w_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.l3_l1_watt_w_ = from._impl_.l3_l1_watt_w_;
+    }
+    if (cached_has_bits & 0x00000040u) {
+      _this->_impl_.l1_n_watt_w_ = from._impl_.l1_n_watt_w_;
+    }
+    if (cached_has_bits & 0x00000080u) {
+      _this->_impl_.l2_n_watt_w_ = from._impl_.l2_n_watt_w_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  if (cached_has_bits & 0x0000ff00u) {
+    if (cached_has_bits & 0x00000100u) {
+      _this->_impl_.l3_n_watt_w_ = from._impl_.l3_n_watt_w_;
+    }
+    if (cached_has_bits & 0x00000200u) {
+      _this->_impl_.neutral_watt_w_ = from._impl_.neutral_watt_w_;
+    }
+    if (cached_has_bits & 0x00000400u) {
+      _this->_impl_.l1_ampere_a_ = from._impl_.l1_ampere_a_;
+    }
+    if (cached_has_bits & 0x00000800u) {
+      _this->_impl_.l2_ampere_a_ = from._impl_.l2_ampere_a_;
+    }
+    if (cached_has_bits & 0x00001000u) {
+      _this->_impl_.l3_ampere_a_ = from._impl_.l3_ampere_a_;
+    }
+    if (cached_has_bits & 0x00002000u) {
+      _this->_impl_.l1_l2_ampere_a_ = from._impl_.l1_l2_ampere_a_;
+    }
+    if (cached_has_bits & 0x00004000u) {
+      _this->_impl_.l2_l3_ampere_a_ = from._impl_.l2_l3_ampere_a_;
+    }
+    if (cached_has_bits & 0x00008000u) {
+      _this->_impl_.l3_l1_ampere_a_ = from._impl_.l3_l1_ampere_a_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  if (cached_has_bits & 0x001f0000u) {
+    if (cached_has_bits & 0x00010000u) {
+      _this->_impl_.l1_n_ampere_a_ = from._impl_.l1_n_ampere_a_;
+    }
+    if (cached_has_bits & 0x00020000u) {
+      _this->_impl_.l2_n_ampere_a_ = from._impl_.l2_n_ampere_a_;
+    }
+    if (cached_has_bits & 0x00040000u) {
+      _this->_impl_.l3_n_ampere_a_ = from._impl_.l3_n_ampere_a_;
+    }
+    if (cached_has_bits & 0x00080000u) {
+      _this->_impl_.neutral_ampere_a_ = from._impl_.neutral_ampere_a_;
+    }
+    if (cached_has_bits & 0x00100000u) {
+      _this->_impl_.evse_id_ = from._impl_.evse_id_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void InternalRouterConnectorData::CopyFrom(const InternalRouterConnectorData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:InternalRouterConnectorData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool InternalRouterConnectorData::IsInitialized() const {
+  return true;
+}
+
+void InternalRouterConnectorData::InternalSwap(InternalRouterConnectorData* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(InternalRouterConnectorData, _impl_.evse_id_)
+      + sizeof(InternalRouterConnectorData::_impl_.evse_id_)
+      - PROTOBUF_FIELD_OFFSET(InternalRouterConnectorData, _impl_.connector_id_)>(
+          reinterpret_cast<char*>(&_impl_.connector_id_),
+          reinterpret_cast<char*>(&other->_impl_.connector_id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata InternalRouterConnectorData::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_protobufMessage_2eproto_getter, &descriptor_table_protobufMessage_2eproto_once,
+      file_level_metadata_protobufMessage_2eproto[0]);
+}
+
+// ===================================================================
+
+class InternalRouterConnectorNotification::_Internal {
+ public:
+};
+
+InternalRouterConnectorNotification::InternalRouterConnectorNotification(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:InternalRouterConnectorNotification)
+}
+InternalRouterConnectorNotification::InternalRouterConnectorNotification(const InternalRouterConnectorNotification& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  InternalRouterConnectorNotification* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:InternalRouterConnectorNotification)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData InternalRouterConnectorNotification::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*InternalRouterConnectorNotification::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata InternalRouterConnectorNotification::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_protobufMessage_2eproto_getter, &descriptor_table_protobufMessage_2eproto_once,
+      file_level_metadata_protobufMessage_2eproto[1]);
+}
+
+// ===================================================================
+
+class InternalRouterEVSEData::_Internal {
+ public:
+};
+
+InternalRouterEVSEData::InternalRouterEVSEData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:InternalRouterEVSEData)
+}
+InternalRouterEVSEData::InternalRouterEVSEData(const InternalRouterEVSEData& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  InternalRouterEVSEData* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:InternalRouterEVSEData)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData InternalRouterEVSEData::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*InternalRouterEVSEData::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata InternalRouterEVSEData::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_protobufMessage_2eproto_getter, &descriptor_table_protobufMessage_2eproto_once,
+      file_level_metadata_protobufMessage_2eproto[2]);
+}
+
+// ===================================================================
+
+class InternalRouterEVSENotification::_Internal {
+ public:
+};
+
+InternalRouterEVSENotification::InternalRouterEVSENotification(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:InternalRouterEVSENotification)
+}
+InternalRouterEVSENotification::InternalRouterEVSENotification(const InternalRouterEVSENotification& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  InternalRouterEVSENotification* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.notification_method_){}
+    , decltype(_impl_.id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.notification_method_, &from._impl_.notification_method_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.id_) -
+    reinterpret_cast<char*>(&_impl_.notification_method_)) + sizeof(_impl_.id_));
+  // @@protoc_insertion_point(copy_constructor:InternalRouterEVSENotification)
+}
+
+inline void InternalRouterEVSENotification::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.notification_method_){0}
+    , decltype(_impl_.id_){0u}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+InternalRouterEVSENotification::~InternalRouterEVSENotification() {
+  // @@protoc_insertion_point(destructor:InternalRouterEVSENotification)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void InternalRouterEVSENotification::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void InternalRouterEVSENotification::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void InternalRouterEVSENotification::Clear() {
+// @@protoc_insertion_point(message_clear_start:InternalRouterEVSENotification)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.notification_method_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.id_) -
+      reinterpret_cast<char*>(&_impl_.notification_method_)) + sizeof(_impl_.id_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* InternalRouterEVSENotification::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .RouterNotificationMethod notification_method = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_notification_method(static_cast<::RouterNotificationMethod>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* InternalRouterEVSENotification::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:InternalRouterEVSENotification)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .RouterNotificationMethod notification_method = 1;
+  if (this->_internal_notification_method() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_notification_method(), target);
+  }
+
+  // uint32 id = 2;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:InternalRouterEVSENotification)
+  return target;
+}
+
+size_t InternalRouterEVSENotification::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:InternalRouterEVSENotification)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .RouterNotificationMethod notification_method = 1;
+  if (this->_internal_notification_method() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_notification_method());
+  }
+
+  // uint32 id = 2;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData InternalRouterEVSENotification::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    InternalRouterEVSENotification::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*InternalRouterEVSENotification::GetClassData() const { return &_class_data_; }
+
+
+void InternalRouterEVSENotification::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<InternalRouterEVSENotification*>(&to_msg);
+  auto& from = static_cast<const InternalRouterEVSENotification&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:InternalRouterEVSENotification)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_notification_method() != 0) {
+    _this->_internal_set_notification_method(from._internal_notification_method());
+  }
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void InternalRouterEVSENotification::CopyFrom(const InternalRouterEVSENotification& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:InternalRouterEVSENotification)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool InternalRouterEVSENotification::IsInitialized() const {
+  return true;
+}
+
+void InternalRouterEVSENotification::InternalSwap(InternalRouterEVSENotification* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(InternalRouterEVSENotification, _impl_.id_)
+      + sizeof(InternalRouterEVSENotification::_impl_.id_)
+      - PROTOBUF_FIELD_OFFSET(InternalRouterEVSENotification, _impl_.notification_method_)>(
+          reinterpret_cast<char*>(&_impl_.notification_method_),
+          reinterpret_cast<char*>(&other->_impl_.notification_method_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata InternalRouterEVSENotification::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_protobufMessage_2eproto_getter, &descriptor_table_protobufMessage_2eproto_once,
+      file_level_metadata_protobufMessage_2eproto[3]);
+}
+
+// ===================================================================
+
+class InternalRouterChargerStationNotification::_Internal {
+ public:
+};
+
+InternalRouterChargerStationNotification::InternalRouterChargerStationNotification(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:InternalRouterChargerStationNotification)
+}
+InternalRouterChargerStationNotification::InternalRouterChargerStationNotification(const InternalRouterChargerStationNotification& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  InternalRouterChargerStationNotification* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.notification_method_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.notification_method_ = from._impl_.notification_method_;
+  // @@protoc_insertion_point(copy_constructor:InternalRouterChargerStationNotification)
+}
+
+inline void InternalRouterChargerStationNotification::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.notification_method_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+InternalRouterChargerStationNotification::~InternalRouterChargerStationNotification() {
+  // @@protoc_insertion_point(destructor:InternalRouterChargerStationNotification)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void InternalRouterChargerStationNotification::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void InternalRouterChargerStationNotification::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void InternalRouterChargerStationNotification::Clear() {
+// @@protoc_insertion_point(message_clear_start:InternalRouterChargerStationNotification)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.notification_method_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* InternalRouterChargerStationNotification::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .RouterNotificationMethod notification_method = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_notification_method(static_cast<::RouterNotificationMethod>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* InternalRouterChargerStationNotification::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:InternalRouterChargerStationNotification)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .RouterNotificationMethod notification_method = 1;
+  if (this->_internal_notification_method() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_notification_method(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:InternalRouterChargerStationNotification)
+  return target;
+}
+
+size_t InternalRouterChargerStationNotification::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:InternalRouterChargerStationNotification)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .RouterNotificationMethod notification_method = 1;
+  if (this->_internal_notification_method() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_notification_method());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData InternalRouterChargerStationNotification::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    InternalRouterChargerStationNotification::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*InternalRouterChargerStationNotification::GetClassData() const { return &_class_data_; }
+
+
+void InternalRouterChargerStationNotification::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<InternalRouterChargerStationNotification*>(&to_msg);
+  auto& from = static_cast<const InternalRouterChargerStationNotification&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:InternalRouterChargerStationNotification)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_notification_method() != 0) {
+    _this->_internal_set_notification_method(from._internal_notification_method());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void InternalRouterChargerStationNotification::CopyFrom(const InternalRouterChargerStationNotification& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:InternalRouterChargerStationNotification)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool InternalRouterChargerStationNotification::IsInitialized() const {
+  return true;
+}
+
+void InternalRouterChargerStationNotification::InternalSwap(InternalRouterChargerStationNotification* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.notification_method_, other->_impl_.notification_method_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata InternalRouterChargerStationNotification::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_protobufMessage_2eproto_getter, &descriptor_table_protobufMessage_2eproto_once,
+      file_level_metadata_protobufMessage_2eproto[4]);
+}
+
+// ===================================================================
+
+class InternalRouterOCPPData::_Internal {
+ public:
+  using HasBits = decltype(std::declval<InternalRouterOCPPData>()._impl_._has_bits_);
+  static void set_has_ocpp_type(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
+
+InternalRouterOCPPData::InternalRouterOCPPData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:InternalRouterOCPPData)
+}
+InternalRouterOCPPData::InternalRouterOCPPData(const InternalRouterOCPPData& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  InternalRouterOCPPData* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.data_){}
+    , decltype(_impl_.ocpp_type_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.data_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.data_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_data().empty()) {
+    _this->_impl_.data_.Set(from._internal_data(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.ocpp_type_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ocpp_type_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_ocpp_type()) {
+    _this->_impl_.ocpp_type_.Set(from._internal_ocpp_type(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:InternalRouterOCPPData)
+}
+
+inline void InternalRouterOCPPData::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.data_){}
+    , decltype(_impl_.ocpp_type_){}
+  };
+  _impl_.data_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.data_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.ocpp_type_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ocpp_type_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+InternalRouterOCPPData::~InternalRouterOCPPData() {
+  // @@protoc_insertion_point(destructor:InternalRouterOCPPData)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void InternalRouterOCPPData::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.data_.Destroy();
+  _impl_.ocpp_type_.Destroy();
+}
+
+void InternalRouterOCPPData::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void InternalRouterOCPPData::Clear() {
+// @@protoc_insertion_point(message_clear_start:InternalRouterOCPPData)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.data_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.ocpp_type_.ClearNonDefaultToEmpty();
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* InternalRouterOCPPData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string data = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_data();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "InternalRouterOCPPData.data"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string ocpp_type = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_ocpp_type();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "InternalRouterOCPPData.ocpp_type"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* InternalRouterOCPPData::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:InternalRouterOCPPData)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string data = 1;
+  if (!this->_internal_data().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_data().data(), static_cast<int>(this->_internal_data().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "InternalRouterOCPPData.data");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_data(), target);
+  }
+
+  // optional string ocpp_type = 2;
+  if (_internal_has_ocpp_type()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ocpp_type().data(), static_cast<int>(this->_internal_ocpp_type().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "InternalRouterOCPPData.ocpp_type");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_ocpp_type(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:InternalRouterOCPPData)
+  return target;
+}
+
+size_t InternalRouterOCPPData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:InternalRouterOCPPData)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string data = 1;
+  if (!this->_internal_data().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_data());
+  }
+
+  // optional string ocpp_type = 2;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ocpp_type());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData InternalRouterOCPPData::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    InternalRouterOCPPData::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*InternalRouterOCPPData::GetClassData() const { return &_class_data_; }
+
+
+void InternalRouterOCPPData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<InternalRouterOCPPData*>(&to_msg);
+  auto& from = static_cast<const InternalRouterOCPPData&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:InternalRouterOCPPData)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_data().empty()) {
+    _this->_internal_set_data(from._internal_data());
+  }
+  if (from._internal_has_ocpp_type()) {
+    _this->_internal_set_ocpp_type(from._internal_ocpp_type());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void InternalRouterOCPPData::CopyFrom(const InternalRouterOCPPData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:InternalRouterOCPPData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool InternalRouterOCPPData::IsInitialized() const {
+  return true;
+}
+
+void InternalRouterOCPPData::InternalSwap(InternalRouterOCPPData* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.data_, lhs_arena,
+      &other->_impl_.data_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.ocpp_type_, lhs_arena,
+      &other->_impl_.ocpp_type_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata InternalRouterOCPPData::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_protobufMessage_2eproto_getter, &descriptor_table_protobufMessage_2eproto_once,
+      file_level_metadata_protobufMessage_2eproto[5]);
+}
+
+// ===================================================================
+
+class InternalRouterMessage::_Internal {
+ public:
+  using HasBits = decltype(std::declval<InternalRouterMessage>()._impl_._has_bits_);
+  static const ::InternalRouterOCPPData& ocpp_data(const InternalRouterMessage* msg);
+  static void set_has_ocpp_data(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static const ::InternalRouterConnectorData& connector_data(const InternalRouterMessage* msg);
+  static void set_has_connector_data(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static const ::InternalRouterConnectorNotification& connector_status_notification(const InternalRouterMessage* msg);
+  static void set_has_connector_status_notification(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static const ::InternalRouterEVSEData& evse_data(const InternalRouterMessage* msg);
+  static void set_has_evse_data(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static const ::InternalRouterEVSENotification& evse_status_notification(const InternalRouterMessage* msg);
+  static void set_has_evse_status_notification(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+  static const ::InternalRouterChargerStationNotification& charger_station_notification(const InternalRouterMessage* msg);
+  static void set_has_charger_station_notification(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+};
+
+const ::InternalRouterOCPPData&
+InternalRouterMessage::_Internal::ocpp_data(const InternalRouterMessage* msg) {
+  return *msg->_impl_.ocpp_data_;
+}
+const ::InternalRouterConnectorData&
+InternalRouterMessage::_Internal::connector_data(const InternalRouterMessage* msg) {
+  return *msg->_impl_.connector_data_;
+}
+const ::InternalRouterConnectorNotification&
+InternalRouterMessage::_Internal::connector_status_notification(const InternalRouterMessage* msg) {
+  return *msg->_impl_.connector_status_notification_;
+}
+const ::InternalRouterEVSEData&
+InternalRouterMessage::_Internal::evse_data(const InternalRouterMessage* msg) {
+  return *msg->_impl_.evse_data_;
+}
+const ::InternalRouterEVSENotification&
+InternalRouterMessage::_Internal::evse_status_notification(const InternalRouterMessage* msg) {
+  return *msg->_impl_.evse_status_notification_;
+}
+const ::InternalRouterChargerStationNotification&
+InternalRouterMessage::_Internal::charger_station_notification(const InternalRouterMessage* msg) {
+  return *msg->_impl_.charger_station_notification_;
+}
+InternalRouterMessage::InternalRouterMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:InternalRouterMessage)
+}
+InternalRouterMessage::InternalRouterMessage(const InternalRouterMessage& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  InternalRouterMessage* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.uuid_){}
+    , decltype(_impl_.ocpp_data_){nullptr}
+    , decltype(_impl_.connector_data_){nullptr}
+    , decltype(_impl_.connector_status_notification_){nullptr}
+    , decltype(_impl_.evse_data_){nullptr}
+    , decltype(_impl_.evse_status_notification_){nullptr}
+    , decltype(_impl_.charger_station_notification_){nullptr}
+    , decltype(_impl_.method_){}
+    , decltype(_impl_.message_type_){}
+    , decltype(_impl_.source_){}
+    , decltype(_impl_.dest_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.uuid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.uuid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_uuid().empty()) {
+    _this->_impl_.uuid_.Set(from._internal_uuid(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_ocpp_data()) {
+    _this->_impl_.ocpp_data_ = new ::InternalRouterOCPPData(*from._impl_.ocpp_data_);
+  }
+  if (from._internal_has_connector_data()) {
+    _this->_impl_.connector_data_ = new ::InternalRouterConnectorData(*from._impl_.connector_data_);
+  }
+  if (from._internal_has_connector_status_notification()) {
+    _this->_impl_.connector_status_notification_ = new ::InternalRouterConnectorNotification(*from._impl_.connector_status_notification_);
+  }
+  if (from._internal_has_evse_data()) {
+    _this->_impl_.evse_data_ = new ::InternalRouterEVSEData(*from._impl_.evse_data_);
+  }
+  if (from._internal_has_evse_status_notification()) {
+    _this->_impl_.evse_status_notification_ = new ::InternalRouterEVSENotification(*from._impl_.evse_status_notification_);
+  }
+  if (from._internal_has_charger_station_notification()) {
+    _this->_impl_.charger_station_notification_ = new ::InternalRouterChargerStationNotification(*from._impl_.charger_station_notification_);
+  }
+  ::memcpy(&_impl_.method_, &from._impl_.method_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.dest_) -
+    reinterpret_cast<char*>(&_impl_.method_)) + sizeof(_impl_.dest_));
+  // @@protoc_insertion_point(copy_constructor:InternalRouterMessage)
+}
+
+inline void InternalRouterMessage::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.uuid_){}
+    , decltype(_impl_.ocpp_data_){nullptr}
+    , decltype(_impl_.connector_data_){nullptr}
+    , decltype(_impl_.connector_status_notification_){nullptr}
+    , decltype(_impl_.evse_data_){nullptr}
+    , decltype(_impl_.evse_status_notification_){nullptr}
+    , decltype(_impl_.charger_station_notification_){nullptr}
+    , decltype(_impl_.method_){0}
+    , decltype(_impl_.message_type_){0}
+    , decltype(_impl_.source_){0}
+    , decltype(_impl_.dest_){0}
+  };
+  _impl_.uuid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.uuid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+InternalRouterMessage::~InternalRouterMessage() {
+  // @@protoc_insertion_point(destructor:InternalRouterMessage)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void InternalRouterMessage::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.uuid_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.ocpp_data_;
+  if (this != internal_default_instance()) delete _impl_.connector_data_;
+  if (this != internal_default_instance()) delete _impl_.connector_status_notification_;
+  if (this != internal_default_instance()) delete _impl_.evse_data_;
+  if (this != internal_default_instance()) delete _impl_.evse_status_notification_;
+  if (this != internal_default_instance()) delete _impl_.charger_station_notification_;
+}
+
+void InternalRouterMessage::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void InternalRouterMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:InternalRouterMessage)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.uuid_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000003fu) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(_impl_.ocpp_data_ != nullptr);
+      _impl_.ocpp_data_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(_impl_.connector_data_ != nullptr);
+      _impl_.connector_data_->Clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(_impl_.connector_status_notification_ != nullptr);
+      _impl_.connector_status_notification_->Clear();
+    }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(_impl_.evse_data_ != nullptr);
+      _impl_.evse_data_->Clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      GOOGLE_DCHECK(_impl_.evse_status_notification_ != nullptr);
+      _impl_.evse_status_notification_->Clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      GOOGLE_DCHECK(_impl_.charger_station_notification_ != nullptr);
+      _impl_.charger_station_notification_->Clear();
+    }
+  }
+  ::memset(&_impl_.method_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.dest_) -
+      reinterpret_cast<char*>(&_impl_.method_)) + sizeof(_impl_.dest_));
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* InternalRouterMessage::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string uuid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_uuid();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "InternalRouterMessage.uuid"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .RouterMethods method = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_method(static_cast<::RouterMethods>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .MessageType message_type = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_message_type(static_cast<::MessageType>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ZMQIdentify source = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_source(static_cast<::ZMQIdentify>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ZMQIdentify dest = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_dest(static_cast<::ZMQIdentify>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .InternalRouterOCPPData ocpp_data = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ctx->ParseMessage(_internal_mutable_ocpp_data(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .InternalRouterConnectorData connector_data = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          ptr = ctx->ParseMessage(_internal_mutable_connector_data(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .InternalRouterConnectorNotification connector_status_notification = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          ptr = ctx->ParseMessage(_internal_mutable_connector_status_notification(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .InternalRouterEVSEData evse_data = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
+          ptr = ctx->ParseMessage(_internal_mutable_evse_data(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .InternalRouterEVSENotification evse_status_notification = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr = ctx->ParseMessage(_internal_mutable_evse_status_notification(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .InternalRouterChargerStationNotification charger_station_notification = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          ptr = ctx->ParseMessage(_internal_mutable_charger_station_notification(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* InternalRouterMessage::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:InternalRouterMessage)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -409,7 +2406,7 @@ uint8_t* RouterProtobufMessage::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_uuid().data(), static_cast<int>(this->_internal_uuid().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "RouterProtobufMessage.uuid");
+      "InternalRouterMessage.uuid");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_uuid(), target);
   }
@@ -428,56 +2425,72 @@ uint8_t* RouterProtobufMessage::_InternalSerialize(
       3, this->_internal_message_type(), target);
   }
 
-  // string source = 4;
-  if (!this->_internal_source().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_source().data(), static_cast<int>(this->_internal_source().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "RouterProtobufMessage.source");
-    target = stream->WriteStringMaybeAliased(
-        4, this->_internal_source(), target);
+  // .ZMQIdentify source = 4;
+  if (this->_internal_source() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_source(), target);
   }
 
-  // string dest = 5;
-  if (!this->_internal_dest().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_dest().data(), static_cast<int>(this->_internal_dest().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "RouterProtobufMessage.dest");
-    target = stream->WriteStringMaybeAliased(
-        5, this->_internal_dest(), target);
+  // .ZMQIdentify dest = 5;
+  if (this->_internal_dest() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      5, this->_internal_dest(), target);
   }
 
-  // string data = 6;
-  if (!this->_internal_data().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_data().data(), static_cast<int>(this->_internal_data().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "RouterProtobufMessage.data");
-    target = stream->WriteStringMaybeAliased(
-        6, this->_internal_data(), target);
+  // optional .InternalRouterOCPPData ocpp_data = 6;
+  if (_internal_has_ocpp_data()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(6, _Internal::ocpp_data(this),
+        _Internal::ocpp_data(this).GetCachedSize(), target, stream);
   }
 
-  // optional string ocpp_type = 7;
-  if (_internal_has_ocpp_type()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_ocpp_type().data(), static_cast<int>(this->_internal_ocpp_type().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "RouterProtobufMessage.ocpp_type");
-    target = stream->WriteStringMaybeAliased(
-        7, this->_internal_ocpp_type(), target);
+  // optional .InternalRouterConnectorData connector_data = 8;
+  if (_internal_has_connector_data()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(8, _Internal::connector_data(this),
+        _Internal::connector_data(this).GetCachedSize(), target, stream);
+  }
+
+  // optional .InternalRouterConnectorNotification connector_status_notification = 9;
+  if (_internal_has_connector_status_notification()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(9, _Internal::connector_status_notification(this),
+        _Internal::connector_status_notification(this).GetCachedSize(), target, stream);
+  }
+
+  // optional .InternalRouterEVSEData evse_data = 10;
+  if (_internal_has_evse_data()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(10, _Internal::evse_data(this),
+        _Internal::evse_data(this).GetCachedSize(), target, stream);
+  }
+
+  // optional .InternalRouterEVSENotification evse_status_notification = 11;
+  if (_internal_has_evse_status_notification()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(11, _Internal::evse_status_notification(this),
+        _Internal::evse_status_notification(this).GetCachedSize(), target, stream);
+  }
+
+  // optional .InternalRouterChargerStationNotification charger_station_notification = 12;
+  if (_internal_has_charger_station_notification()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(12, _Internal::charger_station_notification(this),
+        _Internal::charger_station_notification(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:RouterProtobufMessage)
+  // @@protoc_insertion_point(serialize_to_array_end:InternalRouterMessage)
   return target;
 }
 
-size_t RouterProtobufMessage::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:RouterProtobufMessage)
+size_t InternalRouterMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:InternalRouterMessage)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -491,35 +2504,51 @@ size_t RouterProtobufMessage::ByteSizeLong() const {
         this->_internal_uuid());
   }
 
-  // string source = 4;
-  if (!this->_internal_source().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_source());
-  }
-
-  // string dest = 5;
-  if (!this->_internal_dest().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_dest());
-  }
-
-  // string data = 6;
-  if (!this->_internal_data().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_data());
-  }
-
-  // optional string ocpp_type = 7;
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_ocpp_type());
-  }
+  if (cached_has_bits & 0x0000003fu) {
+    // optional .InternalRouterOCPPData ocpp_data = 6;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.ocpp_data_);
+    }
 
+    // optional .InternalRouterConnectorData connector_data = 8;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.connector_data_);
+    }
+
+    // optional .InternalRouterConnectorNotification connector_status_notification = 9;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.connector_status_notification_);
+    }
+
+    // optional .InternalRouterEVSEData evse_data = 10;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.evse_data_);
+    }
+
+    // optional .InternalRouterEVSENotification evse_status_notification = 11;
+    if (cached_has_bits & 0x00000010u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.evse_status_notification_);
+    }
+
+    // optional .InternalRouterChargerStationNotification charger_station_notification = 12;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.charger_station_notification_);
+    }
+
+  }
   // .RouterMethods method = 2;
   if (this->_internal_method() != 0) {
     total_size += 1 +
@@ -532,20 +2561,32 @@ size_t RouterProtobufMessage::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_message_type());
   }
 
+  // .ZMQIdentify source = 4;
+  if (this->_internal_source() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_source());
+  }
+
+  // .ZMQIdentify dest = 5;
+  if (this->_internal_dest() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_dest());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData RouterProtobufMessage::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData InternalRouterMessage::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    RouterProtobufMessage::MergeImpl
+    InternalRouterMessage::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*RouterProtobufMessage::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*InternalRouterMessage::GetClassData() const { return &_class_data_; }
 
 
-void RouterProtobufMessage::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<RouterProtobufMessage*>(&to_msg);
-  auto& from = static_cast<const RouterProtobufMessage&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:RouterProtobufMessage)
+void InternalRouterMessage::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<InternalRouterMessage*>(&to_msg);
+  auto& from = static_cast<const InternalRouterMessage&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:InternalRouterMessage)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -553,17 +2594,32 @@ void RouterProtobufMessage::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   if (!from._internal_uuid().empty()) {
     _this->_internal_set_uuid(from._internal_uuid());
   }
-  if (!from._internal_source().empty()) {
-    _this->_internal_set_source(from._internal_source());
-  }
-  if (!from._internal_dest().empty()) {
-    _this->_internal_set_dest(from._internal_dest());
-  }
-  if (!from._internal_data().empty()) {
-    _this->_internal_set_data(from._internal_data());
-  }
-  if (from._internal_has_ocpp_type()) {
-    _this->_internal_set_ocpp_type(from._internal_ocpp_type());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000003fu) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_mutable_ocpp_data()->::InternalRouterOCPPData::MergeFrom(
+          from._internal_ocpp_data());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_mutable_connector_data()->::InternalRouterConnectorData::MergeFrom(
+          from._internal_connector_data());
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_internal_mutable_connector_status_notification()->::InternalRouterConnectorNotification::MergeFrom(
+          from._internal_connector_status_notification());
+    }
+    if (cached_has_bits & 0x00000008u) {
+      _this->_internal_mutable_evse_data()->::InternalRouterEVSEData::MergeFrom(
+          from._internal_evse_data());
+    }
+    if (cached_has_bits & 0x00000010u) {
+      _this->_internal_mutable_evse_status_notification()->::InternalRouterEVSENotification::MergeFrom(
+          from._internal_evse_status_notification());
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_internal_mutable_charger_station_notification()->::InternalRouterChargerStationNotification::MergeFrom(
+          from._internal_charger_station_notification());
+    }
   }
   if (from._internal_method() != 0) {
     _this->_internal_set_method(from._internal_method());
@@ -571,21 +2627,27 @@ void RouterProtobufMessage::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   if (from._internal_message_type() != 0) {
     _this->_internal_set_message_type(from._internal_message_type());
   }
+  if (from._internal_source() != 0) {
+    _this->_internal_set_source(from._internal_source());
+  }
+  if (from._internal_dest() != 0) {
+    _this->_internal_set_dest(from._internal_dest());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void RouterProtobufMessage::CopyFrom(const RouterProtobufMessage& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:RouterProtobufMessage)
+void InternalRouterMessage::CopyFrom(const InternalRouterMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:InternalRouterMessage)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool RouterProtobufMessage::IsInitialized() const {
+bool InternalRouterMessage::IsInitialized() const {
   return true;
 }
 
-void RouterProtobufMessage::InternalSwap(RouterProtobufMessage* other) {
+void InternalRouterMessage::InternalSwap(InternalRouterMessage* other) {
   using std::swap;
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
@@ -595,41 +2657,49 @@ void RouterProtobufMessage::InternalSwap(RouterProtobufMessage* other) {
       &_impl_.uuid_, lhs_arena,
       &other->_impl_.uuid_, rhs_arena
   );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.source_, lhs_arena,
-      &other->_impl_.source_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.dest_, lhs_arena,
-      &other->_impl_.dest_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.data_, lhs_arena,
-      &other->_impl_.data_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.ocpp_type_, lhs_arena,
-      &other->_impl_.ocpp_type_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(RouterProtobufMessage, _impl_.message_type_)
-      + sizeof(RouterProtobufMessage::_impl_.message_type_)
-      - PROTOBUF_FIELD_OFFSET(RouterProtobufMessage, _impl_.method_)>(
-          reinterpret_cast<char*>(&_impl_.method_),
-          reinterpret_cast<char*>(&other->_impl_.method_));
+      PROTOBUF_FIELD_OFFSET(InternalRouterMessage, _impl_.dest_)
+      + sizeof(InternalRouterMessage::_impl_.dest_)
+      - PROTOBUF_FIELD_OFFSET(InternalRouterMessage, _impl_.ocpp_data_)>(
+          reinterpret_cast<char*>(&_impl_.ocpp_data_),
+          reinterpret_cast<char*>(&other->_impl_.ocpp_data_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata RouterProtobufMessage::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata InternalRouterMessage::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_protobufMessage_2eproto_getter, &descriptor_table_protobufMessage_2eproto_once,
-      file_level_metadata_protobufMessage_2eproto[0]);
+      file_level_metadata_protobufMessage_2eproto[6]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::RouterProtobufMessage*
-Arena::CreateMaybeMessage< ::RouterProtobufMessage >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::RouterProtobufMessage >(arena);
+template<> PROTOBUF_NOINLINE ::InternalRouterConnectorData*
+Arena::CreateMaybeMessage< ::InternalRouterConnectorData >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::InternalRouterConnectorData >(arena);
+}
+template<> PROTOBUF_NOINLINE ::InternalRouterConnectorNotification*
+Arena::CreateMaybeMessage< ::InternalRouterConnectorNotification >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::InternalRouterConnectorNotification >(arena);
+}
+template<> PROTOBUF_NOINLINE ::InternalRouterEVSEData*
+Arena::CreateMaybeMessage< ::InternalRouterEVSEData >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::InternalRouterEVSEData >(arena);
+}
+template<> PROTOBUF_NOINLINE ::InternalRouterEVSENotification*
+Arena::CreateMaybeMessage< ::InternalRouterEVSENotification >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::InternalRouterEVSENotification >(arena);
+}
+template<> PROTOBUF_NOINLINE ::InternalRouterChargerStationNotification*
+Arena::CreateMaybeMessage< ::InternalRouterChargerStationNotification >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::InternalRouterChargerStationNotification >(arena);
+}
+template<> PROTOBUF_NOINLINE ::InternalRouterOCPPData*
+Arena::CreateMaybeMessage< ::InternalRouterOCPPData >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::InternalRouterOCPPData >(arena);
+}
+template<> PROTOBUF_NOINLINE ::InternalRouterMessage*
+Arena::CreateMaybeMessage< ::InternalRouterMessage >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::InternalRouterMessage >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

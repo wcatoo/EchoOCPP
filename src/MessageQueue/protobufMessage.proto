@@ -1,13 +1,46 @@
 syntax = "proto3";
 
+enum ZMQIdentify {
+    ocpp = 0;
+    interface = 1;
+    database = 2;
+    websocket = 10;
+}
+
+enum RouterNotificationMethod {
+    RESET_DEVICE = 0;
+    REMOTE_START_CHARING = 2;
+    REMOTE_STOP_CHARING = 3;
+    LOCAL_START_CHARING = 4;
+    LOCAL_STOP_CHARING = 5;
+    CONNECTOR_PLUG_IN = 6;
+    CONNECTOR_CHARING = 7;
+    EVSE_FAULT = 8;
+    // The transaction was stopped by the EV
+    STOPED_BY_EV = 9;
+    SOC_LIMIT_REACHED_BY_EV = 10;
+    // EV not connected within timeout
+    EV_TIMEOUT = 11;
+}
+
+enum RouterEVSEFault {
+    EMERGENCY_STOP = 0;
+    EV_DISCONNECTED = 1;
+    GROUND_FAULT = 2;
+    OVERCURRENT_FAULT = 3;
+}
+
 enum RouterMethods {
     ROUTER_METHODS_OCPP201 = 0;
     ROUTER_METHODS_WRITE_DATABASE = 1;
     ROUTER_METHODS_READ_DATABASE = 2;
-    ROUTER_METHODS_NOTIFY_REALTIME_DATA = 3;
-    ROUTER_METHODS_GET_REALTIME_DATA = 4;
+    ROUTER_METHODS_DATATRANSFER_OCPP_2_EVSE = 3;
+    ROUTER_METHODS_NOTIFICATION_OCPP_2_EVSE = 4;
     ROUTER_METHODS_NETWORK_ONLINE = 5;
     ROUTER_METHODS_NETWORK_OFFLINE = 6;
+    ROUTER_METHODS_CONNECTOR_DATA = 7;
+    ROUTER_METHODS_DATATRANSFER_EVSE_2_OCPP = 8;
+    ROUTER_METHODS_NOTIFICATION_EVSE_2_OCPP = 9;
 }
 enum MessageType {
     REQUEST = 0;
@@ -15,12 +48,67 @@ enum MessageType {
     NETWORK_ONLINE = 2;
     NETWORK_OFFLINE = 3;
 }
-message RouterProtobufMessage {
+
+message InternalRouterConnectorData {
+    uint32 connector_id = 1;
+    float energy = 2;
+    optional float l1_watt_w = 3;
+    optional float l2_watt_w= 4;
+    optional float l3_watt_w= 5;
+    optional float l1_l2_watt_w = 6;
+    optional float l2_l3_watt_w = 7;
+    optional float l3_l1_watt_w = 8;
+    optional float l1_n_watt_w = 9;
+    optional float l2_n_watt_w = 10;
+    optional float l3_n_watt_w = 11;
+    optional float neutral_watt_w= 12;
+    optional float l1_ampere_a = 13;
+    optional float l2_ampere_a= 14;
+    optional float l3_ampere_a= 15;
+    optional float l1_l2_ampere_a = 16;
+    optional float l2_l3_ampere_a= 17;
+    optional float l3_l1_ampere_a= 18;
+    optional float l1_n_ampere_a = 19;
+    optional float l2_n_ampere_a = 20;
+    optional float l3_n_ampere_a = 21;
+    optional float neutral_ampere_a = 22;
+    optional uint32 evse_id = 23;
+}
+
+
+message InternalRouterConnectorNotification {
+
+}
+
+message InternalRouterEVSEData {
+
+}
+
+message InternalRouterEVSENotification {
+    RouterNotificationMethod notification_method = 1;
+    uint32 id = 2;
+}
+message InternalRouterChargerStationNotification {
+    RouterNotificationMethod notification_method = 1;
+}
+
+message InternalRouterOCPPData {
+    string data = 1;
+    optional string ocpp_type = 2;
+}
+
+message InternalRouterMessage {
     string uuid = 1;
     RouterMethods method = 2;
     MessageType message_type = 3;
-    string source = 4;
-    string dest = 5;
-    string data = 6;
-    optional string ocpp_type = 7;
+    ZMQIdentify source = 4;
+    ZMQIdentify dest = 5;
+    optional InternalRouterOCPPData ocpp_data = 6;
+    optional InternalRouterConnectorData connector_data = 8;
+    optional InternalRouterConnectorNotification connector_status_notification = 9;
+    optional InternalRouterEVSEData evse_data = 10;
+    optional InternalRouterEVSENotification evse_status_notification = 11;
+    optional InternalRouterChargerStationNotification charger_station_notification = 12;
+
 }
+//message RouterProtobufDevice

@@ -18,16 +18,17 @@ public:
   void start();
   void stop();
   void send(const std::string &tPayload);
-  void send(const RouterProtobufMessage &tPayload);
+  void send(const InternalRouterMessage &tPayload);
 //  void setReceiveCallBack(std::function<void(const std::string &tResource, const std::string & tMessage)> &&);
-  void setReceiveCallBack(std::function<void(const RouterProtobufMessage & tMessage)> &&);
+  void setReceiveCallBack(std::function<void(const InternalRouterMessage & tMessage)> &&);
 private:
   std::unique_ptr<zmq::socket_t> mDealer{};
   std::string mIdentity{};
   std::unique_ptr<std::thread> mReceiveThread{};
-  std::function<void(const RouterProtobufMessage&)> mReceiveCallback{};
+  std::function<void(const InternalRouterMessage &)> mReceiveCallback{};
   MessageQueueStatus mStatus{MessageQueueStatus::CLOSE};
   std::string mAddress;
+
 };
 
 #endif // ECHOOCPP_MQDEALER_HPP

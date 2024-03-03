@@ -1,7 +1,7 @@
 #include "MessageManager.hpp"
 namespace OCPP201 {
 
-void MessageManager::bootHandler(const RouterProtobufMessage &tMessage) {
+void MessageManager::bootHandler(const InternalRouterMessage &tMessage) {
   OCPP201::ComponentType componentType("OCPPCommCtrlr");
   OCPP201::VariableType variableType("HeartbeatInterval");
   try {
@@ -16,77 +16,77 @@ void MessageManager::bootHandler(const RouterProtobufMessage &tMessage) {
     this->mBootNotificationManager.setConfigure(this->mConfigureManager.getBaseInfo());
     this->mThreadPool->enqueue([this, tMessage]() {
       this->mBootNotificationManager.isBooting = true;
-      this->mBootNotificationManager.bootFinish =
-          true;
+      this->mBootNotificationManager.bootFinish = true;
       // set dest
-      this->mStatusNotificationManager.mDest =
-          tMessage.source();
-      this->mHeartbeatManager.mDest =
-          tMessage.source();
-      while (
-          this->mBootNotificationManager
-              .getBootInterval() &&
-          this->mBootNotificationManager.isBooting) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        this->send(this->mBootNotificationManager.getRequestMessage(tMessage.source()),
-                   [this](const std::string &tMessageConf) {
-                     OCPP201::BootNotificationResponse bootNotificationResponse =
-                         nlohmann::json::parse(tMessageConf);
-                     this->mBootNotificationManager
-                         .setBootInterval(bootNotificationResponse.getInterval());
-                     switch (bootNotificationResponse.getStatus()) {
-                     case OCPP201::RegistrationStatusEnumType::Accepted:
-                       this->mBootNotificationManager.isBooting = false;
-                       this->mBootNotificationManager.bootFinish = true;
-                       // init heartbeat Timer
-                       this->mHeartbeatManager.mInterval = bootNotificationResponse.getInterval();
-                       this->mThreadPool->enqueue([this]() {
-                         this->mHeartbeatManager.setHeartbeatHandler([&]() {
-                           this->send(this->mHeartbeatManager.getRequestMessage(),
-                                      [this](const std::string &tMessageConf) {
-                                        // TODO heartbeat response
-                                      });
-                         });
-                         // start heartbeat timer
-                         this->mHeartbeatManager.start();
-                         // send statusnotification for each connector
-                         std::for_each(
-                             this->mEVSEs.begin(), this->mEVSEs.end(),
-                             [this](const OCPP201::EVSE &tEVSE) {
-                               if (tEVSE.id!=0) {
-                                 std::for_each(tEVSE.mConnectors.begin(), tEVSE.mConnectors.end(), [this](const OCPP201::Connector &tConnector){
-                                   this->send(this->mStatusNotificationManager.getRequestMessage(tConnector), [](const std::string &tMessageConf){});
-                                 });
-                               }
-                             });
+      while ( this->mBootNotificationManager .getBootInterval()
+             && this->mBootNotificationManager.isBooting) {
+        RouterPackage bootMessage;
+        bootMessage.message = this->mBootNotificationManager.getRequestMessage(tMessage.source());
+        bootMessage.tGetReturnSuccessCallback =
+            [this](const std::string &tMessageConf) {
+              OCPP201::BootNotificationResponse bootNotificationResponse =
+                  nlohmann::json::parse(tMessageConf);
+              this->mBootNotificationManager
+                  .setBootInterval(bootNotificationResponse.getInterval());
+              switch (bootNotificationResponse.getStatus()) {
+              case OCPP201::RegistrationStatusEnumType::Accepted:
+                this->mBootNotificationManager.isBooting = false;
+                this->mBootNotificationManager.bootFinish = true;
+                // init heartbeat Timer
+                this->mHeartbeatManager.mInterval = bootNotificationResponse.getInterval();
+                this->mThreadPool->enqueue([this]() {
+                  this->mHeartbeatManager.setHeartbeatHandler([&]() {
+                    RouterPackage routerPackage;
+                    routerPackage.message = std::move(this->mHeartbeatManager.getRequestMessage());
+                    routerPackage.tGetReturnSuccessCallback = [](const std::string &tMessageConf) {
+                      // TODO heartbeat response
+                    };
+                    this->send(std::move(routerPackage));
+                  });
+                  // start heartbeat timer
+                  this->mHeartbeatManager.start();
+                  // send statusnotification for each connector
+                  std::for_each(
+                      this->mEVSEs.begin(), this->mEVSEs.end(),
+                      [this](const EVSE &tEVSE) {
+                        std::for_each(tEVSE.mConnectors.begin(), tEVSE.mConnectors.end(), [this, &tEVSE](const Connector &tConnector){
+                          RouterPackage routerPackage;
+                          routerPackage.message = this->mStatusNotificationManager.getRequestMessage(tConnector, tEVSE.id);
+                          routerPackage.tGetReturnSuccessCallback = [](const std::string &tMessageConf) {
+                          };
+                          this->send(std::move(routerPackage));
+                        });
+                      });
 
-                         // TODO offline meesage
-                       });
-                       break;
-                       // 1. To inform the Charging Station that it is not yet accepted by the CSMS: Pending status.
-                       // 2. To give the CSMS a way to retrieve or set certain configuration information.
-                       // 3. To give the CSMS a way of limiting the load on the CSMS after e.g. a reboot of the CSMS.
-                     case OCPP201::RegistrationStatusEnumType::Pending:
-                       this->mBootNotificationManager
-                           .isBooting = true;
-                       this->mBootNotificationManager
-                           .bootFinish = false;
-                       break;
-                     case OCPP201::RegistrationStatusEnumType::Rejected:
-                       this->mBootNotificationManager
-                           .isBooting = false;
-                       this->mBootNotificationManager
-                           .bootFinish = false;
-                       break;
-                     }
-                   });
+                  // TODO offline meesage
+                });
+                break;
+                // 1. To inform the Charging Station that it is not yet accepted by the CSMS: Pending status.
+                // 2. To give the CSMS a way to retrieve or set certain configuration information.
+                // 3. To give the CSMS a way of limiting the load on the CSMS after e.g. a reboot of the CSMS.
+              case OCPP201::RegistrationStatusEnumType::Pending:
+                this->mBootNotificationManager
+                    .isBooting = true;
+                this->mBootNotificationManager
+                    .bootFinish = false;
+                break;
+              case OCPP201::RegistrationStatusEnumType::Rejected:
+                this->mBootNotificationManager
+                    .isBooting = false;
+                this->mBootNotificationManager
+                    .bootFinish = false;
+                break;
+              }
+            };
+        this->send(std::move(bootMessage));
+        std::this_thread::sleep_for(std::chrono::seconds(this->mBootNotificationManager .getBootInterval()));
       }
     });
   }
 }
-void MessageManager::getBaseReportHandler(const std::string &tUUID,
-                                          const std::string &tSource,
-                                          const std::string &tMessage) {
+void MessageManager::getBaseReportHandler(std::string_view tUUID,
+                                          const ZMQIdentify tSource,
+                                          std::string_view tMessage) {
   try {
     OCPP201::GetBaseReportRequest getBaseReportRequest = nlohmann::json::parse(tMessage);
     OCPP201::GetBaseReportResponse response;
@@ -97,99 +97,105 @@ void MessageManager::getBaseReportHandler(const std::string &tUUID,
       this->mThreadPool->enqueue([this,tSource,&getBaseReportRequest]() {
         auto configNum = this->mConfigureManager.getVariableManager().mComponentManager.componentVariable.size();
         int seqBegin = 0;
-        RouterProtobufMessage routerProtobufMessage;
-        routerProtobufMessage.set_source("OCPP201");
+        InternalRouterMessage routerProtobufMessage;
+        routerProtobufMessage.mutable_ocpp_data()->set_ocpp_type(magic_enum::enum_name(OCPP201Type::NotifyReport).begin());
+        routerProtobufMessage.set_source(ZMQIdentify::ocpp);
         routerProtobufMessage.set_dest(tSource);
         routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
         routerProtobufMessage.set_message_type(MessageType::REQUEST);
-        routerProtobufMessage.set_ocpp_type("NotifyReport");
         while (seqBegin < configNum) {
           auto result = this->mConfigureManager.getVariableManager().getNotifyRequestInventory(getBaseReportRequest.getRequestId(), seqBegin,
                                                                                                seqBegin + 4 >= configNum, getBaseReportRequest.getReportBase());
-          routerProtobufMessage.set_data(result.toString());
+          routerProtobufMessage.mutable_ocpp_data()->set_data(result.toString());
           routerProtobufMessage.set_uuid(result.getMessageId());
           // ignore response
-          this->send(routerProtobufMessage, [](const std::string &t){});
+          RouterPackage routerPackage;
+          routerPackage.message = routerProtobufMessage;
+          this->send(std::move(routerPackage));
           seqBegin += 4;
         }
       });
       response.status = OCPP201::GenericDeviceModelStatusEnumType::Accepted;
     }
-    response.setMessageId(tUUID);
+    response.setMessageId(tUUID.begin());
     response.setPayload(Utility::toJsonString<OCPP201::GetBaseReportResponse>(response));
-    RouterProtobufMessage routerProtobufMessage;
-    routerProtobufMessage.set_uuid(tUUID);
-    routerProtobufMessage.set_source("OCPP201");
+    InternalRouterMessage routerProtobufMessage;
+    routerProtobufMessage.set_uuid(tUUID.begin());
+    routerProtobufMessage.set_source(ZMQIdentify::ocpp);
     routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-    routerProtobufMessage.set_ocpp_type("GetBaseReport");
-    routerProtobufMessage.set_dest(tSource);
-    routerProtobufMessage.set_data(response.toString());
-    this->send(routerProtobufMessage, [](const std::string &t){});
+    routerProtobufMessage.set_dest(ZMQIdentify::websocket);
+    routerProtobufMessage.mutable_ocpp_data()->set_ocpp_type(magic_enum::enum_name(OCPP201Type::GetBaseReport).begin());
+    routerProtobufMessage.mutable_ocpp_data()->set_data(response.toString());
+    RouterPackage routerPackage;
+    routerPackage.message = std::move(routerProtobufMessage);
+    this->send(std::move(routerPackage));
   } catch (std::exception &e) {
     MessageErrorResponse errorResponse;
     errorResponse.setErrorCode(ProtocolError::InternalError);
-    errorResponse.setMessageId(tUUID);
+    errorResponse.setMessageId(tUUID.begin());
     errorResponse.setErrorDescription("GetBaseReportRequest parse failed");
     errorResponse.setErrorDetails(nlohmann::json::object());
     this->sendOCPPErrorMessage(errorResponse, tSource);
   }
 
 }
-void MessageManager::getVariableHandler(const std::string &tUUID,
-                                        const std::string &tSource,
-                                        const std::string &tMessage) {
-      try {
-        OCPP201::GetVariablesRequest getVariablesRequest = nlohmann::json::parse(tMessage);
-        OCPP201::ComponentType componentType("DeviceDataCtrlr");
-        OCPP201::VariableType variableType("ItemsPerMessage", "GetVariables");
-        int numMessageGetVariable;
-        std::string numMessageGetVariableStr;
-        try {
-          numMessageGetVariableStr = this->mConfigureManager.getVariableManager().getVariableAttributeValue(componentType, variableType, OCPP201::AttributeEnumType::Actual);
-          numMessageGetVariable = std::stoi(numMessageGetVariableStr);
-        } catch (std::exception &e) {
-          numMessageGetVariable = 0;
-        }
-        if (getVariablesRequest.getVariableData.size() > numMessageGetVariable) {
-          MessageErrorResponse errorResponse;
-          errorResponse.setMessageId(tUUID);
-          errorResponse.setErrorCode(ProtocolError::OccurrenceConstraintViolation);
-          errorResponse.setErrorDetails(nlohmann::json::object());
-          errorResponse.setErrorDescription("The number should be less than " + numMessageGetVariableStr + "; The number of requesting is " + std::to_string(getVariablesRequest.getVariableData.size()));
-          this->sendOCPPErrorMessage(errorResponse, tSource);
-          return;
-        } else if (numMessageGetVariable == 0) {
-          MessageErrorResponse errorResponse;
-          errorResponse.setMessageId(tUUID);
-          errorResponse.setErrorCode(ProtocolError::InternalError);
-          errorResponse.setErrorDetails(nlohmann::json::object());
-          errorResponse.setErrorDescription("ItemsPerMessageNumber should not equal to 0");
-          this->sendOCPPErrorMessage(errorResponse, tSource);
-          return;
-        }
-        auto result = this->mConfigureManager.getVariableManager().getVariableRequestHandler(getVariablesRequest);
-        result.setMessageId(tUUID);
-        result.setPayload(Utility::toJsonString<OCPP201::GetVariablesResponse>(result));
-        RouterProtobufMessage routerProtobufMessage;
-        routerProtobufMessage.set_uuid(tUUID) ;
-        routerProtobufMessage.set_dest(tSource);
-        routerProtobufMessage.set_message_type(MessageType::RESPONSE);
-        routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-        routerProtobufMessage.set_data(result.toString());
-        routerProtobufMessage.set_ocpp_type("GetVariable");
-        this->send(routerProtobufMessage,[](const std::string &t){});
-      } catch (std::exception &e) {
-        MessageErrorResponse errorResponse;
-        errorResponse.setMessageId(tUUID);
-        errorResponse.setErrorCode(ProtocolError::InternalError);
-        errorResponse.setErrorDetails(nlohmann::json::object());
-        errorResponse.setErrorDescription("ItemsPerMessageNumber is loss or parse failed");
-        this->sendOCPPErrorMessage(errorResponse, tSource);
-      }
+void MessageManager::getVariableHandler(std::string_view tUUID,
+                                        const ZMQIdentify tSource,
+                                        std::string_view tMessage) {
+  try {
+    OCPP201::GetVariablesRequest getVariablesRequest = nlohmann::json::parse(tMessage);
+    OCPP201::ComponentType componentType("DeviceDataCtrlr");
+    OCPP201::VariableType variableType("ItemsPerMessage", "GetVariables");
+    int numMessageGetVariable;
+    std::string numMessageGetVariableStr;
+    try {
+      numMessageGetVariableStr = this->mConfigureManager.getVariableManager().getVariableAttributeValue(componentType, variableType, OCPP201::AttributeEnumType::Actual);
+      numMessageGetVariable = std::stoi(numMessageGetVariableStr);
+    } catch (std::exception &e) {
+      numMessageGetVariable = 0;
+    }
+    if (getVariablesRequest.getVariableData.size() > numMessageGetVariable) {
+      MessageErrorResponse errorResponse;
+      errorResponse.setMessageId(tUUID.begin());
+      errorResponse.setErrorCode(ProtocolError::OccurrenceConstraintViolation);
+      errorResponse.setErrorDetails(nlohmann::json::object());
+      errorResponse.setErrorDescription("The number should be less than " + numMessageGetVariableStr + "; The number of requesting is " + std::to_string(getVariablesRequest.getVariableData.size()));
+      this->sendOCPPErrorMessage(errorResponse, tSource);
+      return;
+    } else if (numMessageGetVariable == 0) {
+      MessageErrorResponse errorResponse;
+      errorResponse.setMessageId(tUUID.begin());
+      errorResponse.setErrorCode(ProtocolError::InternalError);
+      errorResponse.setErrorDetails(nlohmann::json::object());
+      errorResponse.setErrorDescription("ItemsPerMessageNumber should not equal to 0");
+      this->sendOCPPErrorMessage(errorResponse, tSource);
+      return;
+    }
+    auto result = this->mConfigureManager.getVariableManager().getVariableRequestHandler(getVariablesRequest);
+    result.setMessageId(tUUID.begin());
+    result.setPayload(Utility::toJsonString<OCPP201::GetVariablesResponse>(result));
+    InternalRouterMessage routerProtobufMessage;
+    routerProtobufMessage.set_uuid(tUUID.begin()) ;
+    routerProtobufMessage.set_dest(tSource);
+    routerProtobufMessage.set_message_type(MessageType::RESPONSE);
+    routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
+    routerProtobufMessage.mutable_ocpp_data()->set_data(result.toString());
+    routerProtobufMessage.mutable_ocpp_data()->set_ocpp_type("GetVariable");
+    RouterPackage routerPackage;
+    routerPackage.message = std::move(routerProtobufMessage);
+    this->send(std::move(routerPackage));
+  } catch (std::exception &e) {
+    MessageErrorResponse errorResponse;
+    errorResponse.setMessageId(tUUID.begin());
+    errorResponse.setErrorCode(ProtocolError::InternalError);
+    errorResponse.setErrorDetails(nlohmann::json::object());
+    errorResponse.setErrorDescription("ItemsPerMessageNumber is loss or parse failed");
+    this->sendOCPPErrorMessage(errorResponse, tSource);
+  }
 }
-void MessageManager::setVariableHandler(const std::string &tUUID,
-                                        const std::string &tSource,
-                                        const std::string &tMessage) {
+void MessageManager::setVariableHandler(std::string_view tUUID,
+                                        const ZMQIdentify tSource,
+                                        std::string_view tMessage) {
   OCPP201::SetVariablesResponse response;
   try {
     OCPP201::SetVariablesRequest request = nlohmann::json::parse(tMessage);
@@ -307,19 +313,105 @@ void MessageManager::setVariableHandler(const std::string &tUUID,
     }
   } catch (std::exception &e) {
     MessageErrorResponse errorResponse;
-    errorResponse.setMessageId(tUUID);
+    errorResponse.setMessageId(tUUID.begin());
     errorResponse.setErrorCode(ProtocolError::InternalError);
     errorResponse.setErrorDetails(nlohmann::json::object());
     errorResponse.setErrorDescription(std::string("Internal error ").append(e.what()));
     this->sendOCPPErrorMessage(errorResponse, tSource);
   }
-  RouterProtobufMessage routerProtobufMessage;
-  routerProtobufMessage.set_uuid(tUUID);
-  routerProtobufMessage.set_source("OCPP");
-  routerProtobufMessage.set_data(response.toString());
+  InternalRouterMessage routerProtobufMessage;
+  routerProtobufMessage.set_uuid(tUUID.begin());
+  routerProtobufMessage.set_source(ZMQIdentify::ocpp);
+  routerProtobufMessage.mutable_ocpp_data()->set_data(response.toString());
   routerProtobufMessage.set_method(::RouterMethods::ROUTER_METHODS_OCPP201);
-  routerProtobufMessage.set_dest("websocket");
-  this->send(routerProtobufMessage, [](const std::string &t){});
+  routerProtobufMessage.set_dest(ZMQIdentify::websocket);
+  RouterPackage routerPackage;
+  routerPackage.message = routerProtobufMessage;
+  this->send(std::move(routerPackage));
+}
+void MessageManager::setNetworkProfileReqHandler(std::string_view tUUID,
+                                                 const ZMQIdentify tDest,
+                                                 std::string_view tMessage) {
+  OCPP201::SetNetworkProfileRequest request = nlohmann::json::parse(tMessage);
+  OCPP201::SetNetworkProfileResponse response;
+
+
+}
+void MessageManager::resetReqHandler(std::string_view tUUID,
+                                     const ZMQIdentify tDest,
+                                     std::string_view tMessage) {
+  ResetRequest request = nlohmann::json::parse(tMessage);
+
+  if (request.resetType == ResetEnumType::Immediate) {
+      InternalRouterMessage resetMessage;
+      resetMessage.set_method(RouterMethods::ROUTER_METHODS_NOTIFICATION_OCPP_2_EVSE);
+      resetMessage.set_dest(ZMQIdentify::interface);
+      auto uuid = Utility::generateMessageId();
+      while (this->isUUIDExist(uuid)) {
+        uuid = Utility::generateMessageId();
+      }
+      resetMessage.set_uuid(uuid);
+      resetMessage.set_source(ZMQIdentify::ocpp);
+      resetMessage.set_message_type(MessageType::REQUEST);
+      if (request.evseId.has_value()) {
+        resetMessage.mutable_evse_status_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
+        resetMessage.mutable_evse_status_notification()->set_id(request.evseId.value());
+      } else {
+        resetMessage.mutable_charger_station_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
+      }
+      RouterPackage routerPackage;
+      routerPackage.message = resetMessage;
+      std::string uuidOCPP{tUUID};
+      routerPackage.tGetReturnSuccessCallback = [this, uuidOCPP, tDest](const std::string & tMessage) {
+        ResetResponse response;
+        this->sendOCPPMessage(uuidOCPP,tDest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+      };
+      routerPackage.tGetResponseFailedCallback = [this, uuidOCPP, tDest] () {
+        ResetResponse response;
+        response.status = ResetStatusEnumType::Rejected;
+        StatusInfoType statusInfoType;
+        statusInfoType.reasonCode = "No response from charge station";
+        this->sendOCPPMessage(uuidOCPP, tDest, response.toString(), MessageType::RESPONSE,
+                              OCPP201Type::Reset);
+      };
+  } else if (request.resetType == ResetEnumType::OnIdle) {
+    ResetResponse response;
+    // TODO schedule
+    response.status = ResetStatusEnumType::Rejected;
+    StatusInfoType statusInfoType;
+    statusInfoType.reasonCode = "No support";
+    this->sendOCPPMessage(tUUID.begin(), tDest, response.toString(), MessageType::RESPONSE,
+                          OCPP201Type::Reset);
+
+  }
+
+
+//  this->send(routerProtobufMessage, [](const std::string &tMessage){});
+
+}
+void MessageManager::sendOCPPMessage(
+    const std::string &tUUID, ZMQIdentify tDest, std::string_view tMessage,
+    MessageType messageType, OCPP201Type ocpp201Type,
+    std::function<void(const std::string &)> tSuccessCallback,
+    std::function<void()> tFailedCallback) {
+
+  InternalRouterMessage responseRouterMessage;
+  responseRouterMessage.set_uuid(tUUID);
+  responseRouterMessage.set_dest(tDest);
+  responseRouterMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
+  responseRouterMessage.set_source(ZMQIdentify::ocpp);
+  responseRouterMessage.set_message_type(messageType);
+  responseRouterMessage.mutable_ocpp_data()->set_data(tMessage.begin());
+  responseRouterMessage.mutable_ocpp_data()->set_ocpp_type(magic_enum::enum_name(ocpp201Type).begin());
+  RouterPackage package;
+  package.message = responseRouterMessage;
+  if (tSuccessCallback != nullptr) {
+    package.tGetReturnSuccessCallback = tSuccessCallback;
+  }
+  if (tFailedCallback != nullptr) {
+    package.tGetResponseFailedCallback = tFailedCallback;
+  }
+  this->send(std::move(package));
 }
 
 }

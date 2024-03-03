@@ -1,7 +1,7 @@
 add_library(
         ChargePointOCPP201
         STATIC
-        OCPPManager.cpp
+        OCPPCore.cpp
         ../201/Message/MessageManager.cpp
 )
 find_package(cppzmq CONFIG REQUIRED)
@@ -19,4 +19,5 @@ target_link_libraries(
         PUBLIC
         MessageQueueDealer
         OCPP201Utilies
+        DataInterface
 )

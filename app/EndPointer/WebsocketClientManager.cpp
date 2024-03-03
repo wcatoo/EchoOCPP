@@ -10,16 +10,15 @@ namespace Components {
     }
 
     void WebsocketClientManager::init() {
-        this->mMQRouterPtr->setReceiveCallBack([this](const RouterProtobufMessage& tMessage){
-            this->mWebsocketClient.sendPayload(tMessage.data());
+        this->mMQRouterPtr->setReceiveCallBack([this](const InternalRouterMessage& tMessage){
+            this->mWebsocketClient.sendPayload(tMessage.ocpp_data().data());
         }) ;
         this->mWebsocketClient.setOnOpen([this](){
-            RouterProtobufMessage routerProtobufMessage;
+            InternalRouterMessage routerProtobufMessage;
             routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_NETWORK_ONLINE);
-            routerProtobufMessage.set_dest("OCPP201");
-            routerProtobufMessage.set_source(this->mZMQIdentity);
+            routerProtobufMessage.set_dest(ZMQIdentify::ocpp);
+            routerProtobufMessage.set_source(ZMQIdentify::websocket);
             routerProtobufMessage.set_message_type(MessageType::NETWORK_ONLINE);
-            routerProtobufMessage.set_data("websocket open");
             if (this->mMQRouterPtr != nullptr) {
                 this->mMQRouterPtr->send(routerProtobufMessage);
             } else {
@@ -27,12 +26,11 @@ namespace Components {
             }
         });
         this->mWebsocketClient.setOnClose([this](){
-            RouterProtobufMessage routerProtobufMessage;
+            InternalRouterMessage routerProtobufMessage;
             routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_NETWORK_OFFLINE);
-            routerProtobufMessage.set_dest("OCPP201");
-            routerProtobufMessage.set_source(this->mZMQIdentity);
+            routerProtobufMessage.set_dest(ZMQIdentify::ocpp);
+            routerProtobufMessage.set_source(ZMQIdentify::websocket);
             routerProtobufMessage.set_message_type(MessageType::NETWORK_OFFLINE);
-            routerProtobufMessage.set_data("websocket close");
             if (this->mMQRouterPtr != nullptr) {
                 this->mMQRouterPtr->send(routerProtobufMessage);
             } else {
@@ -43,12 +41,12 @@ namespace Components {
             // TODO websocket connect fail handler
             std::cout << "websocket connect failed -> "  << t<< std::endl;
         });
-         this->mWebsocketClient.setOnMessage([this](WebsocketOnMessageInfo t){
+         this->mWebsocketClient.setOnMessage([](WebsocketOnMessageInfo t){
              std::cout << "message: " << t.getPayload() << std::endl;
-             RouterProtobufMessage routerProtobufMessage;
+             InternalRouterMessage routerProtobufMessage;
              routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
-             routerProtobufMessage.set_dest("OCPP201");
-             routerProtobufMessage.set_source(this->mZMQIdentity);
+             routerProtobufMessage.set_dest(ZMQIdentify::ocpp);
+             routerProtobufMessage.set_source(ZMQIdentify::websocket);
              if (t.getPayload().size() > 2) {
                  switch (t.getPayload().at(1)) {
                      case '2':
@@ -63,7 +61,7 @@ namespace Components {
                          std::cout << t.getPayload() << " -> no OCPP message" << std::endl;
                          break;
                  }
-                 routerProtobufMessage.set_data(t.getPayload());
+                 routerProtobufMessage.mutable_ocpp_data()->set_data(t.getPayload());
              } else {
                  return ;
              }

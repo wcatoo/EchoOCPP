@@ -1,3 +1,18 @@
 {
-  "BootReason" : "PowerUp"
+  "BootReason" : "PowerUp",
+  "chargingStation" : [
+    {
+      "EVSE": [
+      {
+        "id" : 0,
+        "connectors" : [
+          {
+            "connectorId" : 0,
+            "status" : "Available"
+          }
+        ]
+      }
+    ]
+    }
+  ]
 }

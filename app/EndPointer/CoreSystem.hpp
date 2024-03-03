@@ -4,8 +4,8 @@
 #define ECHOOCPP_CORESYSTEM_HPP
 //#include "../../src/MessageQueue/MQDealer.hpp"
 #include "../../src/MessageQueue/MQRouter.hpp"
+#include "../../src/OCPP/ChargeStation/OCPPCore.hpp"
 #include "../../src/WebsocketComponent/Client/WebsocketClient.hpp"
-#include "../../src/OCPP/ChargeStation/OCPPManager.hpp"
 #include <memory>
 
 namespace EndPointer {

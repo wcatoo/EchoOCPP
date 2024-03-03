@@ -1225,26 +1225,43 @@ private:
 };
 
 class ResetRequest : public MessageCallRequest {
-private:
+public:
   ResetEnumType resetType;
   std::optional<int> evseId;
-
-public:
+  ResetRequest() = default;
   ResetRequest(ResetEnumType type,
                const std::optional<int> &evseIdentifier = std::nullopt)
       : resetType(type), evseId(evseIdentifier) {
     mAction = "ResetRequest";
     mMessageId = Utility::generateMessageId();
-    build();
   }
-
-private:
-  void build() {
-    mPayload["type"] = magic_enum::enum_name(resetType);
+  std::string toString() override{
+    mPayload = nlohmann::json {
+      {"type", magic_enum::enum_name(resetType)},
+    };
     if (evseId.has_value()) {
       mPayload["evseId"] = evseId.value();
     }
+    return this->build();
   }
+
+  friend void from_json(const nlohmann::json &json, ResetRequest &data) {
+    if (json.contains("type") && json.at("type").is_string()) {
+      auto tmp = magic_enum::enum_cast<ResetEnumType>(json.at("type"));
+      if (tmp.has_value()) {
+        data.resetType = tmp.value();
+      } else {
+        data.resetType = ResetEnumType::OnIdle;
+      }
+    }
+    if (json.contains("evseId") && json.at("evseId").is_number_integer()) {
+      data.evseId = std::optional<int>(json.at("evseId"));
+    } else {
+      data.evseId = std::nullopt;
+    }
+  }
+
+
 };
 
 class SecurityEventNotificationRequest : public MessageCallRequest {

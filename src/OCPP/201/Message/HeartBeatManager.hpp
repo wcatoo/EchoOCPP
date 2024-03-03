@@ -38,23 +38,22 @@ namespace OCPP201
         void setHeartbeatHandler(std::function<void()> tHandler) {
             this->mHeartbeatHandler = tHandler;
         }
-        RouterProtobufMessage getRequestMessage() {
-            RouterProtobufMessage routerProtobufMessage;
-            routerProtobufMessage.set_data(this->mHeartbeatRequest.build());
+        InternalRouterMessage getRequestMessage() {
+          InternalRouterMessage routerProtobufMessage;
+            routerProtobufMessage.mutable_ocpp_data()->set_data(this->mHeartbeatRequest.build());
             routerProtobufMessage.set_uuid(this->mHeartbeatRequest.getMessageId());
-            routerProtobufMessage.set_source("OCPP201");
+            routerProtobufMessage.set_source(ZMQIdentify::ocpp);
             routerProtobufMessage.set_method(RouterMethods::ROUTER_METHODS_OCPP201);
             routerProtobufMessage.set_message_type(MessageType::REQUEST);
-            routerProtobufMessage.set_dest(this->mDest);
+            routerProtobufMessage.set_dest(ZMQIdentify::websocket);
             return routerProtobufMessage;
         }
-        std::string mDest;
         std::atomic_int mInterval{10};
 
     private:
         std::unique_ptr<std::thread> mTimer{nullptr};
         bool isRunning{false};
-        // std::function<bool(const RouterProtobufMessage &tMessage,
+        // std::function<bool(const InternalRouterProtocol &tMessage,
         //                    std::function<void(const std::string &)> tCallback,
         //                    bool isResponse)>
         std::function<void()> mHeartbeatHandler{};

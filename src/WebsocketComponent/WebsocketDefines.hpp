@@ -12,12 +12,10 @@ enum class WebsocketStatus {
 class WebsocketOnMessageInfo {
 public:
   WebsocketOnMessageInfo() {
-      std::cout <<"init" << std::endl;
     mResource = "";
     mMessage = "";
   }
   ~WebsocketOnMessageInfo() {
-      std::cout <<"destory" << std::endl;
   }
   void reset() {
     this->mMessage = "";

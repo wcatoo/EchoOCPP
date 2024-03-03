@@ -706,17 +706,22 @@ public:
   }
 };
 
-class ResetResponse {
-private:
+class ResetResponse : public MessageCallResponse {
+
+public:
+  ResetResponse() = default;
   ResetStatusEnumType status;
   std::optional<StatusInfoType> statusInfo;
 
-public:
-  // Getter functions
-  [[nodiscard]] ResetStatusEnumType getStatus() const { return status; }
-  [[nodiscard]] std::optional<StatusInfoType> getStatusInfo() const { return statusInfo; }
-
-  // JSON serialization functions
+  std::string toString() override {
+    this->mPayload = nlohmann::json {
+      {"status", magic_enum::enum_name(this->status)},
+    };
+    if (this->statusInfo.has_value()) {
+      this->mPayload["statusInfo"] = this->statusInfo.value();
+    }
+    return this->build();
+  }
   friend void from_json(const nlohmann::json& j, ResetResponse& data) {
     data.status = j.at("status").get<ResetStatusEnumType>();
 
@@ -724,6 +729,7 @@ public:
       data.statusInfo = j.at("statusInfo").get<StatusInfoType>();
     }
   }
+
 };
 
 class SendLocalListResponse {
