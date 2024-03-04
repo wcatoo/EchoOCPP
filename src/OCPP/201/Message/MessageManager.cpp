@@ -344,6 +344,34 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
 
   // TODO Firmware updating should be reject
   // TODO AllowReset an EVSE can be reset individually.
+
+
+  bool isAnyCharging = std::ranges::any_of(mEVSEs, [](const EVSE& evse) {
+    return std::ranges::any_of(evse.mConnectors, [](const Connector& connector) {
+      return connector.isCharging;
+    });
+  });
+
+  ResetScheduleEvent resetScheduleEvent;
+  if (isAnyCharging) {
+    if (request.resetType == ResetEnumType::OnIdle) {
+      if (request.evseId.has_value()) {
+        resetScheduleEvent.resetChargingStation = true;
+        resetScheduleEvent.evseId = request.evseId.value();
+      } else {
+        resetScheduleEvent.resetChargingStation = false;
+      }
+
+    }
+
+  } else {
+
+  }
+
+
+
+
+
   if (request.resetType == ResetEnumType::Immediate) {
       InternalRouterMessage resetMessage;
       resetMessage.set_method(RouterMethods::ROUTER_METHODS_NOTIFICATION_OCPP_2_EVSE);
@@ -378,19 +406,33 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
       };
   } else if (request.resetType == ResetEnumType::OnIdle) {
     ResetResponse response;
-    // TODO schedule
-    response.status = ResetStatusEnumType::Rejected;
-    StatusInfoType statusInfoType;
-    statusInfoType.reasonCode = "No support";
+    ResetScheduleEvent resetScheduleEvent;
+    if (request.evseId.has_value()) {
+
+    } else {
+      //
+      resetScheduleEvent.resetChargingStation = true;
+      this->mResetScheduleEvents.emplace_back(resetScheduleEvent);
+      response.status = ResetStatusEnumType::Scheduled;
+    }
+//     TODO schedule
+//    StatusInfoType statusInfoType;
+//    statusInfoType.reasonCode = "No support";
     this->sendOCPPMessage(tUUID.begin(), tDest, response.toString(), MessageType::RESPONSE,
                           OCPP201Type::Reset);
-
   }
-
-
-//  this->send(routerProtobufMessage, [](const std::string &tMessage){});
-
 }
+
+
+
+
+
+
+
+
+
+
+
 void MessageManager::sendOCPPMessage(
     const std::string &tUUID, ZMQIdentify tDest, std::string_view tMessage,
     MessageType messageType, OCPP201Type ocpp201Type,

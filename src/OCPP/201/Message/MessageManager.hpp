@@ -12,8 +12,14 @@
 #include "../MessageQueue/MQStatus.hpp"
 #include "../DataInterface/InterfaceType.hpp"
 namespace OCPP201 {
+class ResetScheduleEvent {
+public:
+  bool resetChargingStation{false};
+  int evseId{false};
+};
 class MessageManager {
 private:
+  std::vector<ResetScheduleEvent> mResetScheduleEvents;
   std::function<bool(const std::string &)> isUUIDExist;
   std::function<void(RouterPackage &&)> send;
   std::shared_ptr<ThreadPool> mThreadPool;
