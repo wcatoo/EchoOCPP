@@ -1,12 +1,10 @@
-//
-// Created by 杨帆 on 2023/11/20.
-//
-
 
 #include "../src/OCPP/201/DataType/Datatypes.hpp"
 
 #include <gtest/gtest.h>
 #include <memory>
+#include "openssl/sha.h"
+
 
 namespace OCPP201 {
 
@@ -48,7 +46,19 @@ TEST_F(OCPP201DatatypesTest, AdditionalInfoType) {
   additionalInfoType1 = nlohmann::json::parse(meg);
   EXPECT_EQ(additionalInfoType1, additionalInfoType2);
 }
+std::string sha256(const std::string& input) {
+  unsigned char hash[SHA256_DIGEST_LENGTH];
+  SHA256_CTX sha256;
+  SHA256_Init(&sha256);
+  SHA256_Update(&sha256, input.c_str(), input.length());
+  SHA256_Final(hash, &sha256);
 
+  std::stringstream ss;
+  for(int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+    ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+  }
+  return ss.str();
+}
 TEST_F(OCPP201DatatypesTest, ModemType) {
   ModemType modemType(std::optional<IdentifierString>("a"),std::optional<IdentifierString>("b") );
   nlohmann::json j = modemType;
@@ -56,7 +66,8 @@ TEST_F(OCPP201DatatypesTest, ModemType) {
   if (j.contains("imsi")) {
     j.erase("imsi");
   }
-  std::cout << j.dump() << std::endl;
+
+  std::cout << sha256("123abcdef") << std::endl;
 
 
 

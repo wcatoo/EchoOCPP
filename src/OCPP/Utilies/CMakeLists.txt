@@ -6,6 +6,8 @@ add_library(
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
 find_package(nlohmann_json_schema_validator REQUIRED)
+find_package(OpenSSL REQUIRED)
+
 
 
 target_link_libraries(OCPP201Utilies
@@ -13,6 +15,7 @@ target_link_libraries(OCPP201Utilies
         nlohmann_json::nlohmann_json
         magic_enum::magic_enum
         nlohmann_json_schema_validator
+        OpenSSL::Crypto
 )
 #target_link_libraries(
 #        OCPP201Utilies

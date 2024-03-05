@@ -451,57 +451,57 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
   }
 
 
-
-
-
-  if (request.resetType == ResetEnumType::Immediate) {
-      InternalRouterMessage resetMessage;
-      resetMessage.set_method(RouterMethods::ROUTER_METHODS_NOTIFICATION_OCPP_2_EVSE);
-      resetMessage.set_dest(ZMQIdentify::interface);
-      auto uuid = Utility::generateMessageId();
-      while (this->isUUIDExist(uuid)) {
-        uuid = Utility::generateMessageId();
-      }
-      resetMessage.set_uuid(uuid);
-      resetMessage.set_source(ZMQIdentify::ocpp);
-      resetMessage.set_message_type(MessageType::REQUEST);
-      if (request.evseId.has_value()) {
-        resetMessage.mutable_evse_status_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
-        resetMessage.mutable_evse_status_notification()->set_id(request.evseId.value());
-      } else {
-        resetMessage.mutable_charger_station_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
-      }
-      RouterPackage routerPackage;
-      routerPackage.message = resetMessage;
-      std::string uuidOCPP{tUUID};
-      routerPackage.tGetReturnSuccessCallback = [this, uuidOCPP, tDest](const std::string & tMessage) {
-        ResetResponse response;
-        this->sendOCPPMessage(uuidOCPP,tDest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-      };
-      routerPackage.tGetResponseFailedCallback = [this, uuidOCPP, tDest] () {
-        ResetResponse response;
-        response.status = ResetStatusEnumType::Rejected;
-        StatusInfoType statusInfoType;
-        statusInfoType.reasonCode = "No response from charge station";
-        this->sendOCPPMessage(uuidOCPP, tDest, response.toString(), MessageType::RESPONSE,
-                              OCPP201Type::Reset);
-      };
-  } else if (request.resetType == ResetEnumType::OnIdle) {
-    ResetResponse response;
-    ResetScheduleEvent resetScheduleEvent;
-    if (request.evseId.has_value()) {
-
-    } else {
-      //
-      resetScheduleEvent.resetChargingStation = true;
-      this->mResetScheduleEvents.emplace_back(resetScheduleEvent);
-      response.status = ResetStatusEnumType::Scheduled;
-    }
-//     TODO schedule
-//    StatusInfoType statusInfoType;
-//    statusInfoType.reasonCode = "No support";
-    this->sendOCPPMessage(tUUID.begin(), tDest, response.toString(), MessageType::RESPONSE,
-                          OCPP201Type::Reset);
+//
+//
+//
+//  if (request.resetType == ResetEnumType::Immediate) {
+//      InternalRouterMessage resetMessage;
+//      resetMessage.set_method(RouterMethods::ROUTER_METHODS_NOTIFICATION_OCPP_2_EVSE);
+//      resetMessage.set_dest(ZMQIdentify::interface);
+//      auto uuid = Utility::generateMessageId();
+//      while (this->isUUIDExist(uuid)) {
+//        uuid = Utility::generateMessageId();
+//      }
+//      resetMessage.set_uuid(uuid);
+//      resetMessage.set_source(ZMQIdentify::ocpp);
+//      resetMessage.set_message_type(MessageType::REQUEST);
+//      if (request.evseId.has_value()) {
+//        resetMessage.mutable_evse_status_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
+//        resetMessage.mutable_evse_status_notification()->set_id(request.evseId.value());
+//      } else {
+//        resetMessage.mutable_charger_station_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
+//      }
+//      RouterPackage routerPackage;
+//      routerPackage.message = resetMessage;
+//      std::string uuidOCPP{tUUID};
+//      routerPackage.tGetReturnSuccessCallback = [this, uuidOCPP, tDest](const std::string & tMessage) {
+//        ResetResponse response;
+//        this->sendOCPPMessage(uuidOCPP,tDest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+//      };
+//      routerPackage.tGetResponseFailedCallback = [this, uuidOCPP, tDest] () {
+//        ResetResponse response;
+//        response.status = ResetStatusEnumType::Rejected;
+//        StatusInfoType statusInfoType;
+//        statusInfoType.reasonCode = "No response from charge station";
+//        this->sendOCPPMessage(uuidOCPP, tDest, response.toString(), MessageType::RESPONSE,
+//                              OCPP201Type::Reset);
+//      };
+//  } else if (request.resetType == ResetEnumType::OnIdle) {
+//    ResetResponse response;
+//    ResetScheduleEvent resetScheduleEvent;
+//    if (request.evseId.has_value()) {
+//
+//    } else {
+//      //
+//      resetScheduleEvent.resetChargingStation = true;
+//      this->mResetScheduleEvents.emplace_back(resetScheduleEvent);
+//      response.status = ResetStatusEnumType::Scheduled;
+//    }
+////     TODO schedule
+////    StatusInfoType statusInfoType;
+////    statusInfoType.reasonCode = "No support";
+//    this->sendOCPPMessage(tUUID.begin(), tDest, response.toString(), MessageType::RESPONSE,
+//                          OCPP201Type::Reset);
   }
 }
 
@@ -515,7 +515,7 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
 
 
 
-void MessageManager::sendOCPPMessage(
+void OCPP201::MessageManager::sendOCPPMessage(
     const std::string &tUUID, ZMQIdentify tDest, std::string_view tMessage,
     MessageType messageType, OCPP201Type ocpp201Type,
     std::function<void(const std::string &)> tSuccessCallback,
@@ -540,4 +540,3 @@ void MessageManager::sendOCPPMessage(
   this->send(std::move(package));
 }
 
-}

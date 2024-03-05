@@ -1,21 +1,233 @@
 {
   "componentVariable" : [
     {
-      "attributeType" : "Actual",
       "component" : {
-        "name" : "",
-        "instance" : "",
-        "evse" : {
-          "id" : 1,
-          "connectorId" : 2
-        }
+        "name" : "AuthCacheCtrlr"
       },
       "variable" : {
-
+        "name" : "Enabled"
       },
-      "attributeStatusInfo" : "",
-      "attributeValue" : ""
-    }
-  ]
+      "variableCharacteristics" : {
+        "mutability" : "ReadWrite",
+        "value" : "true"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "BooleanType"
+        }
 
+      ]
+    },
+    {
+      "component" : {
+        "name" : "AuthCacheCtrlr"
+      },
+      "variable" : {
+        "name" : "Available"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadOnly"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "BooleanType"
+        }
+
+      ]
+    },
+    {
+      "component" : {
+        "name" : "AuthCacheCtrlr"
+      },
+      "variable" : {
+        "name" : "LifeTime"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadWrite"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "IntegerType"
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "AuthCacheCtrlr"
+      },
+      "variable" : {
+        "name" : "Storage"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadOnly"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "IntegerType",
+          "maxLimit" : 0.0
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "AuthCacheCtrlr"
+      },
+      "variable" : {
+        "name" : "Policy"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadWrite"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "OptionListType",
+          "valuesList" : "FIFO"
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "AuthCacheCtrlr"
+      },
+      "variable" : {
+        "name" : "DisablePostAuthorize"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadWrite"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "BooleanType"
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "LocalAuthListCtrlr"
+      },
+      "variable" : {
+        "name" : "Enabled"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadWrite"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "BooleanType"
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "LocalAuthListCtrlr"
+      },
+      "variable" : {
+        "name" : "Entries"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadOnly"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "IntegerType",
+          "maxLimit" : 0.0
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "LocalAuthListCtrlr"
+      },
+      "variable" : {
+        "name" : "Available"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadOnly"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "BooleanType"
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "LocalAuthListCtrlr"
+      },
+      "variable" : {
+        "name" : "ItemsPerMessage"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadOnly"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "IntegerType"
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "LocalAuthListCtrlr"
+      },
+      "variable" : {
+        "name" : "BytesPerMessage"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadOnly"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "IntegerType"
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "LocalAuthListCtrlr"
+      },
+      "variable" : {
+        "name" : "Storage"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadOnly"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "IntegerType",
+          "maxLimit" : 0.0
+        }
+      ]
+    },
+    {
+      "component" : {
+        "name" : "LocalAuthListCtrlr"
+      },
+      "variable" : {
+        "name" : "DisablePostAuthorize"
+      },
+      "variableCharacteristics" : {
+        "mutability" : "ReadWrite"
+      },
+      "variableAttribute" : [
+        {
+          "dataType" : "BooleanType"
+        }
+      ]
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ]
 }

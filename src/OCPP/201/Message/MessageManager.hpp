@@ -1,16 +1,19 @@
 #ifndef ECHOOCPP_MESSAGEMANAGER_HPP
 #define ECHOOCPP_MESSAGEMANAGER_HPP
 
-#include "../Devices/Configure/OCPP201ConfigureManager.hpp"
-#include "BootNotificationManager.hpp"
-#include "ComponentVariableManager.hpp"
 #include "Devices/EVSE.hpp"
-#include "HeartBeatManager.hpp"
-#include "StatusNotificationManager.hpp"
 #include "Utilies/ThreadPool.hpp"
 #include "../Devices/RealTimeData.hpp"
 #include "../MessageQueue/MQStatus.hpp"
 #include "../DataInterface/InterfaceType.hpp"
+
+
+#include "../Devices/Configure/OCPP201ConfigureManager.hpp"
+#include "ComponentVariableManager.hpp"
+#include "BootNotificationManager.hpp"
+#include "StatusNotificationManager.hpp"
+#include "HeartBeatManager.hpp"
+#include "AuthorizationManager.hpp"
 namespace OCPP201 {
 class ResetScheduleEvent {
 public:

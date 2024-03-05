@@ -4,6 +4,7 @@
 #pragma once
 #include "uuid.h"
 #include <nlohmann/json.hpp>
+#include "openssl/sha.h"
 
 namespace Utility {
 
