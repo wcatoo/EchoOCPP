@@ -15,7 +15,7 @@ namespace OCPP201 {
 class ResetScheduleEvent {
 public:
   bool resetChargingStation{false};
-  int evseId{false};
+  int evseId{0};
 };
 class MessageManager {
 private:
@@ -30,6 +30,29 @@ private:
   BootNotificationManager mBootNotificationManager;
   HeartBeatManager mHeartbeatManager;
   StatusNotificationManager mStatusNotificationManager;
+
+  // send stop transaction to charging station
+  void stopChargingStationTransaction(std::function<void(const std::string &tMessage)> tSuccessCallback,
+                                      std::function<void()> tFailCallback){
+    // TODO 
+  }
+  // send stop transaction to EVSE
+  void stopEVSETransaction(int id, std::function<void(const std::string &tMessage)> tSuccessCallback,
+                                      std::function<void()> tFailCallback){
+    // TODO 
+  }
+
+  // send reset command to interface
+  void resetDevice(ResetScheduleEvent tEvent) {}
+
+  bool isAnyConnectorCharing() {
+    return std::ranges::any_of(mEVSEs, [](const EVSE& evse) {
+      return std::ranges::any_of(evse.mConnectors, [](const Connector& connector) {
+      return connector.isCharging;
+    });
+  });
+
+  }
 public:
   MessageManager() = default;
   void init() {

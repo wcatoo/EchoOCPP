@@ -24,10 +24,10 @@ public:
 
 
   void sendPayload(const std::string &, const std::string &) override;
-  bool setOnMessage(const std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) override;
-  bool setOnOpen(const std::function<void()>&& tOnOpen) override;
-  bool setOnClose(const std::function<void()>&& tOnClose) override;
-  bool setOnFail(const std::function<void(const std::string&)>&& tOnFail) override;
+  bool setOnMessage(std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) override;
+  bool setOnOpen(std::function<void()>&& tOnOpen) override;
+  bool setOnClose(std::function<void()>&& tOnClose) override;
+  bool setOnFail(std::function<void(const std::string&)>&& tOnFail) override;
 private:
   void onOpen(websocketpp::connection_hdl);
   void onClose(websocketpp::connection_hdl);

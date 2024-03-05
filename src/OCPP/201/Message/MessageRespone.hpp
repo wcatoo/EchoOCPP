@@ -710,6 +710,9 @@ class ResetResponse : public MessageCallResponse {
 
 public:
   ResetResponse() = default;
+  ResetResponse(ResetStatusEnumType tStatus) {
+    this->status = tStatus;
+  }
   ResetStatusEnumType status;
   std::optional<StatusInfoType> statusInfo;
 

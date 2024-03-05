@@ -35,7 +35,7 @@ void WebsocketServer::onFail(websocketpp::connection_hdl tHandler) {
   std::cout << tmp->get_ec().message() << std::endl;
 }
 
-bool WebsocketServer::setOnFail(const std::function<void(const std::string &)> &&tOnFail){
+bool WebsocketServer::setOnFail(std::function<void(const std::string &)> &&tOnFail){
   if (this->mStatus == WebsocketStatus::OPEN) {
     return false;
   }
@@ -43,7 +43,7 @@ bool WebsocketServer::setOnFail(const std::function<void(const std::string &)> &
   return true;
 }
 
-bool WebsocketServer::setOnMessage(const std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) {
+bool WebsocketServer::setOnMessage(std::function<void(const WebsocketOnMessageInfo&)>&& tOnMessage) {
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
@@ -51,7 +51,7 @@ bool WebsocketServer::setOnMessage(const std::function<void(const WebsocketOnMes
   return true;
 }
 
-bool WebsocketServer::setOnOpen(const std::function<void()>&& tOnOpen) {
+bool WebsocketServer::setOnOpen(std::function<void()>&& tOnOpen) {
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
@@ -60,7 +60,7 @@ bool WebsocketServer::setOnOpen(const std::function<void()>&& tOnOpen) {
   return true;
 
 }
-bool WebsocketServer::setOnClose(const std::function<void()>&& tOnClose) {
+bool WebsocketServer::setOnClose(std::function<void()>&& tOnClose) {
   if (mStatus == WebsocketStatus::OPEN) {
     return false;
   }
