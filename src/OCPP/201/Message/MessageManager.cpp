@@ -19,7 +19,7 @@ void MessageManager::bootHandler(const InternalRouterMessage &tMessage) {
       this->mBootNotificationManager.bootFinish = true;
       // set dest
       while ( this->mBootNotificationManager .getBootInterval()
-             && this->mBootNotificationManager.isBooting) {
+              && this->mBootNotificationManager.isBooting) {
         RouterPackage bootMessage;
         bootMessage.message = this->mBootNotificationManager.getRequestMessage(tMessage.source());
         bootMessage.tGetReturnSuccessCallback =
@@ -220,7 +220,7 @@ void MessageManager::setVariableHandler(std::string_view tUUID,
                                                });
       if (hasComponentVariable != componentConfigure.componentVariable.end()) {
         auto hasAttribute = std::find_if(hasComponentVariable->variableAttribute.begin(), hasComponentVariable->variableAttribute.end(),
-                                         [&dataReq, &result] (VariableAttributeType &instance) {
+                                         [&dataReq] (VariableAttributeType &instance) {
                                            return dataReq.attributeType == instance.getType();
                                          });
         if (hasAttribute != hasComponentVariable->variableAttribute.end()) {
@@ -350,8 +350,8 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
   //
   if (this->isAnyConnectorCharing()) {
     if (request.resetType == ResetEnumType::OnIdle) {
-        ResetResponse response;
-        response.status = ResetStatusEnumType::Scheduled;
+      ResetResponse response;
+      response.status = ResetStatusEnumType::Scheduled;
       if (request.evseId.has_value()) {
         resetScheduleEvent.resetChargingStation = true;
         resetScheduleEvent.evseId = request.evseId.value();
@@ -361,47 +361,47 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
       this->mResetScheduleEvents.emplace_back(resetScheduleEvent);
       this->sendOCPPMessage(tUUID.begin(),tDest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
     } else if (request.resetType == ResetEnumType::Immediate) {
-        std::string uuid{tUUID};
-        ZMQIdentify dest = tDest;
-        if (request.evseId.has_value()) {
-          int evseId = request.evseId.value();
-          this->stopEVSETransaction(request.evseId.value(), [this, uuid, dest, evseId](const std::string &tMessage){
-            ResetResponse response(ResetStatusEnumType::Accepted);
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-            ResetScheduleEvent resetEvent;
-            resetEvent.resetChargingStation = false;
-            resetEvent.evseId = evseId;
-            // TODO save data
-            // TODO send statusNotification
-            this->resetDevice(resetEvent);
-          }, [this, uuid, dest](){
-            ResetResponse response(ResetStatusEnumType::Rejected);
-            StatusInfoType infoType;
-            infoType.reasonCode = "time out";
-            infoType.additionalInfo = std::optional<std::string>("Send stop transaction to EVSE, no response -> communication time out");
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-          });
-        } else {
-          this->stopChargingStationTransaction([this, uuid, dest](const std::string &tMessage){
-            ResetResponse response(ResetStatusEnumType::Accepted);
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-            ResetScheduleEvent resetEvent;
-            resetEvent.resetChargingStation = true;
-            // TODO save data
-            this->resetDevice(resetEvent);
-          }, [this, uuid, dest](){
-            ResetResponse response(ResetStatusEnumType::Rejected);
-            StatusInfoType infoType;
-            infoType.reasonCode = "time out";
-            infoType.additionalInfo = std::optional<std::string>("Send stop transaction to charging station, no response -> communication time out");
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-          });
-        }
+      std::string uuid{tUUID};
+      ZMQIdentify dest = tDest;
+      if (request.evseId.has_value()) {
+        int evseId = request.evseId.value();
+        this->stopEVSETransaction(request.evseId.value(), [this, uuid, dest, evseId](const std::string &tMessage){
+          ResetResponse response(ResetStatusEnumType::Accepted);
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+          ResetScheduleEvent resetEvent;
+          resetEvent.resetChargingStation = false;
+          resetEvent.evseId = evseId;
+          // TODO save data
+          // TODO send statusNotification
+          this->resetDevice(resetEvent);
+        }, [this, uuid, dest](){
+          ResetResponse response(ResetStatusEnumType::Rejected);
+          StatusInfoType infoType;
+          infoType.reasonCode = "time out";
+          infoType.additionalInfo = std::optional<std::string>("Send stop transaction to EVSE, no response -> communication time out");
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+        });
+      } else {
+        this->stopChargingStationTransaction([this, uuid, dest](const std::string &tMessage){
+          ResetResponse response(ResetStatusEnumType::Accepted);
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+          ResetScheduleEvent resetEvent;
+          resetEvent.resetChargingStation = true;
+          // TODO save data
+          this->resetDevice(resetEvent);
+        }, [this, uuid, dest](){
+          ResetResponse response(ResetStatusEnumType::Rejected);
+          StatusInfoType infoType;
+          infoType.reasonCode = "time out";
+          infoType.additionalInfo = std::optional<std::string>("Send stop transaction to charging station, no response -> communication time out");
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+        });
+      }
     }
   } else {
     if (request.resetType == ResetEnumType::OnIdle) {
-        ResetResponse response;
-        response.status = ResetStatusEnumType::Scheduled;
+      ResetResponse response;
+      response.status = ResetStatusEnumType::Scheduled;
       if (request.evseId.has_value()) {
         resetScheduleEvent.resetChargingStation = true;
         resetScheduleEvent.evseId = request.evseId.value();
@@ -411,98 +411,46 @@ void MessageManager::resetReqHandler(std::string_view tUUID,
       this->mResetScheduleEvents.emplace_back(resetScheduleEvent);
       this->sendOCPPMessage(tUUID.begin(),tDest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
     } else if (request.resetType == ResetEnumType::Immediate) {
-        std::string uuid{tUUID};
-        ZMQIdentify dest = tDest;
-        if (request.evseId.has_value()) {
-          int evseId = request.evseId.value();
-          this->stopEVSETransaction(request.evseId.value(), [this, uuid, dest, evseId](const std::string &tMessage){
-            ResetResponse response(ResetStatusEnumType::Accepted);
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-            ResetScheduleEvent resetEvent;
-            resetEvent.resetChargingStation = false;
-            resetEvent.evseId = evseId;
-            // TODO save data
-            // TODO send statusNotification
-            this->resetDevice(resetEvent);
-          }, [this, uuid, dest](){
-            ResetResponse response(ResetStatusEnumType::Rejected);
-            StatusInfoType infoType;
-            infoType.reasonCode = "time out";
-            infoType.additionalInfo = std::optional<std::string>("Send stop transaction to EVSE, no response -> communication time out");
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-          });
-        } else {
-          this->stopChargingStationTransaction([this, uuid, dest](const std::string &tMessage){
-            ResetResponse response(ResetStatusEnumType::Accepted);
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-            ResetScheduleEvent resetEvent;
-            resetEvent.resetChargingStation = true;
-            // TODO save data
-            this->resetDevice(resetEvent);
-          }, [this, uuid, dest](){
-            ResetResponse response(ResetStatusEnumType::Rejected);
-            StatusInfoType infoType;
-            infoType.reasonCode = "time out";
-            infoType.additionalInfo = std::optional<std::string>("Send stop transaction to charging station, no response -> communication time out");
-            this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-          });
-        }
+      std::string uuid{tUUID};
+      ZMQIdentify dest = tDest;
+      if (request.evseId.has_value()) {
+        int evseId = request.evseId.value();
+        this->stopEVSETransaction(request.evseId.value(), [this, uuid, dest, evseId](const std::string &tMessage){
+          ResetResponse response(ResetStatusEnumType::Accepted);
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+          ResetScheduleEvent resetEvent;
+          resetEvent.resetChargingStation = false;
+          resetEvent.evseId = evseId;
+          // TODO save data
+          // TODO send statusNotification
+          this->resetDevice(resetEvent);
+        }, [this, uuid, dest](){
+          ResetResponse response(ResetStatusEnumType::Rejected);
+          StatusInfoType infoType;
+          infoType.reasonCode = "time out";
+          infoType.additionalInfo = std::optional<std::string>("Send stop transaction to EVSE, no response -> communication time out");
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+        });
+      } else {
+        this->stopChargingStationTransaction([this, uuid, dest](const std::string &tMessage){
+          ResetResponse response(ResetStatusEnumType::Accepted);
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+          ResetScheduleEvent resetEvent;
+          resetEvent.resetChargingStation = true;
+          // TODO save data
+          this->resetDevice(resetEvent);
+        }, [this, uuid, dest](){
+          ResetResponse response(ResetStatusEnumType::Rejected);
+          StatusInfoType infoType;
+          infoType.reasonCode = "time out";
+          infoType.additionalInfo = std::optional<std::string>("Send stop transaction to charging station, no response -> communication time out");
+          this->sendOCPPMessage(uuid,dest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
+        });
+      }
     }
   }
 
-
-//
-//
-//
-//  if (request.resetType == ResetEnumType::Immediate) {
-//      InternalRouterMessage resetMessage;
-//      resetMessage.set_method(RouterMethods::ROUTER_METHODS_NOTIFICATION_OCPP_2_EVSE);
-//      resetMessage.set_dest(ZMQIdentify::interface);
-//      auto uuid = Utility::generateMessageId();
-//      while (this->isUUIDExist(uuid)) {
-//        uuid = Utility::generateMessageId();
-//      }
-//      resetMessage.set_uuid(uuid);
-//      resetMessage.set_source(ZMQIdentify::ocpp);
-//      resetMessage.set_message_type(MessageType::REQUEST);
-//      if (request.evseId.has_value()) {
-//        resetMessage.mutable_evse_status_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
-//        resetMessage.mutable_evse_status_notification()->set_id(request.evseId.value());
-//      } else {
-//        resetMessage.mutable_charger_station_notification()->set_notification_method(RouterNotificationMethod::RESET_DEVICE);
-//      }
-//      RouterPackage routerPackage;
-//      routerPackage.message = resetMessage;
-//      std::string uuidOCPP{tUUID};
-//      routerPackage.tGetReturnSuccessCallback = [this, uuidOCPP, tDest](const std::string & tMessage) {
-//        ResetResponse response;
-//        this->sendOCPPMessage(uuidOCPP,tDest, response.toString(), MessageType::RESPONSE, OCPP201Type::Reset);
-//      };
-//      routerPackage.tGetResponseFailedCallback = [this, uuidOCPP, tDest] () {
-//        ResetResponse response;
-//        response.status = ResetStatusEnumType::Rejected;
-//        StatusInfoType statusInfoType;
-//        statusInfoType.reasonCode = "No response from charge station";
-//        this->sendOCPPMessage(uuidOCPP, tDest, response.toString(), MessageType::RESPONSE,
-//                              OCPP201Type::Reset);
-//      };
-//  } else if (request.resetType == ResetEnumType::OnIdle) {
-//    ResetResponse response;
-//    ResetScheduleEvent resetScheduleEvent;
-//    if (request.evseId.has_value()) {
-//
-//    } else {
-//      //
-//      resetScheduleEvent.resetChargingStation = true;
-//      this->mResetScheduleEvents.emplace_back(resetScheduleEvent);
-//      response.status = ResetStatusEnumType::Scheduled;
-//    }
-////     TODO schedule
-////    StatusInfoType statusInfoType;
-////    statusInfoType.reasonCode = "No support";
-//    this->sendOCPPMessage(tUUID.begin(), tDest, response.toString(), MessageType::RESPONSE,
-//                          OCPP201Type::Reset);
-  }
+}
 }
 
 

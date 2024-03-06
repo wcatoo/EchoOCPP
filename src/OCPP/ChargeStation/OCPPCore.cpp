@@ -257,3 +257,8 @@ void OCPP::OCPPCore::setBaseInfo(BaseInfoType tType, const std::string &tValue)
 bool OCPP::OCPPCore::isUUIDExist(const std::string & tUUID) {
   return this->mRouterPackagesTrace.contains(tUUID);
 }
+void OCPP::OCPPCore::startChargingEvent(int tEVSEId, int tConnectorId) {
+  if (tEVSEId > this->mDeviceMeasurandManager->EVSEs.size()) {
+
+  }
+}

@@ -19,6 +19,16 @@
 
 namespace OCPP {
 // OCPP manager should be initial before websocket
+
+class ConnectorMeasuredValue {
+public:
+
+
+};
+
+
+
+
 class OCPPCore {
 public:
   bool init();
@@ -26,7 +36,27 @@ public:
   void stop();
   OCPPCore() = delete;
   OCPPCore(zmq::context_t *tContext, const std::string &tAddress);
+
+  void startChargingEvent(int tEVSEId, int tConnectorId);
+
+  void stopChargingEvent(int tEVSEId, int tConnectorId);
+
+  void connectorConnectEVEvent(int tEVSEId, int tConnectorId);
+
+  void connectorDisconnectEVEvent(int tEVSEId, int tConnectorId);
+
+  void EVSENotificationEvent(int tEVSEId, int tConnectorId, OCPP201::ReasonEnumType tReason);
+
+  void updateMeterValueEvent(const Meter &tMeter, int tEVSEId, int tConnectorId);
+
+  void updateMeasurandValueEvent(int tEVSEId, int tConnectorId, float tValue, OCPP201::MeasurandEnumType tType);
+
+  void heartbeatEvent();
+
+
+
 private:
+  std::shared_ptr<RealTimeDataManager> mDeviceMeasurandManager;
   void setBaseInfo(BaseInfoType tType, const std::string &tValue);
 //  bool send(const InternalRouterMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr);
   void send(RouterPackage &tPackage);
