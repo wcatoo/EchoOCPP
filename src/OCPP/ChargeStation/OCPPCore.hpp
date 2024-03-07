@@ -56,6 +56,7 @@ public:
 
 
 private:
+
   std::shared_ptr<RealTimeDataManager> mDeviceMeasurandManager;
   void setBaseInfo(BaseInfoType tType, const std::string &tValue);
 //  bool send(const InternalRouterMessage &tMessage, std::function<void(const std::string &)> tCallback = nullptr);
@@ -67,7 +68,20 @@ private:
   void OCPP201MessageHandler(const InternalRouterMessage & tMessage);
   void OCPP201RequestHandler(const std::string &tUUID, const ZMQIdentify tDest, OCPP201::OCPP201Type tType, const std::string &tMessage);
   bool isUUIDExist(const std::string &);
-  std::unique_ptr<MQDealer> mMQRouterPtr;
+  inline bool isEVSEIdValid(int tEVSEId) {
+      return tEVSEId < this->mDeviceMeasurandManager->EVSEs.size();
+  }
+  inline bool isConnectorIdValid(int tEVSEId, int tConnectorId) {
+      return tConnectorId < this->mDeviceMeasurandManager->EVSEs.at(tEVSEId).mConnectors.size();
+  }
+  inline EVSE* getEVSE(int tEVSEId) {
+      return isEVSEIdValid(tEVSEId) ? &(this->mDeviceMeasurandManager->EVSEs.at(tEVSEId)) : nullptr;
+  }
+  inline Connector* getConnector(int tEVSEId, int tConnectorId) {
+      return isConnectorIdValid(tEVSEId, tConnectorId) ? &(this->getEVSE(tEVSEId)->mConnectors.at(tConnectorId)) : nullptr;
+
+  }
+
 
 
   Helper mHelper{};
@@ -86,6 +100,7 @@ private:
 
   //Message Manager
   std::unique_ptr<OCPP201::MessageManager> mOCPP201MessageManager;
+  std::unique_ptr<MQDealer> mMQRouterPtr;
 
 };
 

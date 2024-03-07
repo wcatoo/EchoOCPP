@@ -258,7 +258,51 @@ bool OCPP::OCPPCore::isUUIDExist(const std::string & tUUID) {
   return this->mRouterPackagesTrace.contains(tUUID);
 }
 void OCPP::OCPPCore::startChargingEvent(int tEVSEId, int tConnectorId) {
-  if (tEVSEId > this->mDeviceMeasurandManager->EVSEs.size()) {
+    if (this->isConnectorIdValid(tEVSEId, tConnectorId)) {
+        this->mDeviceMeasurandManager->EVSEs.at(tEVSEId).mConnectors.at(tConnectorId).isCharging = true;
+    }
+}
 
-  }
+void OCPP::OCPPCore::stopChargingEvent(int tEVSEId, int tConnectorId) {
+    if (this->isConnectorIdValid(tEVSEId, tConnectorId)) {
+        this->mDeviceMeasurandManager->EVSEs.at(tEVSEId).mConnectors.at(tConnectorId).isCharging = false;
+        // TODO stop charging event process
+    }
+}
+
+void OCPP::OCPPCore::connectorConnectEVEvent(int tEVSEId, int tConnectorId) {
+    if (this->isConnectorIdValid(tEVSEId, tConnectorId)) {
+        this->mDeviceMeasurandManager->EVSEs.at(tEVSEId).mConnectors.at(tConnectorId).isPlugIn = true;
+        // TODO connector plugin event process
+    }
+}
+
+void OCPP::OCPPCore::connectorDisconnectEVEvent(int tEVSEId, int tConnectorId) {
+    if (this->isConnectorIdValid(tEVSEId, tConnectorId)) {
+        this->mDeviceMeasurandManager->EVSEs.at(tEVSEId).mConnectors.at(tConnectorId).isPlugIn = false;
+        // TODO connector unplug event process
+    }
+}
+
+void OCPP::OCPPCore::EVSENotificationEvent(int tEVSEId, int tConnectorId, OCPP201::ReasonEnumType tReason) {
+    if (this->isConnectorIdValid(tEVSEId, tConnectorId)) {
+        // TODO
+    }
+
+}
+
+void OCPP::OCPPCore::updateMeterValueEvent(const Meter &tMeter, int tEVSEId, int tConnectorId) {
+    auto connector = this->getConnector(tEVSEId, tConnectorId);
+    if (connector != nullptr) {
+        connector->mMeter = tMeter;
+    }
+}
+
+void OCPP::OCPPCore::heartbeatEvent() {
+    // TODO
+}
+
+void OCPP::OCPPCore::updateMeasurandValueEvent(int tEVSEId, int tConnectorId, float tValue,
+                                               OCPP201::MeasurandEnumType tType) {
+
 }
