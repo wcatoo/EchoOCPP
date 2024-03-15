@@ -53,8 +53,6 @@ public:
 
   void heartbeatEvent();
 
-
-
 private:
 
   std::shared_ptr<RealTimeDataManager> mDeviceMeasurandManager;

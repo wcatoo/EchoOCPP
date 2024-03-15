@@ -3,6 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <string>
+#include <format>
 
 namespace OCPP
 {
@@ -18,6 +19,24 @@ enum class ProtocolError {
   RpcFrameworkError,
   SecurityError,
   TypeConstraintViolation
+};
+
+class MessageBase {
+private:
+  std::string MessageTypeId;
+  std::string mMessageId;
+  std::optional<std::string> mAction;
+  std::optional<nlohmann::json> tPayload;
+  std::optional<std::string> mErrorCode;
+  std::optional<std::string> mErrorDescription;
+  std::optional<nlohmann::json> mErrorDetails;
+public:
+//  inline std::string toString() {
+//    return std::format("[{},{},{},{,}{,}]", MessageTypeId, mMessageId, mAction.has_value()?mAction)
+////
+//  }
+
+
 };
 
 
